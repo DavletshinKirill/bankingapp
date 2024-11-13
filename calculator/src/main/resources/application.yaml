@@ -1,1 +1,5 @@
-spring.application.name=calculator
+spring:
+  application:
+    name: calculator
+
+

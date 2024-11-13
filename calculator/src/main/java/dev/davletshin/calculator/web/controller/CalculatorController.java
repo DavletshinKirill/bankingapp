@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class CalculatorController {
 
     @PostMapping("/offers")
-    public void getOffers(){}
+    public void getOffers() {
+    }
 
     @PostMapping("/calc")
-    public void calculate() {}
+    public void calculate() {
+    }
 
 }
