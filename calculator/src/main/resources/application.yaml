@@ -2,4 +2,9 @@ spring:
   application:
     name: calculator
 
+server:
+  port: 8081
 
+credit:
+  info:
+    defaultRate: 13
