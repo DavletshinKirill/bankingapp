@@ -1,6 +1,5 @@
 package dev.davletshin.calculator.web.dto.credit;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.davletshin.calculator.domain.Gender;
 import dev.davletshin.calculator.domain.MaritalStatus;
 import dev.davletshin.calculator.domain.exception.RefuseException;
@@ -10,11 +9,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 
 @EqualsAndHashCode(callSuper = true)
@@ -28,11 +25,11 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     @NotNull(message = "Пол обязателен")
     private Gender gender;
 
-    @Schema(description = "Дата выдачи паспорта", example = "2020-01-01")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @NotNull(message = "Дата выдачи паспорта обязательна")
-    private LocalDateTime passportIssueDate;
+//    @Schema(description = "Дата выдачи паспорта", example = "2020-01-01")
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    @NotNull(message = "Дата выдачи паспорта обязательна")
+//    private LocalDateTime passportIssueDate;
 
     @Schema(description = "Место выдачи паспорта", example = "г. Воронеж")
     @Size(min = 5, max = 50, message = "Место выдачи паспорта должно содержать от 5 до 50 символов")
@@ -43,7 +40,7 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     @NotNull(message = "Количество поручителей не должно быть равно нулю")
     private int dependentAmount;
 
-    @Schema(description = "Аккаунт клиента", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
+    @Schema(description = "Аккаунт клиента", example = "someString")
     @NotNull(message = "Аккаунт клиента не дожен быть пустой")
     private String accountNumber;
 
@@ -105,7 +102,7 @@ public class ScoringDataDto extends LoanStatementRequestDto {
 
     public int checkEmployment() {
         employment.suitableExperience();
-        return employment.getIndexEmploymentPosition() + employment.getIndexEmploymentStatus();
+        return employment.indexEmploymentPosition() + employment.indexEmploymentStatus();
     }
 
 

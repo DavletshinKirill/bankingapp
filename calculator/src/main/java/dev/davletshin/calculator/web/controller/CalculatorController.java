@@ -1,6 +1,6 @@
 package dev.davletshin.calculator.web.controller;
 
-import dev.davletshin.calculator.service.CalculateCredit;
+import dev.davletshin.calculator.service.CalculateService;
 import dev.davletshin.calculator.web.dto.credit.CreditDto;
 import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
 import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
@@ -22,7 +22,7 @@ import java.util.List;
 @Tag(name = "Calculator Controller", description = "Calculator API")
 public class CalculatorController {
 
-    private final CalculateCredit calculateCredit;
+    private final CalculateService calculateCredit;
 
     @Operation(summary = "getOffers", description = "Create 4 offers")
     @PostMapping("/offers")

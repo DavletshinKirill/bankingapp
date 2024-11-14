@@ -1,5 +1,6 @@
 package dev.davletshin.calculator.service;
 
+import dev.davletshin.calculator.domain.CreditCalculatorsFields;
 import dev.davletshin.calculator.domain.OffersCreation;
 import dev.davletshin.calculator.web.dto.credit.CreditDto;
 import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
@@ -16,27 +17,38 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CalculateCreditImpl implements CalculateCredit {
+public class CalculateServiceImpl implements CalculateService {
 
     @Value("${credit.info.defaultRate}")
     private int defaultRate;
 
     private final OffersFactory offersFactory;
+    private final CalculateDifferentialLoanService calculateLoanService;
 
     @Override
     public CreditDto calculateCredit(ScoringDataDto scoringDataDto) {
         scoringDataDto.checkAmountSalary();
         scoringDataDto.checkAge();
-        int resultPercent = defaultRate + scoringDataDto.checkGender()
-                + scoringDataDto.checkMaritalStatus() + scoringDataDto.checkEmployment();
 
-        return CreditDto.builder()
-                .amount(scoringDataDto.getAmount())
-                .term(scoringDataDto.getTerm())
-                .isSalaryClient(scoringDataDto.getIsSalaryClient())
-                .isInsuranceEnabled(scoringDataDto.getIsInsuranceEnabled())
-                .rate(BigDecimal.valueOf(resultPercent))
-                .build().calculateCredit();
+        BigDecimal rate = new BigDecimal(
+                defaultRate + scoringDataDto.checkGender()
+                        + scoringDataDto.checkMaritalStatus() + scoringDataDto.checkEmployment()
+        );
+
+        CreditCalculatorsFields creditCalculatorsFields = calculateLoanService.calculateCredit(
+                scoringDataDto.getTerm(), rate, scoringDataDto.getAmount(),
+                true
+        );
+        return new CreditDto(
+                scoringDataDto.getAmount(),
+                scoringDataDto.getTerm(),
+                creditCalculatorsFields.getMonthlyPayment(),
+                rate,
+                creditCalculatorsFields.getPsk(),
+                scoringDataDto.getIsInsuranceEnabled(),
+                scoringDataDto.getIsSalaryClient(),
+                creditCalculatorsFields.getPaymentSchedule()
+        );
     }
 
     @Override

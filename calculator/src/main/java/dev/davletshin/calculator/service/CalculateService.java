@@ -7,7 +7,7 @@ import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 
 import java.util.List;
 
-public interface CalculateCredit {
+public interface CalculateService {
     CreditDto calculateCredit(ScoringDataDto scoringDataDto);
 
     List<LoanOfferDto> generateOffers(LoanStatementRequestDto loanStatementRequestDto);
