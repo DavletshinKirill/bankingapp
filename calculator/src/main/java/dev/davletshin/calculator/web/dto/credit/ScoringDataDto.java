@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 
-//TODO add description to enum fields and make localDateTime working again
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema($schema = "ScoringData DTO")
