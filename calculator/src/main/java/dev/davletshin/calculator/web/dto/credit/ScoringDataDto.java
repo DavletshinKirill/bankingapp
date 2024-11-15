@@ -1,5 +1,6 @@
 package dev.davletshin.calculator.web.dto.credit;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.davletshin.calculator.domain.Gender;
 import dev.davletshin.calculator.domain.MaritalStatus;
 import dev.davletshin.calculator.domain.exception.RefuseException;
@@ -9,11 +10,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 
+//TODO add description to enum fields and make localDateTime working again
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema($schema = "ScoringData DTO")
@@ -25,11 +28,11 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     @NotNull(message = "Пол обязателен")
     private Gender gender;
 
-//    @Schema(description = "Дата выдачи паспорта", example = "2020-01-01")
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-//    @JsonFormat(pattern = "yyyy-MM-dd")
-//    @NotNull(message = "Дата выдачи паспорта обязательна")
-//    private LocalDateTime passportIssueDate;
+    @Schema(description = "Дата выдачи паспорта", example = "2020-01-01")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Дата выдачи паспорта обязательна")
+    private LocalDate passportIssueDate;
 
     @Schema(description = "Место выдачи паспорта", example = "г. Воронеж")
     @Size(min = 5, max = 50, message = "Место выдачи паспорта должно содержать от 5 до 50 символов")
@@ -52,7 +55,7 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     @NotNull(message = "Трудоустроенность клиента не дожна быть пустой")
     private Boolean isSalaryClient;
 
-    @Schema(description = "",
+    @Schema(description = "Семейной положение клиента",
             example = "UNMARRIED",
             allowableValues = {"UNMARRIED", "MARRIED", "DIVORCED"})
     @NotNull(message = "Семейное положение клиента обязательно")
@@ -81,7 +84,7 @@ public class ScoringDataDto extends LoanStatementRequestDto {
 
     public void checkAmountSalary() {
         BigDecimal salary = employment.getSalary();
-        if (salary.multiply(BigDecimal.valueOf(24L)).compareTo(amount) == -1) {
+        if (salary.multiply(BigDecimal.valueOf(24L)).compareTo(amount) < 0) {
             throw new RefuseException("The loan amount is too large");
         }
     }

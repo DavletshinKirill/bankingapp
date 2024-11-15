@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Data
 public class EmploymentDto {
 
-    @Schema(description = "",
+    @Schema(description = "Занятость клиента",
             example = "SELF_EMPLOYED",
             allowableValues = {"UNEMPLOYED", "SELF_EMPLOYED", "BUSINESS_OWNER"})
     @NotNull(message = "Занятость клиента обязательно")
