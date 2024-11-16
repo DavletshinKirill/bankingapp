@@ -6,11 +6,13 @@ import dev.davletshin.calculator.domain.exception.RefuseException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
 public class EmploymentDto {
 
     @Schema(description = "Занятость клиента",
@@ -38,23 +40,9 @@ public class EmploymentDto {
     @Schema(description = "Текущий стаж (месяцы)", example = "6")
     private int workExperienceCurrent;
 
-    public int indexEmploymentPosition() {
-        int result = 0;
-        switch (position) {
-            case MIDDLE_MANAGER -> result = -2;
-            case TOP_MANAGER -> result = -3;
-        }
-        return result;
-    }
-
-    public int indexEmploymentStatus() {
-        int result = 0;
-        switch (employmentStatus) {
-            case UNEMPLOYED -> throw new RefuseException("Loans are not given to the unemployed");
-            case SELF_EMPLOYED -> result = 2;
-            case BUSINESS_OWNER -> result = 1;
-        }
-        return result;
+    public void checkEmploymentStatus() {
+        if (employmentStatus == EmploymentStatus.UNEMPLOYED)
+            throw new RefuseException("Loans are not given to the unemployed");
     }
 
     public void suitableExperience() {

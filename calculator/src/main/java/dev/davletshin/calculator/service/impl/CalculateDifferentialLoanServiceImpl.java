@@ -1,6 +1,7 @@
-package dev.davletshin.calculator.service;
+package dev.davletshin.calculator.service.impl;
 
 import dev.davletshin.calculator.domain.CreditCalculatorsFields;
+import dev.davletshin.calculator.service.CalculateDifferentialLoanService;
 import dev.davletshin.calculator.web.dto.credit.PaymentScheduleElementDto;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,6 @@ public class CalculateDifferentialLoanServiceImpl implements CalculateDifferenti
         BigDecimal psk = BigDecimal.ZERO;
         List<PaymentScheduleElementDto> paymentSchedule = countMonthlyPayment ? new ArrayList<>(term) : null;
         LocalDate currentDate = LocalDate.now();
-
 
         for (int month = 1; month <= term; month++) {
             BigDecimal totalPayment = amount.divide(
@@ -42,8 +42,8 @@ public class CalculateDifferentialLoanServiceImpl implements CalculateDifferenti
             }
         }
         return new CreditCalculatorsFields(
-                psk.setScale(2, RoundingMode.HALF_UP),
-                psk.divide(new BigDecimal(term), 10, RoundingMode.HALF_UP),
+                psk.setScale(0, RoundingMode.HALF_UP),
+                psk.divide(new BigDecimal(term), 10, RoundingMode.HALF_UP).setScale(0, RoundingMode.HALF_UP),
                 paymentSchedule
         );
     }

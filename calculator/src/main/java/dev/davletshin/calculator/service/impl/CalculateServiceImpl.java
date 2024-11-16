@@ -1,7 +1,9 @@
-package dev.davletshin.calculator.service;
+package dev.davletshin.calculator.service.impl;
 
 import dev.davletshin.calculator.domain.CreditCalculatorsFields;
 import dev.davletshin.calculator.domain.OffersCreation;
+import dev.davletshin.calculator.service.CalculateDifferentialLoanService;
+import dev.davletshin.calculator.service.CalculateService;
 import dev.davletshin.calculator.web.dto.credit.CreditDto;
 import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
 import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
@@ -14,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +25,6 @@ public class CalculateServiceImpl implements CalculateService {
     @Value("${credit.info.defaultRate}")
     private int defaultRate;
 
-    private final OffersFactory offersFactory;
     private final CalculateDifferentialLoanService calculateLoanService;
 
     @Override
@@ -31,8 +33,8 @@ public class CalculateServiceImpl implements CalculateService {
         scoringDataDto.checkAge();
 
         BigDecimal rate = new BigDecimal(
-                defaultRate + scoringDataDto.checkGender()
-                        + scoringDataDto.checkMaritalStatus() + scoringDataDto.checkEmployment()
+                defaultRate + scoringDataDto.indexGender()
+                        + scoringDataDto.getMaritalStatus().getIndexMaritalStatus() + scoringDataDto.checkEmployment()
         );
 
         CreditCalculatorsFields creditCalculatorsFields = calculateLoanService.calculateCredit(
@@ -56,9 +58,29 @@ public class CalculateServiceImpl implements CalculateService {
         List<LoanOfferDto> offers = new ArrayList<>();
 
         for (OffersCreation offerCreation : OffersCreation.values()) {
-            offers.add(offersFactory.createLoanOfferDto(offerCreation, loanStatementRequestDto));
+            offers.add(createLoanOfferDto(offerCreation, loanStatementRequestDto));
         }
         return offers.stream().sorted(Comparator.comparing(LoanOfferDto::getRate))
                 .toList();
+    }
+
+    private LoanOfferDto createLoanOfferDto(OffersCreation offersCreation,
+                                            LoanStatementRequestDto loanStatementRequestDto) {
+        BigDecimal rate = new BigDecimal(defaultRate + offersCreation.getInsuranceRate() + offersCreation.getSalaryClient());
+        CreditCalculatorsFields creditCalculatorsFields = calculateLoanService.calculateCredit(
+                loanStatementRequestDto.getTerm(), rate, loanStatementRequestDto.getAmount(),
+                false
+        );
+
+        return new LoanOfferDto(
+                UUID.randomUUID(),
+                loanStatementRequestDto.getAmount(),
+                creditCalculatorsFields.getPsk(),
+                loanStatementRequestDto.getTerm(),
+                creditCalculatorsFields.getMonthlyPayment(),
+                rate,
+                offersCreation.isInsuranceEnabled(),
+                offersCreation.isSalaryClientEnabled()
+        );
     }
 }

@@ -8,8 +8,10 @@ import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -18,6 +20,8 @@ import java.time.Period;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema($schema = "ScoringData DTO")
 public class ScoringDataDto extends LoanStatementRequestDto {
 
@@ -62,13 +66,21 @@ public class ScoringDataDto extends LoanStatementRequestDto {
 
     private EmploymentDto employment;
 
-    public int checkMaritalStatus() {
-        int result = 0;
-        switch (maritalStatus) {
-            case MARRIED -> result = -3;
-            case DIVORCED -> result = 1;
-        }
-        return result;
+    public ScoringDataDto(Gender gender, LocalDate passportIssueDate, String passportIssueBranch, int dependentAmount,
+                          String accountNumber, boolean isInsuranceEnabled, boolean isSalaryClient, MaritalStatus maritalStatus,
+                          EmploymentDto employment, BigDecimal amount, int term, String firstName,
+                          String lastName, String middleName, String email, LocalDate birthdate,
+                          String passportSeries, String passportNumber) {
+        super(amount, term, firstName, lastName, middleName, email, birthdate, passportSeries, passportNumber);
+        this.gender = gender;
+        this.passportIssueDate = passportIssueDate;
+        this.passportIssueBranch = passportIssueBranch;
+        this.dependentAmount = dependentAmount;
+        this.accountNumber = accountNumber;
+        this.isInsuranceEnabled = isInsuranceEnabled;
+        this.isSalaryClient = isSalaryClient;
+        this.maritalStatus = maritalStatus;
+        this.employment = employment;
     }
 
     public void checkAge() {
@@ -88,23 +100,22 @@ public class ScoringDataDto extends LoanStatementRequestDto {
         }
     }
 
-    public int checkGender() {
-        int result = 0;
+    public int indexGender() {
         switch (gender) {
             case FEMALE -> {
-                if (isAgeSuitable(32, 60, birthdate)) result = -3;
+                if (!isAgeSuitable(32, 60, birthdate)) return 0;
             }
             case MALE -> {
-                if (isAgeSuitable(30, 55, birthdate)) result = -3;
+                if (!isAgeSuitable(30, 55, birthdate)) return 0;
             }
-            case NOT_BINARY -> result = 7;
         }
-        return result;
+        return gender.getIndexGender();
     }
 
     public int checkEmployment() {
         employment.suitableExperience();
-        return employment.indexEmploymentPosition() + employment.indexEmploymentStatus();
+        employment.checkEmploymentStatus();
+        return employment.getPosition().getIndexEmployment() + employment.getEmploymentStatus().getIndexEmployment();
     }
 
 
