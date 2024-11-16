@@ -1,7 +1,9 @@
 package dev.davletshin.calculator.web.controller;
 
+import dev.davletshin.calculator.domain.LogLevel;
 import dev.davletshin.calculator.domain.exception.ExceptionBody;
 import dev.davletshin.calculator.domain.exception.RefuseException;
+import dev.davletshin.calculator.service.LogData;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,14 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ControllerAdvice {
 
+    private final LogData logData = LogData.getInstance();
+
     @ExceptionHandler(RefuseException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ExceptionBody handleResourceNotFound(
             final RefuseException e
     ) {
+        logData.logInfo(e.getMessage(), null, LogLevel.ERROR);
         return new ExceptionBody(e.getMessage());
     }
 
@@ -39,6 +44,7 @@ public class ControllerAdvice {
                         (existingMessage, newMessage) ->
                                 existingMessage + " " + newMessage)
                 ));
+        logData.logInfo(exceptionBody.getMessage(), null, LogLevel.ERROR);
         return exceptionBody;
     }
 
@@ -53,9 +59,9 @@ public class ControllerAdvice {
                         violation -> violation.getPropertyPath().toString(),
                         ConstraintViolation::getMessage
                 )));
+        logData.logInfo(exceptionBody.getMessage(), null, LogLevel.ERROR);
         return exceptionBody;
     }
-
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -63,6 +69,7 @@ public class ControllerAdvice {
             final Exception e
     ) {
         e.printStackTrace();
+        logData.logInfo(e.getMessage(), null, LogLevel.ERROR);
         return new ExceptionBody("Internal error.");
     }
 }

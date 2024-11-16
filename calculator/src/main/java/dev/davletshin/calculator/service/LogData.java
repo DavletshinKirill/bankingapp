@@ -25,7 +25,7 @@ public class LogData {
         String timestamp = new SimpleDateFormat("dd.MM.yy HH:mm:ss").format(new Date());
         switch (logLevel) {
             case INFO -> logger.info(String.format("Info: [%s] %s %s", timestamp, info, object.toString()));
-            case ERROR -> logger.error(String.format("Error: [%s] %s", timestamp, info, object.toString()));
+            case ERROR -> logger.error(String.format("Error: [%s] %s", timestamp, object.toString()));
         }
     }
 }

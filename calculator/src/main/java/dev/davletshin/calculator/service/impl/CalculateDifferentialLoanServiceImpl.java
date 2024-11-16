@@ -33,11 +33,14 @@ public class CalculateDifferentialLoanServiceImpl implements CalculateDifferenti
             BigDecimal remainingPrincipal = amount.subtract(
                     totalPayment.multiply(new BigDecimal(month)));
 
+            if (remainingPrincipal.equals(new BigDecimal("2e-10"))) {
+                remainingPrincipal = BigDecimal.ZERO;
+            }
             psk = psk.add(monthlyPayment);
             if (countMonthlyPayment) {
                 paymentSchedule.add(new PaymentScheduleElementDto(
-                        month, currentDate.plusMonths(month), totalPayment, interestPayment,
-                        monthlyPayment, remainingPrincipal
+                        month, currentDate.plusMonths(month), totalPayment.setScale(2, RoundingMode.HALF_UP), interestPayment.setScale(2, RoundingMode.HALF_UP),
+                        monthlyPayment.setScale(2, RoundingMode.HALF_UP), remainingPrincipal.setScale(2, RoundingMode.HALF_UP)
                 ));
             }
         }
