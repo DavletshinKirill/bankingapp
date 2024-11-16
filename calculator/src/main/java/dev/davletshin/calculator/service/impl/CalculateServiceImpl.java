@@ -1,9 +1,11 @@
 package dev.davletshin.calculator.service.impl;
 
 import dev.davletshin.calculator.domain.CreditCalculatorsFields;
+import dev.davletshin.calculator.domain.LogLevel;
 import dev.davletshin.calculator.domain.OffersCreation;
 import dev.davletshin.calculator.service.CalculateDifferentialLoanService;
 import dev.davletshin.calculator.service.CalculateService;
+import dev.davletshin.calculator.service.LogData;
 import dev.davletshin.calculator.web.dto.credit.CreditDto;
 import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
 import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
@@ -24,8 +26,8 @@ public class CalculateServiceImpl implements CalculateService {
 
     @Value("${credit.info.defaultRate}")
     private int defaultRate;
-
     private final CalculateDifferentialLoanService calculateLoanService;
+    private final LogData logData = LogData.getInstance();
 
     @Override
     public CreditDto calculateCredit(ScoringDataDto scoringDataDto) {
@@ -41,6 +43,7 @@ public class CalculateServiceImpl implements CalculateService {
                 scoringDataDto.getTerm(), rate, scoringDataDto.getAmount(),
                 true
         );
+        logData.logInfo(creditCalculatorsFields, "Processing", LogLevel.INFO);
         return new CreditDto(
                 scoringDataDto.getAmount(),
                 scoringDataDto.getTerm(),
