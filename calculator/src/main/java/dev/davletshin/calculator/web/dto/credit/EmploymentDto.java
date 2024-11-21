@@ -26,7 +26,7 @@ public class EmploymentDto {
     @NotNull(message = "ИНН обязателен")
     private String employerINN;
 
-    @Schema(description = "PassportNumber human who takes a loan", example = "123456")
+    @Schema(description = "Заработная плата клиента", example = "20000")
     private BigDecimal salary;
 
     @Schema(description = "Должность",

@@ -43,7 +43,7 @@ class CalculateDifferentialLoanServiceImplTest {
     }
 
     @Test
-    void calculateCreditWithResults() {
+    void calculateCreditWithMonthlyPayment() {
         int term = 3;
         BigDecimal rate = new BigDecimal("10");
         BigDecimal amount = new BigDecimal("40000");

@@ -32,6 +32,6 @@
 - Maven или Gradle
 - Spring Boot
 - Springdoc для документации API
-- Junit для тестов
+- Junit, Mockito для тестов
 
 

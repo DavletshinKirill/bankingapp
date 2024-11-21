@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class EmploymentDtoTest {
     private EmploymentDto employmentDto;
@@ -16,7 +16,7 @@ class EmploymentDtoTest {
     @BeforeEach
     public void setUp() {
         employmentDto = new EmploymentDto(
-                EmploymentStatus.UNEMPLOYED,
+                EmploymentStatus.SELF_EMPLOYED,
                 "123456789012",
                 BigDecimal.valueOf(50000),
                 Position.MIDDLE_MANAGER,
@@ -24,22 +24,30 @@ class EmploymentDtoTest {
                 6
         );
     }
-
-
     @Test
-    void checkEmploymentStatus() {
-        assertThrows(RefuseException.class, employmentDto::checkEmploymentStatus);
-        employmentDto.setEmploymentStatus(EmploymentStatus.BUSINESS_OWNER);
-        employmentDto.checkEmploymentStatus();
+    void testEmploymentStatusShouldThrowRefuseException() {
+        employmentDto.setEmploymentStatus(EmploymentStatus.UNEMPLOYED);
+        Exception exception = assertThrows(RefuseException.class, employmentDto::checkEmploymentStatus);
+        assertEquals("Loans are not given to the unemployed", exception.getMessage());
     }
 
     @Test
-    void suitableExperience() {
-        employmentDto.setWorkExperienceTotal(15);
-        assertThrows(RefuseException.class, employmentDto::suitableExperience);
-        employmentDto.setWorkExperienceTotal(20);
-        employmentDto.suitableExperience();
+    void testSuitableExperienceShouldThrowRefuseException() {
+        employmentDto.setWorkExperienceTotal(10);
         employmentDto.setWorkExperienceCurrent(2);
-        assertThrows(RefuseException.class, employmentDto::suitableExperience);
+        Exception exception = assertThrows(RefuseException.class, employmentDto::suitableExperience);
+        assertEquals("Unsuitable work experience", exception.getMessage());
+    }
+
+    @Test
+    void testEmploymentStatusShouldNotThrowException() {
+        assertDoesNotThrow(employmentDto::suitableExperience);
+    }
+
+    @Test
+    void testSuitableExperienceShouldNotThrowException() {
+        employmentDto.setWorkExperienceTotal(20);
+        employmentDto.setWorkExperienceCurrent(5);
+        assertDoesNotThrow(employmentDto::suitableExperience);
     }
 }

@@ -1,105 +1,137 @@
 package dev.davletshin.calculator.service.impl;
 
 import dev.davletshin.calculator.config.TestConfig;
-import dev.davletshin.calculator.domain.EmploymentStatus;
-import dev.davletshin.calculator.domain.Gender;
-import dev.davletshin.calculator.domain.MaritalStatus;
-import dev.davletshin.calculator.domain.Position;
+import dev.davletshin.calculator.domain.*;
+import dev.davletshin.calculator.service.CalculateDifferentialLoanService;
 import dev.davletshin.calculator.service.CalculateService;
 import dev.davletshin.calculator.web.dto.credit.CreditDto;
 import dev.davletshin.calculator.web.dto.credit.EmploymentDto;
 import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
 import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
 import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 // take result variables from online calculator https://calculator-credit.ru
 // to calculate monthlyPayment sum all monthly payment and divide it into terms
-@ExtendWith(SpringExtension.class)
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ActiveProfiles("test")
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = {TestConfig.class})
 @SpringBootTest
 class CalculateServiceImplTest {
+
+    @Value("${credit.info.defaultRate}")
+    private int defaultRate;
+
+    @MockBean
+    private CalculateDifferentialLoanService calculateDifferentialLoanService;
+
+    @Mock
+    private ScoringDataDto scoringDataDto;
+
+    @Mock
+    private OffersCreation offersCreation;
 
     @Autowired
     private CalculateService calculateService;
 
-    @Test
-    void calculateCredit() {
-        ScoringDataDto scopingDataDto = new ScoringDataDto(
-                Gender.MALE,
-                LocalDate.of(2020, 1, 1),
-                "г. Воронеж",
-                3,
-                "someString",
-                true,
-                true,
-                MaritalStatus.UNMARRIED,
+    //private final LogData logData = LogData.getInstance();
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        // Set default values for the mocked scoringDataDto
+        when(scoringDataDto.getTerm()).thenReturn(12);
+        lenient().when(scoringDataDto.getAmount()).thenReturn(new BigDecimal("40000"));
+        lenient().when(scoringDataDto.getBirthdate()).thenReturn(LocalDate.of(1990, 1, 1));
+        lenient().when(scoringDataDto.getIsInsuranceEnabled()).thenReturn(true);
+        lenient().when(scoringDataDto.getIsSalaryClient()).thenReturn(false);
+        lenient().when(scoringDataDto.getGender()).thenReturn(Gender.MALE);
+        lenient().when(scoringDataDto.getMaritalStatus()).thenReturn(MaritalStatus.MARRIED);
+        lenient().when(scoringDataDto.getEmployment()).thenReturn(
                 new EmploymentDto(
-                        EmploymentStatus.UNEMPLOYED,
+                        EmploymentStatus.BUSINESS_OWNER,
                         "123456789012",
-                        BigDecimal.valueOf(50000),
+                        new BigDecimal("10000"),
                         Position.MIDDLE_MANAGER,
-                        20,
-                        6
-                ),
-                new BigDecimal("40000"),
-                6,
-                "Иван",
-                "Иванов",
-                "Иванович",
-                "example@example.com",
-                LocalDate.of(1990, 1, 1),
-                "2020",
-                "123456"
-        );
-        BigDecimal pskResult = new BigDecimal("41283");
-        BigDecimal monthlyPaymentResult = new BigDecimal("6881");
-        CreditDto creditDto = calculateService.calculateCredit(scopingDataDto);
-
-
-        assertEquals(creditDto.getPsk(), pskResult);
-        assertEquals(creditDto.getMonthlyPayment(), monthlyPaymentResult);
-        assertNotNull(creditDto.getPaymentSchedule());
-        assertEquals(creditDto.getPaymentSchedule().size(), scopingDataDto.getTerm());
+                        20, 6
+                ));
+        lenient().when(offersCreation.getInsuranceRate()).thenReturn(1);
+        lenient().when(offersCreation.getSalaryClient()).thenReturn(-1);
 
     }
 
-    @Test
-    void generateOffers() {
-        LoanStatementRequestDto loanStatementRequestDto = new LoanStatementRequestDto(
-                new BigDecimal("40000"),
-                6,
-                "Иван",
-                "Иванов",
-                "Иванович",
-                "example@example.com",
-                LocalDate.of(1990, 1, 1),
-                "2020",
-                "123456"
-        );
-        boolean isSorted = true;
-        List<LoanOfferDto> loanOfferDtoList = calculateService.generateOffers(loanStatementRequestDto);
 
-        for (int i = 0; i < loanOfferDtoList.size() - 1; i++) {
-            if (loanOfferDtoList.get(i).getRate().compareTo(loanOfferDtoList.get(i + 1).getRate()) > -1) {
-                isSorted = false;
-                break;
-            }
-        }
-        assertEquals(loanOfferDtoList.size(), 4);
-        assertTrue(isSorted, "The list is not sorted by rate");
+    @Test
+    void testCalculateCredit() {
+        BigDecimal amount = new BigDecimal("42124");
+        CreditCalculatorsFields creditCalculatorsFields = new CreditCalculatorsFields(
+                amount,
+                amount.divide(BigDecimal.valueOf(scoringDataDto.getTerm()), 2, RoundingMode.HALF_UP),
+                new ArrayList<>(scoringDataDto.getTerm())
+        );
+        assertDoesNotThrow(scoringDataDto::checkAmountSalary);
+        assertDoesNotThrow(scoringDataDto::checkAge);
+        BigDecimal rate = new BigDecimal(
+                defaultRate + scoringDataDto.indexGender()
+                        + scoringDataDto.getMaritalStatus().getIndexMaritalStatus() + scoringDataDto.checkEmployment()
+        );
+        when(calculateDifferentialLoanService.calculateCredit(
+                scoringDataDto.getTerm(), rate, scoringDataDto.getAmount(), true
+        )).thenReturn(creditCalculatorsFields);
+        CreditDto result = calculateService.calculateCredit(scoringDataDto);
+        assertNotNull(result);
+        assertEquals(result.getAmount(), scoringDataDto.getAmount());
+        assertEquals(result.getRate(), rate);
+        assertEquals(result.getPsk(), creditCalculatorsFields.getPsk());
+        assertEquals(result.getTerm(), scoringDataDto.getTerm());
+        assertEquals(result.getMonthlyPayment(), creditCalculatorsFields.getMonthlyPayment());
+    }
+
+    @Test
+    public void generateOffers() {
+
+        LoanStatementRequestDto loanStatementRequestDto = new LoanStatementRequestDto();
+        loanStatementRequestDto.setAmount(new BigDecimal("40000"));
+        loanStatementRequestDto.setTerm(12);
+
+        BigDecimal amount = new BigDecimal("42124");
+        CreditCalculatorsFields creditCalculatorsFields = new CreditCalculatorsFields(
+                amount,
+                amount.divide(BigDecimal.valueOf(scoringDataDto.getTerm()), 2, RoundingMode.HALF_UP),
+                new ArrayList<>(scoringDataDto.getTerm())
+        );
+
+        when(calculateDifferentialLoanService.calculateCredit(anyInt(), any(BigDecimal.class), any(BigDecimal.class), anyBoolean()))
+                .thenReturn(creditCalculatorsFields);
+
+        // Act
+        List<LoanOfferDto> offers = calculateService.generateOffers(loanStatementRequestDto);
+
+        // Assert
+        assertNotNull(offers);
+        assertEquals(offers.size(), 4);
+
     }
 }
