@@ -6,6 +6,7 @@ import dev.davletshin.calculator.domain.MaritalStatus;
 import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,13 +27,13 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     @Schema(description = "Пол клиента",
             example = "MALE",
             allowableValues = {"MALE", "FEMALE", "NOT_BINARY"})
-    @NotBlank(message = "Пол обязателен")
+    @NotNull(message = "Пол обязателен")
     private Gender gender;
 
     @Schema(description = "Дата выдачи паспорта", example = "2020-01-01")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @NotBlank(message = "Дата выдачи паспорта обязательна")
+    @NotNull(message = "Дата выдачи паспорта обязательна")
     private LocalDate passportIssueDate;
 
     @Schema(description = "Место выдачи паспорта", example = "г. Воронеж")
@@ -41,7 +42,7 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     private String passportIssueBranch;
 
     @Schema(description = "Количество поручителей", example = "3")
-    @NotBlank(message = "Количество поручителей не должно быть равно нулю")
+    @NotNull(message = "Количество поручителей не должно быть равно нулю")
     private int dependentAmount;
 
     @Schema(description = "Аккаунт клиента", example = "someString")
@@ -49,17 +50,17 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     private String accountNumber;
 
     @Schema(description = "Застрахованность клиента", example = "true")
-    @NotBlank(message = "Застрахованность клиента не дожна быть пустой")
+    @NotNull(message = "Застрахованность клиента не дожна быть пустой")
     private Boolean isInsuranceEnabled;
 
     @Schema(description = "Трудоустроенность клиента", example = "true")
-    @NotBlank(message = "Трудоустроенность клиента не дожна быть пустой")
+    @NotNull(message = "Трудоустроенность клиента не дожна быть пустой")
     private Boolean isSalaryClient;
 
     @Schema(description = "Семейной положение клиента",
             example = "UNMARRIED",
             allowableValues = {"UNMARRIED", "MARRIED", "DIVORCED"})
-    @NotBlank(message = "Семейное положение клиента обязательно")
+    @NotNull(message = "Семейное положение клиента обязательно")
     private MaritalStatus maritalStatus;
 
     private EmploymentDto employment;

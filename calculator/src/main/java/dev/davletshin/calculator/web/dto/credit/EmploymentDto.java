@@ -4,6 +4,7 @@ import dev.davletshin.calculator.domain.EmploymentStatus;
 import dev.davletshin.calculator.domain.Position;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class EmploymentDto {
     @Schema(description = "Занятость клиента",
             example = "SELF_EMPLOYED",
             allowableValues = {"UNEMPLOYED", "SELF_EMPLOYED", "BUSINESS_OWNER"})
-    @NotBlank(message = "Занятость клиента обязательно")
+    @NotNull(message = "Занятость клиента обязательно")
     private EmploymentStatus employmentStatus;
 
     @Schema(description = "ИНН клиента", example = "123456789012")

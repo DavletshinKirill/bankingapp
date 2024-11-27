@@ -20,12 +20,12 @@ import java.time.LocalDate;
 public class LoanStatementRequestDto {
 
     @Schema(description = "Сумма", example = "40000")
-    @NotBlank(message = "Сумма кредита обязательна")
+    @NotNull(message = "Сумма кредита обязательна")
     @DecimalMin(value = "20000", message = "Сумма кредита должны быть больше или равна 20 000", inclusive = false)
     protected BigDecimal amount;
 
     @Schema(description = "Срок на который берется кредит", example = "6")
-    @NotBlank(message = "Срок кредита обязателен")
+    @NotNull(message = "Срок кредита обязателен")
     @Min(value = 6, message = "Срок кредита должен быть больше или равен 6")
     protected int term;
 
@@ -52,7 +52,7 @@ public class LoanStatementRequestDto {
     @Schema(description = "Дата рождения клиента", example = "1990-01-01")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @NotBlank(message = "Дата рождения обязательна")
+    @NotNull(message = "Дата рождения обязательна")
     @ValidateBirthDate
     protected LocalDate birthdate;
 
