@@ -57,9 +57,6 @@ class CalculateServiceImplTest {
     @Mock
     private EmploymentDto employment;
 
-    @Mock
-    private OffersCreation offersCreation;
-
     @Autowired
     private ScoringService scoringService;
 
@@ -93,12 +90,8 @@ class CalculateServiceImplTest {
         when(employment.getWorkExperienceTotal()).thenReturn(20);
         when(employment.getWorkExperienceCurrent()).thenReturn(5);
 
-        assertDoesNotThrow(() -> {
-            scoringService.checkAmountSalary(scoringDataDto);
-        });
-        assertDoesNotThrow(() -> {
-            scoringService.checkAge(scoringDataDto);
-        });
+        assertDoesNotThrow(() -> scoringService.checkAmountSalary(scoringDataDto));
+        assertDoesNotThrow(() -> scoringService.checkAge(scoringDataDto));
 
         BigDecimal rate = new BigDecimal(
                 defaultRate + scoringService.getIndexGender(scoringDataDto)

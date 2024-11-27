@@ -57,9 +57,7 @@ public class ScoringServiceImplTest {
         when(scoringDataDto.getEmployment()).thenReturn(employment);
         when(employment.getSalary()).thenReturn(new BigDecimal("10000"));
         when(scoringDataDto.getAmount()).thenReturn(new BigDecimal("20000"));
-        assertDoesNotThrow(() -> {
-            scoringService.checkAmountSalary(scoringDataDto);
-        });
+        assertDoesNotThrow(() -> scoringService.checkAmountSalary(scoringDataDto));
     }
 
     @Test
@@ -67,26 +65,20 @@ public class ScoringServiceImplTest {
         when(scoringDataDto.getEmployment()).thenReturn(employment);
         when(employment.getSalary()).thenReturn(new BigDecimal("10000"));
         when(scoringDataDto.getAmount()).thenReturn(new BigDecimal("400000"));
-        Exception exception = assertThrows(RefuseException.class, () -> {
-            scoringService.checkAmountSalary(scoringDataDto);
-        });
+        Exception exception = assertThrows(RefuseException.class, () -> scoringService.checkAmountSalary(scoringDataDto));
         assertEquals("The loan amount is too large", exception.getMessage());
     }
 
     @Test
     void checkAgeDoesNotThrowRefuseException() {
         when(scoringDataDto.getBirthdate()).thenReturn(LocalDate.of(1990, 1, 1));
-        assertDoesNotThrow(() -> {
-            scoringService.checkAge(scoringDataDto);
-        });
+        assertDoesNotThrow(() -> scoringService.checkAge(scoringDataDto));
     }
 
     @Test
     void checkAgeThrowRefuseException() {
         when(scoringDataDto.getBirthdate()).thenReturn(LocalDate.of(2010, 1, 1));
-        Exception exception = assertThrows(RefuseException.class, () -> {
-            scoringService.checkAge(scoringDataDto);
-        });
+        Exception exception = assertThrows(RefuseException.class, () -> scoringService.checkAge(scoringDataDto));
         assertEquals("The Wrong Age", exception.getMessage());
     }
 
@@ -122,9 +114,7 @@ public class ScoringServiceImplTest {
         when(scoringDataDto.getEmployment()).thenReturn(employment);
 
         when(employment.getWorkExperienceTotal()).thenReturn(15);
-        Exception exception = assertThrows(RefuseException.class, () -> {
-            scoringService.getIndexEmployment(scoringDataDto);
-        });
+        Exception exception = assertThrows(RefuseException.class, () -> scoringService.getIndexEmployment(scoringDataDto));
         assertEquals("Unsuitable work experience", exception.getMessage());
     }
 
@@ -135,9 +125,7 @@ public class ScoringServiceImplTest {
         when(employment.getWorkExperienceTotal()).thenReturn(20);
         when(employment.getWorkExperienceCurrent()).thenReturn(1);
 
-        Exception exception = assertThrows(RefuseException.class, () -> {
-            scoringService.getIndexEmployment(scoringDataDto);
-        });
+        Exception exception = assertThrows(RefuseException.class, () -> scoringService.getIndexEmployment(scoringDataDto));
         assertEquals("Unsuitable work experience", exception.getMessage());
     }
 
@@ -147,9 +135,7 @@ public class ScoringServiceImplTest {
         when(employment.getEmploymentStatus()).thenReturn(EmploymentStatus.UNEMPLOYED);
         when(employment.getWorkExperienceTotal()).thenReturn(20);
         when(employment.getWorkExperienceCurrent()).thenReturn(5);
-        Exception exception = assertThrows(RefuseException.class, () -> {
-            scoringService.getIndexEmployment(scoringDataDto);
-        });
+        Exception exception = assertThrows(RefuseException.class, () -> scoringService.getIndexEmployment(scoringDataDto));
         assertEquals("Loans are not given to the unemployed", exception.getMessage());
     }
 

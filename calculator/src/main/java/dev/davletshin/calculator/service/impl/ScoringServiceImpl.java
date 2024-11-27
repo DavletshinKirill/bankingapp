@@ -36,7 +36,7 @@ public class ScoringServiceImpl implements ScoringService {
 
     @Override
     public void checkAge(ScoringDataDto scoringDataDto) {
-        if (!isAgeSuitable(ageFrom, ageTo, scoringDataDto.getBirthdate())) throw new RefuseException("The Wrong Age");
+        if (isAgeSuitable(ageFrom, ageTo, scoringDataDto.getBirthdate())) throw new RefuseException("The Wrong Age");
     }
 
     @Override
@@ -44,10 +44,10 @@ public class ScoringServiceImpl implements ScoringService {
         Gender gender = scoringDataDto.getGender();
         switch (gender) {
             case FEMALE -> {
-                if (!isAgeSuitable(ageWomanFrom, ageWomanTo, scoringDataDto.getBirthdate())) return 0;
+                if (isAgeSuitable(ageWomanFrom, ageWomanTo, scoringDataDto.getBirthdate())) return 0;
             }
             case MALE -> {
-                if (!isAgeSuitable(ageManFrom, ageManTo, scoringDataDto.getBirthdate())) return 0;
+                if (isAgeSuitable(ageManFrom, ageManTo, scoringDataDto.getBirthdate())) return 0;
             }
         }
         return gender.getIndexGender();
@@ -64,7 +64,7 @@ public class ScoringServiceImpl implements ScoringService {
     private boolean isAgeSuitable(int startAge, int endAge, LocalDate date) {
         Period age = Period.between(date, LocalDate.now());
         int amount_age = age.getYears();
-        return (startAge <= amount_age) && (amount_age <= endAge);
+        return (startAge > amount_age) || (amount_age > endAge);
     }
 
     private void checkEmploymentStatus(EmploymentDto employment) {
