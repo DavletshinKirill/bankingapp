@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// take result variables from online calculator https://calculator-credit.ru
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @ContextConfiguration(classes = TestConfig.class)
@@ -32,7 +33,6 @@ class CalculateDifferentialLoanServiceImplTest {
         boolean countMonthlyPayment = false;
         CreditCalculatorsFields creditCalculatorsFields = calculateDifferentialLoanService.calculateCredit(term, rate, amount, countMonthlyPayment);
 
-        // take result variables from online calculator https://calculator-credit.ru
         BigDecimal pskResult = new BigDecimal("40667");
         // sum all monthly payment and divide it into terms
         BigDecimal monthlyPaymentResult = new BigDecimal("13556");
@@ -50,7 +50,6 @@ class CalculateDifferentialLoanServiceImplTest {
         boolean countMonthlyPayment = true;
         CreditCalculatorsFields creditCalculatorsFields = calculateDifferentialLoanService.calculateCredit(term, rate, amount, countMonthlyPayment);
 
-        //take result variables from online calculator https://calculator-credit.ru
         BigDecimal pskResult = new BigDecimal("40667");
         // sum all monthly payment and divide it into terms
         BigDecimal monthlyPaymentResult = new BigDecimal("13556");

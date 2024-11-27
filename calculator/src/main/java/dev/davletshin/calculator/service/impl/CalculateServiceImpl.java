@@ -1,11 +1,10 @@
 package dev.davletshin.calculator.service.impl;
 
 import dev.davletshin.calculator.domain.CreditCalculatorsFields;
-import dev.davletshin.calculator.domain.LogLevel;
 import dev.davletshin.calculator.domain.OffersCreation;
 import dev.davletshin.calculator.service.CalculateDifferentialLoanService;
 import dev.davletshin.calculator.service.CalculateService;
-import dev.davletshin.calculator.service.LogData;
+import dev.davletshin.calculator.service.ScoringService;
 import dev.davletshin.calculator.web.dto.credit.CreditDto;
 import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
 import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
@@ -27,23 +26,22 @@ public class CalculateServiceImpl implements CalculateService {
     @Value("${credit.info.defaultRate}")
     private int defaultRate;
     private final CalculateDifferentialLoanService calculateLoanService;
-    private final LogData logData = LogData.getInstance();
+    private final ScoringService scoringService;
 
     @Override
     public CreditDto calculateCredit(ScoringDataDto scoringDataDto) {
-        scoringDataDto.checkAmountSalary();
-        scoringDataDto.checkAge();
+        scoringService.checkAmountSalary(scoringDataDto);
+        scoringService.checkAge(scoringDataDto);
 
         BigDecimal rate = new BigDecimal(
-                defaultRate + scoringDataDto.indexGender()
-                        + scoringDataDto.getMaritalStatus().getIndexMaritalStatus() + scoringDataDto.checkEmployment()
+                defaultRate + scoringService.getIndexGender(scoringDataDto)
+                        + scoringDataDto.getMaritalStatus().getIndexMaritalStatus() + scoringService.getIndexEmployment(scoringDataDto)
         );
 
         CreditCalculatorsFields creditCalculatorsFields = calculateLoanService.calculateCredit(
                 scoringDataDto.getTerm(), rate, scoringDataDto.getAmount(),
                 true
         );
-        logData.logInfo(creditCalculatorsFields, "Processing", LogLevel.INFO);
         return new CreditDto(
                 scoringDataDto.getAmount(),
                 scoringDataDto.getTerm(),
@@ -75,15 +73,16 @@ public class CalculateServiceImpl implements CalculateService {
                 false
         );
 
-        return new LoanOfferDto(
-                UUID.randomUUID(),
-                loanStatementRequestDto.getAmount(),
-                creditCalculatorsFields.getPsk(),
-                loanStatementRequestDto.getTerm(),
-                creditCalculatorsFields.getMonthlyPayment(),
-                rate,
-                offersCreation.isInsuranceEnabled(),
-                offersCreation.isSalaryClientEnabled()
-        );
+        new LoanOfferDto();
+        return LoanOfferDto.builder()
+                .statementId(UUID.randomUUID())
+                .requestedAmount(loanStatementRequestDto.getAmount())
+                .totalAmount(creditCalculatorsFields.getPsk())
+                .term(loanStatementRequestDto.getTerm())
+                .monthlyPayment(creditCalculatorsFields.getMonthlyPayment())
+                .rate(rate)
+                .isInsuranceEnabled(offersCreation.isInsuranceEnabled())
+                .isSalaryClient(offersCreation.isSalaryClientEnabled())
+                .build();
     }
 }

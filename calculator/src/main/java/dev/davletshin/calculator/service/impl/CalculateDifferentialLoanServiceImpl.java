@@ -13,12 +13,15 @@ import java.util.List;
 
 @Service
 public class CalculateDifferentialLoanServiceImpl implements CalculateDifferentialLoanService {
-    @Override
-    public CreditCalculatorsFields calculateCredit(int term, BigDecimal rate, BigDecimal amount, boolean countMonthlyPayment) {
+    private final static int MONTHS_IN_YEAR = 12;
+    private final static int AMOUNT_PERCENTS = 100;
 
-        BigDecimal monthlyRate = rate.divide(new BigDecimal("1200"), 10, RoundingMode.HALF_UP);
+    @Override
+    public CreditCalculatorsFields calculateCredit(int term, BigDecimal rate, BigDecimal amount, boolean isCountMonthlyPayment) {
+
+        BigDecimal monthlyRate = rate.divide(new BigDecimal(MONTHS_IN_YEAR * AMOUNT_PERCENTS), 10, RoundingMode.HALF_UP);
         BigDecimal psk = BigDecimal.ZERO;
-        List<PaymentScheduleElementDto> paymentSchedule = countMonthlyPayment ? new ArrayList<>(term) : null;
+        List<PaymentScheduleElementDto> paymentSchedule = isCountMonthlyPayment ? new ArrayList<>(term) : null;
         LocalDate currentDate = LocalDate.now();
 
         for (int month = 1; month <= term; month++) {
@@ -37,7 +40,7 @@ public class CalculateDifferentialLoanServiceImpl implements CalculateDifferenti
                 remainingPrincipal = BigDecimal.ZERO;
             }
             psk = psk.add(monthlyPayment);
-            if (countMonthlyPayment) {
+            if (isCountMonthlyPayment) {
                 paymentSchedule.add(new PaymentScheduleElementDto(
                         month, currentDate.plusMonths(month), totalPayment.setScale(2, RoundingMode.HALF_UP), interestPayment.setScale(2, RoundingMode.HALF_UP),
                         monthlyPayment.setScale(2, RoundingMode.HALF_UP), remainingPrincipal.setScale(2, RoundingMode.HALF_UP)

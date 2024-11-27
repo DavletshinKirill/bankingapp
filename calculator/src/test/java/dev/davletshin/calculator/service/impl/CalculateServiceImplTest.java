@@ -4,6 +4,7 @@ import dev.davletshin.calculator.config.TestConfig;
 import dev.davletshin.calculator.domain.*;
 import dev.davletshin.calculator.service.CalculateDifferentialLoanService;
 import dev.davletshin.calculator.service.CalculateService;
+import dev.davletshin.calculator.service.ScoringService;
 import dev.davletshin.calculator.web.dto.credit.CreditDto;
 import dev.davletshin.calculator.web.dto.credit.EmploymentDto;
 import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
@@ -51,35 +52,25 @@ class CalculateServiceImplTest {
     private ScoringDataDto scoringDataDto;
 
     @Mock
+    private LoanStatementRequestDto loanStatementRequestDto;
+
+    @Mock
+    private EmploymentDto employment;
+
+    @Mock
     private OffersCreation offersCreation;
+
+    @Autowired
+    private ScoringService scoringService;
 
     @Autowired
     private CalculateService calculateService;
 
-    //private final LogData logData = LogData.getInstance();
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        // Set default values for the mocked scoringDataDto
         when(scoringDataDto.getTerm()).thenReturn(12);
-        lenient().when(scoringDataDto.getAmount()).thenReturn(new BigDecimal("40000"));
-        lenient().when(scoringDataDto.getBirthdate()).thenReturn(LocalDate.of(1990, 1, 1));
-        lenient().when(scoringDataDto.getIsInsuranceEnabled()).thenReturn(true);
-        lenient().when(scoringDataDto.getIsSalaryClient()).thenReturn(false);
-        lenient().when(scoringDataDto.getGender()).thenReturn(Gender.MALE);
-        lenient().when(scoringDataDto.getMaritalStatus()).thenReturn(MaritalStatus.MARRIED);
-        lenient().when(scoringDataDto.getEmployment()).thenReturn(
-                new EmploymentDto(
-                        EmploymentStatus.BUSINESS_OWNER,
-                        "123456789012",
-                        new BigDecimal("10000"),
-                        Position.MIDDLE_MANAGER,
-                        20, 6
-                ));
-        lenient().when(offersCreation.getInsuranceRate()).thenReturn(1);
-        lenient().when(offersCreation.getSalaryClient()).thenReturn(-1);
-
     }
 
 
@@ -91,12 +82,30 @@ class CalculateServiceImplTest {
                 amount.divide(BigDecimal.valueOf(scoringDataDto.getTerm()), 2, RoundingMode.HALF_UP),
                 new ArrayList<>(scoringDataDto.getTerm())
         );
-        assertDoesNotThrow(scoringDataDto::checkAmountSalary);
-        assertDoesNotThrow(scoringDataDto::checkAge);
+        when(scoringDataDto.getEmployment()).thenReturn(employment);
+        when(employment.getSalary()).thenReturn(new BigDecimal("10000"));
+        when(scoringDataDto.getAmount()).thenReturn(new BigDecimal("40000"));
+        when(scoringDataDto.getBirthdate()).thenReturn(LocalDate.of(1990, 1, 1));
+        when(scoringDataDto.getGender()).thenReturn(Gender.MALE);
+        when(scoringDataDto.getMaritalStatus()).thenReturn(MaritalStatus.MARRIED);
+        when(employment.getPosition()).thenReturn(Position.MIDDLE_MANAGER);
+        when(employment.getEmploymentStatus()).thenReturn(EmploymentStatus.BUSINESS_OWNER);
+        when(employment.getWorkExperienceTotal()).thenReturn(20);
+        when(employment.getWorkExperienceCurrent()).thenReturn(5);
+
+        assertDoesNotThrow(() -> {
+            scoringService.checkAmountSalary(scoringDataDto);
+        });
+        assertDoesNotThrow(() -> {
+            scoringService.checkAge(scoringDataDto);
+        });
+
         BigDecimal rate = new BigDecimal(
-                defaultRate + scoringDataDto.indexGender()
-                        + scoringDataDto.getMaritalStatus().getIndexMaritalStatus() + scoringDataDto.checkEmployment()
+                defaultRate + scoringService.getIndexGender(scoringDataDto)
+                        + scoringDataDto.getMaritalStatus().getIndexMaritalStatus() + scoringService.getIndexEmployment(scoringDataDto)
         );
+
+
         when(calculateDifferentialLoanService.calculateCredit(
                 scoringDataDto.getTerm(), rate, scoringDataDto.getAmount(), true
         )).thenReturn(creditCalculatorsFields);
@@ -111,10 +120,8 @@ class CalculateServiceImplTest {
 
     @Test
     public void generateOffers() {
-
-        LoanStatementRequestDto loanStatementRequestDto = new LoanStatementRequestDto();
-        loanStatementRequestDto.setAmount(new BigDecimal("40000"));
-        loanStatementRequestDto.setTerm(12);
+        when(loanStatementRequestDto.getTerm()).thenReturn(12);
+        when(loanStatementRequestDto.getAmount()).thenReturn(new BigDecimal("40000"));
 
         BigDecimal amount = new BigDecimal("42124");
         CreditCalculatorsFields creditCalculatorsFields = new CreditCalculatorsFields(
@@ -126,10 +133,8 @@ class CalculateServiceImplTest {
         when(calculateDifferentialLoanService.calculateCredit(anyInt(), any(BigDecimal.class), any(BigDecimal.class), anyBoolean()))
                 .thenReturn(creditCalculatorsFields);
 
-        // Act
         List<LoanOfferDto> offers = calculateService.generateOffers(loanStatementRequestDto);
 
-        // Assert
         assertNotNull(offers);
         assertEquals(offers.size(), 4);
 

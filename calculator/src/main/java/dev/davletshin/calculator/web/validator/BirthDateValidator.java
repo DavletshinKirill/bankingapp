@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class BirthDateValidator implements ConstraintValidator<ValidateBirthDate, LocalDate> {
     @Override
@@ -14,7 +13,7 @@ public class BirthDateValidator implements ConstraintValidator<ValidateBirthDate
 
     @Override
     public boolean isValid(LocalDate dateBirth, ConstraintValidatorContext constraintValidatorContext) {
-        LocalDateTime eighteenYearsAgo = LocalDateTime.now().minusYears(18);
-        return eighteenYearsAgo.isAfter(dateBirth.atStartOfDay());
+        LocalDate eighteenYearsAgo = LocalDate.now().minusYears(18);
+        return eighteenYearsAgo.isAfter(dateBirth);
     }
 }
