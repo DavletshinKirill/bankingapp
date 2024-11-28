@@ -10,8 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,23 +25,22 @@ import java.util.List;
 public class CalculatorController {
 
     private final CalculateService calculateCredit;
-    private final Logger logger = LoggerFactory.getLogger(CalculatorController.class);
 
     @Operation(summary = "getOffers", description = "Create 4 offers")
     @PostMapping("/offers")
     public List<LoanOfferDto> getOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
-        logger.info(loanStatementRequestDto.toString());
+        log.info(loanStatementRequestDto.toString());
         List<LoanOfferDto> offerList = calculateCredit.generateOffers(loanStatementRequestDto);
-        offerList.forEach(offer -> logger.info(offer.toString()));
+        offerList.forEach(offer -> log.info(offer.toString()));
         return offerList;
     }
 
     @Operation(summary = "calculate", description = "Count difference credit")
     @PostMapping("/calc")
     public CreditDto calculate(@Valid @RequestBody ScoringDataDto scoringDataDto) {
-        logger.info(scoringDataDto.toString());
+        log.info(scoringDataDto.toString());
         CreditDto credit = calculateCredit.calculateCredit(scoringDataDto);
-        logger.info(credit.toString());
+        log.info(credit.toString());
         return credit;
     }
 

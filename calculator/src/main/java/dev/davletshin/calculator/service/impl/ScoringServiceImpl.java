@@ -15,28 +15,28 @@ import java.time.Period;
 @Service
 public class ScoringServiceImpl implements ScoringService {
 
-    private static final int maxNumberSalary = 24;
-    private static final int ageFrom = 20;
-    private static final int ageTo = 65;
-    private static final int ageWomanFrom = 32;
-    private static final int ageWomanTo = 60;
-    private static final int ageManFrom = 30;
-    private static final int ageManTo = 55;
-    private static final int generalExperience = 18;
-    private static final int currentExperience = 3;
+    private static final int MAX_NUMBER_SALARY = 24;
+    private static final int AGE_FROM = 20;
+    private static final int AGE_TO = 65;
+    private static final int AGE_WOMAN_FROM = 32;
+    private static final int AGE_WOMAN_TO = 60;
+    private static final int AGE_MAN_FROM = 30;
+    private static final int AGE_MAN_TO = 55;
+    private static final int GENERAL_EXPERIENCE = 18;
+    private static final int CURRENT_EXPERIENCE = 3;
 
 
     @Override
     public void checkAmountSalary(ScoringDataDto scoringDataDto) {
         BigDecimal salary = scoringDataDto.getEmployment().getSalary();
-        if (salary.multiply(BigDecimal.valueOf(maxNumberSalary)).compareTo(scoringDataDto.getAmount()) < 0) {
+        if (salary.multiply(BigDecimal.valueOf(MAX_NUMBER_SALARY)).compareTo(scoringDataDto.getAmount()) < 0) {
             throw new RefuseException("The loan amount is too large");
         }
     }
 
     @Override
     public void checkAge(ScoringDataDto scoringDataDto) {
-        if (isAgeSuitable(ageFrom, ageTo, scoringDataDto.getBirthdate())) throw new RefuseException("The Wrong Age");
+        if (isAgeSuitable(AGE_FROM, AGE_TO, scoringDataDto.getBirthdate())) throw new RefuseException("The Wrong Age");
     }
 
     @Override
@@ -44,10 +44,10 @@ public class ScoringServiceImpl implements ScoringService {
         Gender gender = scoringDataDto.getGender();
         switch (gender) {
             case FEMALE -> {
-                if (isAgeSuitable(ageWomanFrom, ageWomanTo, scoringDataDto.getBirthdate())) return 0;
+                if (isAgeSuitable(AGE_WOMAN_FROM, AGE_WOMAN_TO, scoringDataDto.getBirthdate())) return 0;
             }
             case MALE -> {
-                if (isAgeSuitable(ageManFrom, ageManTo, scoringDataDto.getBirthdate())) return 0;
+                if (isAgeSuitable(AGE_MAN_FROM, AGE_MAN_TO, scoringDataDto.getBirthdate())) return 0;
             }
         }
         return gender.getIndexGender();
@@ -63,8 +63,8 @@ public class ScoringServiceImpl implements ScoringService {
 
     private boolean isAgeSuitable(int startAge, int endAge, LocalDate date) {
         Period age = Period.between(date, LocalDate.now());
-        int amount_age = age.getYears();
-        return (startAge > amount_age) || (amount_age > endAge);
+        int amountAge = age.getYears();
+        return (startAge > amountAge) || (amountAge > endAge);
     }
 
     private void checkEmploymentStatus(EmploymentDto employment) {
@@ -73,7 +73,7 @@ public class ScoringServiceImpl implements ScoringService {
     }
 
     private void suitableExperience(EmploymentDto employment) {
-        if ((employment.getWorkExperienceTotal() < generalExperience) || (employment.getWorkExperienceCurrent() < currentExperience))
+        if ((employment.getWorkExperienceTotal() < GENERAL_EXPERIENCE) || (employment.getWorkExperienceCurrent() < CURRENT_EXPERIENCE))
             throw new RefuseException("Unsuitable work experience");
     }
 }

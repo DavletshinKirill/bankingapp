@@ -4,8 +4,7 @@ import dev.davletshin.calculator.domain.exception.ExceptionBody;
 import dev.davletshin.calculator.domain.exception.RefuseException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,16 +16,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class ControllerAdvice {
 
-    private final Logger logger = LoggerFactory.getLogger(ControllerAdvice.class);
+
 
     @ExceptionHandler(RefuseException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ExceptionBody handleResourceNotFound(
             final RefuseException e
     ) {
-        logger.error(e.getMessage());
+        log.error(e.getMessage());
         return new ExceptionBody(e.getMessage());
     }
 
@@ -44,7 +44,7 @@ public class ControllerAdvice {
                         (existingMessage, newMessage) ->
                                 existingMessage + " " + newMessage)
                 ));
-        logger.error(exceptionBody.getMessage());
+        log.error(exceptionBody.getMessage());
         return exceptionBody;
     }
 
@@ -59,7 +59,7 @@ public class ControllerAdvice {
                         violation -> violation.getPropertyPath().toString(),
                         ConstraintViolation::getMessage
                 )));
-        logger.error(exceptionBody.getMessage());
+        log.error(exceptionBody.getMessage());
         return exceptionBody;
     }
 
@@ -69,7 +69,7 @@ public class ControllerAdvice {
             final Exception e
     ) {
         e.printStackTrace();
-        logger.error(e.getMessage());
+        log.error(e.getMessage());
         return new ExceptionBody("Internal error.");
     }
 }

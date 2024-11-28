@@ -1,6 +1,7 @@
 package dev.davletshin.calculator.web.dto.credit;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class CreditDto {
     private BigDecimal amount;
     private int term;

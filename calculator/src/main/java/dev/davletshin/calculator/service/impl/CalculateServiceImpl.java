@@ -42,16 +42,16 @@ public class CalculateServiceImpl implements CalculateService {
                 scoringDataDto.getTerm(), rate, scoringDataDto.getAmount(),
                 true
         );
-        return new CreditDto(
-                scoringDataDto.getAmount(),
-                scoringDataDto.getTerm(),
-                creditCalculatorsFields.getMonthlyPayment(),
-                rate,
-                creditCalculatorsFields.getPsk(),
-                scoringDataDto.getIsInsuranceEnabled(),
-                scoringDataDto.getIsSalaryClient(),
-                creditCalculatorsFields.getPaymentSchedule()
-        );
+        return CreditDto.builder()
+                .amount(scoringDataDto.getAmount())
+                .term(scoringDataDto.getTerm())
+                .monthlyPayment(creditCalculatorsFields.getMonthlyPayment())
+                .rate(rate)
+                .psk(creditCalculatorsFields.getPsk())
+                .isInsuranceEnabled(scoringDataDto.getIsInsuranceEnabled())
+                .isSalaryClient(scoringDataDto.getIsSalaryClient())
+                .paymentSchedule(creditCalculatorsFields.getPaymentSchedule())
+                .build();
     }
 
     @Override
@@ -72,8 +72,6 @@ public class CalculateServiceImpl implements CalculateService {
                 loanStatementRequestDto.getTerm(), rate, loanStatementRequestDto.getAmount(),
                 false
         );
-
-        new LoanOfferDto();
         return LoanOfferDto.builder()
                 .statementId(UUID.randomUUID())
                 .requestedAmount(loanStatementRequestDto.getAmount())
