@@ -1,0 +1,84 @@
+package dev.davletshin.calculator.web.dto.credit;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import dev.davletshin.calculator.domain.Gender;
+import dev.davletshin.calculator.domain.MaritalStatus;
+import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema($schema = "ScoringData DTO")
+public class ScoringDataDto extends LoanStatementRequestDto {
+
+    @Schema(description = "Пол клиента",
+            example = "MALE",
+            allowableValues = {"MALE", "FEMALE", "NOT_BINARY"})
+    @NotNull(message = "Пол обязателен")
+    private Gender gender;
+
+    @Schema(description = "Дата выдачи паспорта", example = "2020-01-01")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Дата выдачи паспорта обязательна")
+    private LocalDate passportIssueDate;
+
+    @Schema(description = "Место выдачи паспорта", example = "г. Воронеж")
+    @Size(min = 5, max = 50, message = "Место выдачи паспорта должно содержать от 5 до 50 символов")
+    @NotBlank(message = "Место выдачи паспорта обязательно")
+    private String passportIssueBranch;
+
+    @Schema(description = "Количество поручителей", example = "3")
+    @NotNull(message = "Количество поручителей не должно быть равно нулю")
+    private int dependentAmount;
+
+    @Schema(description = "Аккаунт клиента", example = "someString")
+    @NotBlank(message = "Аккаунт клиента не дожен быть пустой")
+    private String accountNumber;
+
+    @Schema(description = "Застрахованность клиента", example = "true")
+    @NotNull(message = "Застрахованность клиента не дожна быть пустой")
+    private Boolean isInsuranceEnabled;
+
+    @Schema(description = "Трудоустроенность клиента", example = "true")
+    @NotNull(message = "Трудоустроенность клиента не дожна быть пустой")
+    private Boolean isSalaryClient;
+
+    @Schema(description = "Семейной положение клиента",
+            example = "UNMARRIED",
+            allowableValues = {"UNMARRIED", "MARRIED", "DIVORCED"})
+    @NotNull(message = "Семейное положение клиента обязательно")
+    private MaritalStatus maritalStatus;
+
+    private EmploymentDto employment;
+
+    public ScoringDataDto(Gender gender, LocalDate passportIssueDate, String passportIssueBranch, int dependentAmount,
+                          String accountNumber, boolean isInsuranceEnabled, boolean isSalaryClient, MaritalStatus maritalStatus,
+                          EmploymentDto employment, BigDecimal amount, int term, String firstName,
+                          String lastName, String middleName, String email, LocalDate birthdate,
+                          String passportSeries, String passportNumber) {
+        super(amount, term, firstName, lastName, middleName, email, birthdate, passportSeries, passportNumber);
+        this.gender = gender;
+        this.passportIssueDate = passportIssueDate;
+        this.passportIssueBranch = passportIssueBranch;
+        this.dependentAmount = dependentAmount;
+        this.accountNumber = accountNumber;
+        this.isInsuranceEnabled = isInsuranceEnabled;
+        this.isSalaryClient = isSalaryClient;
+        this.maritalStatus = maritalStatus;
+        this.employment = employment;
+    }
+}
