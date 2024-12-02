@@ -14,7 +14,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<checkstyle.version>3.3.1</checkstyle.version>
 	</properties>
-
+    <modules>
+        <module>calculator</module>
+    </modules>
 	<build>
 		<plugins>
 			<plugin>
