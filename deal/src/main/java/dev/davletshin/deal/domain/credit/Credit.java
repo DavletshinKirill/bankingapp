@@ -1,5 +1,6 @@
 package dev.davletshin.deal.domain.credit;
 
+import dev.davletshin.deal.web.dto.PaymentScheduleElementDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -34,7 +36,7 @@ public class Credit {
 
     @Column(name = "payment_schedule")
     @JdbcTypeCode(SqlTypes.JSON)
-    private PaymentSchedule paymentSchedule;
+    private List<PaymentScheduleElementDto> paymentSchedule;
 
     @Column(name = "salary_client")
     private boolean salaryClient;

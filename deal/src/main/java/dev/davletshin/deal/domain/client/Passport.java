@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class Passport {
     @Id
     @Column(name = "passport_uuid")

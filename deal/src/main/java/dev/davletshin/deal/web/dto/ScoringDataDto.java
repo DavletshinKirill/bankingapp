@@ -7,30 +7,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
-public class FinishRegistrationRequestDto {
+@NoArgsConstructor
+@Schema($schema = "ScoringData DTO")
+@Builder
+public class ScoringDataDto extends LoanStatementRequestDto {
+
     @Schema(description = "Пол клиента",
             example = "MALE",
             allowableValues = {"MALE", "FEMALE", "NOT_BINARY"})
     @NotNull(message = "Пол обязателен")
     private Gender gender;
-
-    @Schema(description = "Семейной положение клиента",
-            example = "MARRIED",
-            allowableValues = {"SINGLE", "WIDOW_WIDOWER", "MARRIED", "DIVORCED"})
-    @NotNull(message = "Семейное положение клиента обязательно")
-    private MaritalStatus maritalStatus;
-
-    @Schema(description = "Количество поручителей", example = "3")
-    @NotNull(message = "Количество поручителей не должно быть равно нулю")
-    private int dependentAmount;
 
     @Schema(description = "Дата выдачи паспорта", example = "2020-01-01")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
@@ -43,9 +37,27 @@ public class FinishRegistrationRequestDto {
     @NotBlank(message = "Место выдачи паспорта обязательно")
     private String passportIssueBranch;
 
-    private EmploymentDto employment;
+    @Schema(description = "Количество поручителей", example = "3")
+    @NotNull(message = "Количество поручителей не должно быть равно нулю")
+    private int dependentAmount;
 
     @Schema(description = "Аккаунт клиента", example = "someString")
     @NotBlank(message = "Аккаунт клиента не дожен быть пустой")
     private String accountNumber;
+
+    @Schema(description = "Застрахованность клиента", example = "true")
+    @NotNull(message = "Застрахованность клиента не дожна быть пустой")
+    private Boolean isInsuranceEnabled;
+
+    @Schema(description = "Трудоустроенность клиента", example = "true")
+    @NotNull(message = "Трудоустроенность клиента не дожна быть пустой")
+    private Boolean isSalaryClient;
+
+    @Schema(description = "Семейной положение клиента",
+            example = "UNMARRIED",
+            allowableValues = {"UNMARRIED", "MARRIED", "DIVORCED"})
+    @NotNull(message = "Семейное положение клиента обязательно")
+    private MaritalStatus maritalStatus;
+
+    private EmploymentDto employment;
 }

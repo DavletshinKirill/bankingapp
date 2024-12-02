@@ -2,6 +2,7 @@ package dev.davletshin.deal.domain.statement;
 
 import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.credit.Credit;
+import dev.davletshin.deal.web.dto.LoanOfferDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -35,7 +37,11 @@ public class Statement {
 
     @Column(name = "employment_id")
     @JdbcTypeCode(SqlTypes.JSON)
-    private StatusHistory statusHistory;
+    private List<StatusHistory> statusHistory;
+
+    @Column(name = "applied_offer")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private List<LoanOfferDto> appliedOffer;
 
     @OneToOne
     @JoinColumn(name = "credit_id")
@@ -44,4 +50,7 @@ public class Statement {
     @OneToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
+    @Column(name = "ses_code")
+    private String sesCode;
 }
