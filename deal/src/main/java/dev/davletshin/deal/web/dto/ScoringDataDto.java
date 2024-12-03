@@ -7,7 +7,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -17,7 +20,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema($schema = "ScoringData DTO")
-@Builder
 public class ScoringDataDto extends LoanStatementRequestDto {
 
     @Schema(description = "Пол клиента",
@@ -60,4 +62,16 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     private MaritalStatus maritalStatus;
 
     private EmploymentDto employment;
+
+    public void setLoanStatementRequestDto(LoanStatementRequestDto loanStatementRequestDto) {
+        this.amount = loanStatementRequestDto.getAmount();
+        this.term = loanStatementRequestDto.getTerm();
+        this.firstName = loanStatementRequestDto.getFirstName();
+        this.lastName = loanStatementRequestDto.getLastName();
+        this.middleName = loanStatementRequestDto.getMiddleName();
+        this.birthdate = loanStatementRequestDto.getBirthdate();
+        this.setEmail(loanStatementRequestDto.getEmail());
+        this.passportNumber = loanStatementRequestDto.getPassportNumber();
+        this.passportSeries = loanStatementRequestDto.getPassportSeries();
+    }
 }

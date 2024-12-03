@@ -5,6 +5,7 @@ import dev.davletshin.deal.service.interfaces.DealService;
 import dev.davletshin.deal.web.dto.FinishRegistrationRequestDto;
 import dev.davletshin.deal.web.dto.LoanOfferDto;
 import dev.davletshin.deal.web.dto.LoanStatementRequestDto;
+import dev.davletshin.deal.web.mapper.LoanStatementRequestToClientMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -20,17 +21,12 @@ import java.util.List;
 public class DealController {
 
     private final DealService dealService;
+    private final LoanStatementRequestToClientMapper loanStatementRequestToClientMapper;
 
     @Operation(summary = "createClientAndStatement", description = "Create 4 offers")
     @PostMapping("/statement")
     public List<LoanOfferDto> createClientAndStatement(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
-        Client client = Client.builder()
-                .email(loanStatementRequestDto.getEmail())
-                .birthdate(loanStatementRequestDto.getBirthdate())
-                .firstName(loanStatementRequestDto.getFirstName())
-                .middleName(loanStatementRequestDto.getMiddleName())
-                .lastName(loanStatementRequestDto.getLastName())
-                .build();
+        Client client = loanStatementRequestToClientMapper.toEntity(loanStatementRequestDto);
         return dealService.createClientAndStatement(loanStatementRequestDto, client);
     }
 

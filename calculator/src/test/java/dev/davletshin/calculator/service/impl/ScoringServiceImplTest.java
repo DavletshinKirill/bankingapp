@@ -1,9 +1,9 @@
 package dev.davletshin.calculator.service.impl;
 
 import dev.davletshin.calculator.config.TestConfig;
+import dev.davletshin.calculator.domain.EmploymentPosition;
 import dev.davletshin.calculator.domain.EmploymentStatus;
 import dev.davletshin.calculator.domain.Gender;
-import dev.davletshin.calculator.domain.Position;
 import dev.davletshin.calculator.domain.exception.RefuseException;
 import dev.davletshin.calculator.service.ScoringService;
 import dev.davletshin.calculator.web.dto.credit.EmploymentDto;
@@ -101,7 +101,7 @@ public class ScoringServiceImplTest {
     @Test
     void getIndexEmployment() {
         when(scoringDataDto.getEmployment()).thenReturn(employment);
-        when(employment.getPosition()).thenReturn(Position.MIDDLE_MANAGER);
+        when(employment.getPosition()).thenReturn(EmploymentPosition.MIDDLE_MANAGER);
         when(employment.getEmploymentStatus()).thenReturn(EmploymentStatus.BUSINESS_OWNER);
         when(employment.getWorkExperienceTotal()).thenReturn(20);
         when(employment.getWorkExperienceCurrent()).thenReturn(5);

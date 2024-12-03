@@ -1,7 +1,10 @@
 package dev.davletshin.calculator.service.impl;
 
 import dev.davletshin.calculator.config.TestConfig;
-import dev.davletshin.calculator.domain.*;
+import dev.davletshin.calculator.domain.CreditCalculatorsFields;
+import dev.davletshin.calculator.domain.EmploymentStatus;
+import dev.davletshin.calculator.domain.Gender;
+import dev.davletshin.calculator.domain.MaritalStatus;
 import dev.davletshin.calculator.service.CalculateDifferentialLoanService;
 import dev.davletshin.calculator.service.CalculateService;
 import dev.davletshin.calculator.service.ScoringService;
@@ -85,7 +88,7 @@ class CalculateServiceImplTest {
         when(scoringDataDto.getBirthdate()).thenReturn(LocalDate.of(1990, 1, 1));
         when(scoringDataDto.getGender()).thenReturn(Gender.MALE);
         when(scoringDataDto.getMaritalStatus()).thenReturn(MaritalStatus.MARRIED);
-        when(employment.getPosition()).thenReturn(Position.MIDDLE_MANAGER);
+        when(employment.getPosition()).thenReturn(EmploymentPosition.MIDDLE_MANAGER);
         when(employment.getEmploymentStatus()).thenReturn(EmploymentStatus.BUSINESS_OWNER);
         when(employment.getWorkExperienceTotal()).thenReturn(20);
         when(employment.getWorkExperienceCurrent()).thenReturn(5);
