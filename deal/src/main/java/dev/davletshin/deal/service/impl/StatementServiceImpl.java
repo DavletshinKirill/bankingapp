@@ -17,7 +17,7 @@ public class StatementServiceImpl implements StatementService {
     private final StatementRepository statementRepository;
 
     @Override
-    public Statement createStatement(Client client) {
+    public Statement createAndSaveNewStatement(Client client) {
         Statement statement = new Statement();
         statement.setClient(client);
         return statementRepository.save(statement);

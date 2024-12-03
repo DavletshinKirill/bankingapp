@@ -6,7 +6,7 @@ import dev.davletshin.deal.domain.statement.Statement;
 import java.util.UUID;
 
 public interface StatementService {
-    Statement createStatement(Client client);
+    Statement createAndSaveNewStatement(Client client);
 
     Statement getStatement(UUID statementId);
 
