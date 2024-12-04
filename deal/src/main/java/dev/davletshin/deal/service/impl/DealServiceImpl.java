@@ -57,7 +57,7 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public void updateStatement(LoanOfferDto loanOfferDto) {
+    public Statement updateStatement(LoanOfferDto loanOfferDto) {
         Statement statement = statementService.getStatement(loanOfferDto.getStatementId());
         if (statement.getStatus() == null) statement.setStatus(ApplicationStatus.PREAPPROVAL);
         else statement.setStatus(statement.getStatus().next());
@@ -72,11 +72,11 @@ public class DealServiceImpl implements DealService {
         statusHistoryList.add(statusHistoryFactory.createStatusHistory(statement.getStatus()));
         statement.setStatusHistory(statusHistoryList);
 
-        statementService.saveStatement(statement);
+        return statementService.saveStatement(statement);
     }
 
     @Override
-    public void calculateCredit(String statementUUID, FinishRegistrationRequestDto finishRegistrationRequestDto) {
+    public Statement calculateCredit(String statementUUID, FinishRegistrationRequestDto finishRegistrationRequestDto) {
         Statement statement = statementService.getStatement(UUID.fromString(statementUUID));
         Client client = statement.getClient();
         ScoringDataDto scoringDataDto = scoringDataFactory.createScoringData(statement, client, finishRegistrationRequestDto);
@@ -96,7 +96,7 @@ public class DealServiceImpl implements DealService {
         Client savedClient = clientService.createClient(fillClient(client, finishRegistrationRequestDto));
         statement.setCredit(savedCredit);
         statement.setClient(savedClient);
-        statementService.saveStatement(statement);
+        return statementService.saveStatement(statement);
     }
 
     private Client fillClient(Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {

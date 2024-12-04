@@ -1,6 +1,7 @@
 package dev.davletshin.deal.web.controller;
 
 import dev.davletshin.deal.domain.client.Client;
+import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.service.interfaces.DealService;
 import dev.davletshin.deal.web.dto.FinishRegistrationRequestDto;
 import dev.davletshin.deal.web.dto.LoanOfferDto;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequestMapping("/deal")
 @RequiredArgsConstructor
 @Tag(name = "Deal Controller", description = "Deal API")
+@Slf4j
 public class DealController {
 
     private final DealService dealService;
@@ -26,17 +29,25 @@ public class DealController {
     @Operation(summary = "createClientAndStatement", description = "Create 4 offers")
     @PostMapping("/statement")
     public List<LoanOfferDto> createClientAndStatement(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
+        log.info(loanStatementRequestDto.toString());
         Client client = loanStatementRequestToClientMapper.toEntity(loanStatementRequestDto);
-        return dealService.createClientAndStatement(loanStatementRequestDto, client);
+        List<LoanOfferDto> loanOfferDtoList = dealService.createClientAndStatement(loanStatementRequestDto, client);
+        loanOfferDtoList.forEach(loanOfferDto -> log.info(loanOfferDto.toString()));
+        return loanOfferDtoList;
     }
 
     @PostMapping("/offer/select")
     public void updateStatement(@Valid @RequestBody LoanOfferDto loanOfferDto) {
-        dealService.updateStatement(loanOfferDto);
+        log.info(loanOfferDto.toString());
+        Statement statement = dealService.updateStatement(loanOfferDto);
+        log.info(statement.toString());
     }
 
     @PostMapping("/calculate/{statementId}")
     public void calculateCredit(@Valid @RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto, @PathVariable String statementId) {
-        dealService.calculateCredit(statementId, finishRegistrationRequestDto);
+        log.info(statementId);
+        log.info(finishRegistrationRequestDto.toString());
+        Statement statement = dealService.calculateCredit(statementId, finishRegistrationRequestDto);
+        log.info(statement.toString());
     }
 }
