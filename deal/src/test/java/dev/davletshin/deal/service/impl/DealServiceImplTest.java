@@ -153,10 +153,8 @@ class DealServiceImplTest {
         when(creditService.createCredit(credit)).thenReturn(credit);
         when(clientService.createClient(any())).thenReturn(client);
 
-        // Act
         dealService.calculateCredit(statementUUID, finishRegistrationRequestDto);
 
-        // Assert
         assertEquals(credit, statement.getCredit());
         assertEquals(client, statement.getClient());
         verify(statementService).saveStatement(statement);
