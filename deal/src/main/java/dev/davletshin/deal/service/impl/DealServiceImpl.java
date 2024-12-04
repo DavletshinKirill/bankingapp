@@ -93,9 +93,17 @@ public class DealServiceImpl implements DealService {
         Credit credit = creditMapper.toEntity(sendRequestToCalculateService.postRequestToCalculateCredit(scoringDataDto));
         credit.setCreditStatus(CreditStatus.CALCULATED);
         Credit savedCredit = creditService.createCredit(credit);
-        Client savedClient = clientService.createClient(client);
+        Client savedClient = clientService.createClient(fillClient(client, finishRegistrationRequestDto));
         statement.setCredit(savedCredit);
         statement.setClient(savedClient);
         statementService.saveStatement(statement);
+    }
+
+    private Client fillClient(Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {
+        client.setDependentAmount(finishRegistrationRequestDto.getDependentAmount());
+        client.setGender(finishRegistrationRequestDto.getGender());
+        client.setMaritalStatus(finishRegistrationRequestDto.getMaritalStatus());
+        client.setAccountNumber(finishRegistrationRequestDto.getAccountNumber());
+        return client;
     }
 }

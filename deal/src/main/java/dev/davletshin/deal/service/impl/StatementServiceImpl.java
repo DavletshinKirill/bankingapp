@@ -8,6 +8,7 @@ import dev.davletshin.deal.service.interfaces.StatementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Service
@@ -20,6 +21,7 @@ public class StatementServiceImpl implements StatementService {
     public Statement createAndSaveNewStatement(Client client) {
         Statement statement = new Statement();
         statement.setClient(client);
+        statement.setCreationDate(new Timestamp(System.currentTimeMillis()));
         return statementRepository.save(statement);
     }
 

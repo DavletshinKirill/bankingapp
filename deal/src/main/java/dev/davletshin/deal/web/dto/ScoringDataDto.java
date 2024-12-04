@@ -44,15 +44,15 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     private int dependentAmount;
 
     @Schema(description = "Аккаунт клиента", example = "someString")
-    @NotBlank(message = "Аккаунт клиента не дожен быть пустой")
+    @NotBlank(message = "Аккаунт клиента не должен быть пустой")
     private String accountNumber;
 
-    @Schema(description = "Застрахованность клиента", example = "true")
-    @NotNull(message = "Застрахованность клиента не дожна быть пустой")
+    @Schema(description = "Страховка клиента", example = "true")
+    @NotNull(message = "Страховка клиента не должна быть пустой")
     private Boolean isInsuranceEnabled;
 
-    @Schema(description = "Трудоустроенность клиента", example = "true")
-    @NotNull(message = "Трудоустроенность клиента не дожна быть пустой")
+    @Schema(description = "Трудоустройство клиента", example = "true")
+    @NotNull(message = "Трудоустройство клиента не должна быть пустой")
     private Boolean isSalaryClient;
 
     @Schema(description = "Семейной положение клиента",

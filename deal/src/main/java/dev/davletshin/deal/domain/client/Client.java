@@ -20,7 +20,7 @@ import java.util.UUID;
 public class Client {
 
     @Id
-    @Column(name = "client_iSd_uuid")
+    @Column(name = "client_id_uuid")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 

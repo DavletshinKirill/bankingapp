@@ -3,12 +3,14 @@ package dev.davletshin.deal.domain.client;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Employment {
     @Id
     @Column(name = "employment_uuid")

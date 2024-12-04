@@ -42,11 +42,11 @@ public class LoanOfferDto {
     @NotNull(message = "Процентная ставка")
     private BigDecimal rate;
 
-    @Schema(description = "Застрахованность клиента", example = "true")
-    @NotNull(message = "Застрахованность клиента не дожна быть пустой")
+    @Schema(description = "Страховка клиента", example = "true")
+    @NotNull(message = "Страховка клиента не должна быть пустой")
     private boolean isInsuranceEnabled;
 
-    @Schema(description = "Трудоустроенность клиента", example = "true")
-    @NotNull(message = "Трудоустроенность клиента не дожна быть пустой")
+    @Schema(description = "Трудоустройство клиента", example = "true")
+    @NotNull(message = "Трудоустройство клиента не должна быть пустой")
     private boolean isSalaryClient;
 }

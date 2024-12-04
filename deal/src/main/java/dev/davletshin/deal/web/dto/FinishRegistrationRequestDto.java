@@ -9,12 +9,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class FinishRegistrationRequestDto {
     @Schema(description = "Пол клиента",
             example = "MALE",
@@ -46,6 +48,6 @@ public class FinishRegistrationRequestDto {
     private EmploymentDto employment;
 
     @Schema(description = "Аккаунт клиента", example = "someString")
-    @NotBlank(message = "Аккаунт клиента не дожен быть пустой")
+    @NotBlank(message = "Аккаунт клиента не должен быть пустой")
     private String accountNumber;
 }
