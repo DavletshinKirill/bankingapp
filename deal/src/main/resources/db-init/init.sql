@@ -1,5 +1,4 @@
-CREATE
-DATABASE deal;
+CREATE DATABASE deal;
 
 CREATE TABLE client
 (
