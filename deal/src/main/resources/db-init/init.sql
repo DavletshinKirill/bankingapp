@@ -1,5 +1,5 @@
 CREATE
-DATABASE dea1;
+DATABASE deal;
 
 create table client
 (
@@ -48,5 +48,6 @@ create table statement
                                           ('PREAPPROVAL', 'APPROVED', 'CC_DENIED', 'CC_APPROVED', 'PREPARE_DOCUMENTS',
                                            'DOCUMENT_CREATED', 'DOCUMENT_SIGNED', 'CREDIT_ISSUED')),
     applied_offer     JSONB,
+    status_history JSONB,
     PRIMARY KEY (statement_id_uuid)
-)
+);
