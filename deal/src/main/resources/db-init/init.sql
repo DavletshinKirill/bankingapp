@@ -1,6 +1,7 @@
-CREATE DATABASE deal;
+CREATE
+DATABASE dea1;
 
-CREATE TABLE client
+create table client
 (
     birth_date       DATE,
     dependent_amount INTEGER,
@@ -14,10 +15,13 @@ CREATE TABLE client
     middle_name      VARCHAR(255),
     employment_id    JSONB,
     passport_id      JSONB,
-    PRIMARY KEY (client_id_uuid)
+    PRIMARY KEY (client_id_uuid),
+    CHECK (employment_id IS NULL OR
+           ((cast(employment_id ->>'status' AS SMALLINT) IS NULL OR cast(employment_id ->>'status' AS SMALLINT) BETWEEN 0 AND 3) AND
+            (cast(employment_id ->>'position' AS SMALLINT) IS NULL OR cast(employment_id ->>'position' AS SMALLINT) BETWEEN 0 AND 3)))
 );
 
-CREATE TABLE credit
+create table credit
 (
     amount            NUMERIC(38, 2),
     insurance_enabled BOOLEAN,
@@ -32,7 +36,7 @@ CREATE TABLE credit
     PRIMARY KEY (credit_id_uuid)
 );
 
-CREATE TABLE statement
+create table statement
 (
     creation_date     TIMESTAMP(6),
     sign_date         TIMESTAMP(6),
@@ -44,6 +48,5 @@ CREATE TABLE statement
                                           ('PREAPPROVAL', 'APPROVED', 'CC_DENIED', 'CC_APPROVED', 'PREPARE_DOCUMENTS',
                                            'DOCUMENT_CREATED', 'DOCUMENT_SIGNED', 'CREDIT_ISSUED')),
     applied_offer     JSONB,
-    employment_id     JSONB,
     PRIMARY KEY (statement_id_uuid)
-);
+)

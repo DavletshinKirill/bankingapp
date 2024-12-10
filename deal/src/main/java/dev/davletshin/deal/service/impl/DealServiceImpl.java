@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +50,12 @@ public class DealServiceImpl implements DealService {
         );
         client.setPassport(passport);
         Client createdClient = clientService.createClient(client);
-        Statement statement = statementService.createAndSaveNewStatement(createdClient);
+        Statement statement = Statement.builder()
+                .client(createdClient)
+                .creationDate(LocalDateTime.now())
+                .build();
+
+        statementService.saveStatement(statement);
 
         List<LoanOfferDto> loanOfferDtoList = sendRequestToCalculateService.postRequestToCalculateOffers(loanStatementRequestDto);
         loanOfferDtoList.forEach(loanOfferDto -> loanOfferDto.setStatementId(statement.getId()));

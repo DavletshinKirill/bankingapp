@@ -11,10 +11,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -33,7 +32,7 @@ class StatusHistoryFactoryTest {
 
         assertEquals(applicationStatus.toString(), statusHistory.getStatus());
         assertEquals(ChangeType.AUTOMATIC, statusHistory.getChangeType());
-        assertEquals(Timestamp.class, statusHistory.getTime().getClass());
-        assertTrue(statusHistory.getTime().getTime() <= System.currentTimeMillis());
+        assertEquals(LocalDateTime.class, statusHistory.getTime().getClass());
+        assertEquals(statusHistory.getTime(), LocalDateTime.now());
     }
 }

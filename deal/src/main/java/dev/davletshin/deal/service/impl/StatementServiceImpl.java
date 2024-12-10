@@ -1,6 +1,5 @@
 package dev.davletshin.deal.service.impl;
 
-import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.exception.ResourceNotFoundException;
 import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.repository.StatementRepository;
@@ -9,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -17,15 +15,6 @@ import java.util.UUID;
 public class StatementServiceImpl implements StatementService {
 
     private final StatementRepository statementRepository;
-
-    @Transactional
-    @Override
-    public Statement createAndSaveNewStatement(Client client) {
-        Statement statement = new Statement();
-        statement.setClient(client);
-        statement.setCreationDate(LocalDateTime.now());
-        return saveStatement(statement);
-    }
 
     @Transactional(readOnly = true)
     @Override

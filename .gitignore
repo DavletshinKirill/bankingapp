@@ -43,3 +43,4 @@ build/
 *.rar
 *.properties
 *.env
+/.src/

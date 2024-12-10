@@ -1,18 +1,22 @@
 package dev.davletshin.deal.domain.statement;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @Builder
+@Embeddable
+@NoArgsConstructor
 public class StatusHistory {
     private String status;
-
-
-    private ChangeType changeType; // change_type
-    private Timestamp time;
+    @Column(name = "change_type")
+    private ChangeType changeType;
+    private LocalDateTime time;
 }

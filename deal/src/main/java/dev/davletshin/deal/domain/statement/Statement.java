@@ -36,7 +36,8 @@ public class Statement {
     @Column(name = "sign_date")
     private LocalDateTime signDate;
 
-    @Column(name = "employment_id")
+    @Column(name = "status_history")
+    @ElementCollection
     @JdbcTypeCode(SqlTypes.JSON)
     private List<StatusHistory> statusHistory;
 

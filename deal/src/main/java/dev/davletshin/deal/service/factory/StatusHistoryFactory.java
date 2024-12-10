@@ -5,7 +5,7 @@ import dev.davletshin.deal.domain.statement.ChangeType;
 import dev.davletshin.deal.domain.statement.StatusHistory;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Component
 public class StatusHistoryFactory {
@@ -13,7 +13,7 @@ public class StatusHistoryFactory {
         return StatusHistory.builder()
                 .status(applicationStatus.toString())
                 .changeType(ChangeType.AUTOMATIC)
-                .time(new Timestamp(System.currentTimeMillis()))
+                .time(LocalDateTime.now())
                 .build();
     }
 }
