@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,7 +42,7 @@ class StatementServiceImplTest {
         Client client = new Client();
         Statement expectedStatement = new Statement();
         expectedStatement.setClient(client);
-        expectedStatement.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        expectedStatement.setCreationDate(LocalDateTime.now());
 
         when(statementRepository.save(any(Statement.class))).thenReturn(expectedStatement);
 

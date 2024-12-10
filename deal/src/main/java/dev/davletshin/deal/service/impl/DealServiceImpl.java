@@ -34,7 +34,7 @@ public class DealServiceImpl implements DealService {
     private final ClientService clientService;
     private final StatementService statementService;
     private final CreditService creditService;
-    private final SendRequestToCalculateService sendRequestToCalculateService;
+    private final CalculatorClient sendRequestToCalculateService;
     private final PassportFactory passportFactory;
     private final StatusHistoryFactory statusHistoryFactory;
     private final ScoringDataFactory scoringDataFactory;
@@ -62,10 +62,7 @@ public class DealServiceImpl implements DealService {
         if (statement.getStatus() == null) statement.setStatus(ApplicationStatus.PREAPPROVAL);
         else statement.setStatus(statement.getStatus().next());
 
-        List<LoanOfferDto> loanOfferDtoList = statement.getAppliedOffer();
-        if (loanOfferDtoList == null) loanOfferDtoList = new ArrayList<>();
-        loanOfferDtoList.add(loanOfferDto);
-        statement.setAppliedOffer(loanOfferDtoList);
+        statement.setAppliedOffer(loanOfferDto);
 
         List<StatusHistory> statusHistoryList = statement.getStatusHistory();
         if (statusHistoryList == null) statusHistoryList = new ArrayList<>();
@@ -81,11 +78,14 @@ public class DealServiceImpl implements DealService {
         Client client = statement.getClient();
         ScoringDataDto scoringDataDto = scoringDataFactory.createScoringData(statement, client, finishRegistrationRequestDto);
 
-        Passport passport = passportFactory.fullIssueBranchAndDate(
-                client.getPassport(), client.getPassport().getIssueBranch(), client.getPassport().getIssueDate()
+        Passport passport = passportFactory.fillIssueBranchAndDate(
+                client.getPassport(),
+                finishRegistrationRequestDto.getPassportIssueBranch(),
+                finishRegistrationRequestDto.getPassportIssueDate()
         );
 
         Employment employment = employmentMapper.toEntity(finishRegistrationRequestDto.getEmployment());
+        employment.setId(UUID.randomUUID());
 
         client.setPassport(passport);
         client.setEmployment(employment);

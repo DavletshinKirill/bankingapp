@@ -1,6 +1,5 @@
 package dev.davletshin.deal.domain.statement;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.sql.Timestamp;
 public class StatusHistory {
     private String status;
 
-    @Column(name = "change_type")
-    private ChangeType changeType;
+
+    private ChangeType changeType; // change_type
     private Timestamp time;
 }

@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -23,8 +23,8 @@ public class StatementServiceImpl implements StatementService {
     public Statement createAndSaveNewStatement(Client client) {
         Statement statement = new Statement();
         statement.setClient(client);
-        statement.setCreationDate(new Timestamp(System.currentTimeMillis()));
-        return statementRepository.save(statement);
+        statement.setCreationDate(LocalDateTime.now());
+        return saveStatement(statement);
     }
 
     @Transactional(readOnly = true)
@@ -34,7 +34,6 @@ public class StatementServiceImpl implements StatementService {
                 .orElseThrow(() -> new ResourceNotFoundException("Statement by id not found exception"));
     }
 
-    @Transactional()
     @Override
     public Statement saveStatement(Statement statement) {
         return statementRepository.save(statement);

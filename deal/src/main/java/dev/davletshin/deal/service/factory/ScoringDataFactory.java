@@ -21,11 +21,11 @@ public class ScoringDataFactory {
 
     public ScoringDataDto createScoringData(Statement statement, Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {
 
-        int sizeAppliedOffer = statement.getAppliedOffer().size();
-        BigDecimal amount = statement.getAppliedOffer().get(sizeAppliedOffer - 1).getRequestedAmount();
-        int term = statement.getAppliedOffer().get(sizeAppliedOffer - 1).getTerm();
-        boolean isSalaryClient = statement.getAppliedOffer().get(sizeAppliedOffer - 1).isSalaryClient();
-        boolean isInsuranceEnabled = statement.getAppliedOffer().get(sizeAppliedOffer - 1).isInsuranceEnabled();
+
+        BigDecimal amount = statement.getAppliedOffer().getRequestedAmount();
+        int term = statement.getAppliedOffer().getTerm();
+        boolean isSalaryClient = statement.getAppliedOffer().isSalaryClient();
+        boolean isInsuranceEnabled = statement.getAppliedOffer().isInsuranceEnabled();
 
         LoanStatementRequestDto loanStatementRequestDto = clientToLoanStatementRequestMapper.toLoanStatementRequestDto(client, amount, term);
         ScoringDataDto scoringDataDto = finishRegistrationRequestToScoringDataMapper.toScoringDataDto(finishRegistrationRequestDto, isInsuranceEnabled, isSalaryClient);

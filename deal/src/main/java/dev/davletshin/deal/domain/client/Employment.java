@@ -1,6 +1,6 @@
 package dev.davletshin.deal.domain.client;
 
-import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,25 +12,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employment {
-    @Id
-    @Column(name = "employment_uuid")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private EmploymentStatus employmentStatus;
-
-    @Column(name = "employer_inn")
-    private String employerInn;
+    private UUID id; // employment_uuid
+    private EmploymentStatus status; // status
+    private String employerINN; // employer_inn
     private BigDecimal salary;
 
-    @Enumerated(EnumType.STRING)
     private EmploymentPosition position;
 
-    @Column(name = "work_experience_total")
-    private int workExperienceTotal;
+    private int workExperienceTotal; // work_experience_total
 
-    @Column(name = "work_experience_current")
-    private int workExperienceCurrent;
+    private int workExperienceCurrent; // work_experience_current
 }

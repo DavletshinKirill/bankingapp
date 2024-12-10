@@ -26,6 +26,7 @@ public class EmploymentDto {
     @NotBlank(message = "ИНН обязателен")
     private String employerINN;
 
+
     @Schema(description = "Заработная плата клиента", example = "20000")
     private BigDecimal salary;
 

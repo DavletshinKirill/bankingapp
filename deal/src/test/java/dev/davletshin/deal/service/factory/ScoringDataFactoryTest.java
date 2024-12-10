@@ -21,7 +21,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
@@ -63,7 +62,7 @@ class ScoringDataFactoryTest {
         appliedOffer.setSalaryClient(true);
         appliedOffer.setInsuranceEnabled(false);
 
-        statement.setAppliedOffer(Collections.singletonList(appliedOffer));
+        statement.setAppliedOffer(appliedOffer);
 
         LoanStatementRequestDto loanStatementRequestDto = new LoanStatementRequestDto();
         when(clientToLoanStatementRequestMapper.toLoanStatementRequestDto(client, BigDecimal.valueOf(10000), 12))

@@ -41,7 +41,7 @@ class PassportFactoryTest {
         String issueBranch = "Main Branch";
         LocalDate issueDate = LocalDate.of(2020, 1, 1);
 
-        passportFactory.fullIssueBranchAndDate(passport, issueBranch, issueDate);
+        passportFactory.fillIssueBranchAndDate(passport, issueBranch, issueDate);
 
         assertEquals(issueBranch, passport.getIssueBranch());
         assertEquals(issueDate, passport.getIssueDate());

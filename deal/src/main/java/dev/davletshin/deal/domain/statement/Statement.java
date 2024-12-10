@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,10 +31,10 @@ public class Statement {
     private ApplicationStatus status;
 
     @Column(name = "creation_date")
-    private Timestamp creationDate;
+    private LocalDateTime creationDate;
 
     @Column(name = "sign_date")
-    private Timestamp signDate;
+    private LocalDateTime signDate;
 
     @Column(name = "employment_id")
     @JdbcTypeCode(SqlTypes.JSON)
@@ -42,7 +42,7 @@ public class Statement {
 
     @Column(name = "applied_offer")
     @JdbcTypeCode(SqlTypes.JSON)
-    private List<LoanOfferDto> appliedOffer;
+    private LoanOfferDto appliedOffer;
 
     @OneToOne
     @JoinColumn(name = "credit_id")

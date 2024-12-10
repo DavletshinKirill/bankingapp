@@ -9,9 +9,9 @@ import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;
 import dev.davletshin.deal.service.factory.StatusHistoryFactory;
+import dev.davletshin.deal.service.interfaces.CalculatorClient;
 import dev.davletshin.deal.service.interfaces.ClientService;
 import dev.davletshin.deal.service.interfaces.CreditService;
-import dev.davletshin.deal.service.interfaces.SendRequestToCalculateService;
 import dev.davletshin.deal.service.interfaces.StatementService;
 import dev.davletshin.deal.web.dto.*;
 import dev.davletshin.deal.web.mapper.CreditMapper;
@@ -44,7 +44,7 @@ class DealServiceImplTest {
     private StatementService statementService;
 
     @Mock
-    private SendRequestToCalculateService sendRequestToCalculateService;
+    private CalculatorClient sendRequestToCalculateService;
 
     @Mock
     private PassportFactory passportFactory;
@@ -92,7 +92,7 @@ class DealServiceImplTest {
         client.setPassport(passport);
         statement = new Statement();
         statement.setId(UUID.randomUUID());
-        statement.setAppliedOffer(new ArrayList<>());
+        statement.setAppliedOffer(new LoanOfferDto());
         statement.setStatusHistory(new ArrayList<>());
         statement.setClient(client);
         loanOfferDto = new LoanOfferDto();
@@ -133,8 +133,8 @@ class DealServiceImplTest {
         dealService.updateStatement(loanOfferDto);
 
         assertEquals(ApplicationStatus.PREAPPROVAL, statement.getStatus());
-        assertEquals(1, statement.getAppliedOffer().size());
-        assertEquals(loanOfferDto, statement.getAppliedOffer().get(0));
+
+        assertEquals(loanOfferDto, statement.getAppliedOffer());
         assertEquals(1, statement.getStatusHistory().size());
         verify(statusHistoryFactory).createStatusHistory(ApplicationStatus.PREAPPROVAL);
         verify(statementService).saveStatement(statement);
@@ -145,7 +145,7 @@ class DealServiceImplTest {
         String statementUUID = UUID.randomUUID().toString();
         when(statementService.getStatement(UUID.fromString(statementUUID))).thenReturn(statement);
         when(scoringDataFactory.createScoringData(statement, client, finishRegistrationRequestDto)).thenReturn(scoringDataDto);
-        when(passportFactory.fullIssueBranchAndDate(any(), any(), any())).thenReturn(client.getPassport());
+        when(passportFactory.fillIssueBranchAndDate(any(), any(), any())).thenReturn(client.getPassport());
         Employment employment = new Employment();
         when(employmentMapper.toEntity(finishRegistrationRequestDto.getEmployment())).thenReturn(employment);
         when(sendRequestToCalculateService.postRequestToCalculateCredit(scoringDataDto)).thenReturn(CreditDto.builder().build());

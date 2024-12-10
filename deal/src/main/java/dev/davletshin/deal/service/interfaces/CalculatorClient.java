@@ -7,7 +7,7 @@ import dev.davletshin.deal.web.dto.ScoringDataDto;
 
 import java.util.List;
 
-public interface SendRequestToCalculateService {
+public interface CalculatorClient {
     List<LoanOfferDto> postRequestToCalculateOffers(LoanStatementRequestDto loanStatementRequestDto);
 
     CreditDto postRequestToCalculateCredit(ScoringDataDto scoringDataDto);
