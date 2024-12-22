@@ -32,33 +32,12 @@ class DealClientImplTest {
     private DealClientImpl dealClient;
 
     @Mock
-    private WebClient webClient;
-
-    @Mock
     private ExchangeFunction exchangeFunction;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
-//    @Test
-//    void createOffers() {
-//        LoanStatementRequestDto loanStatementRequestDto = new LoanStatementRequestDto();
-//        List<LoanOfferDto> loanOffers = List.of(new LoanOfferDto(), new LoanOfferDto());
-//        webClient = WebClient.builder()
-//                .exchangeFunction(clientRequest ->
-//                        Mono.just(ClientResponse.create(HttpStatus.OK)
-//                                .header("content-type", "application/json")
-//                                .body(convertToJson(loanOffers))
-//                                .build())
-//                ).build();
-//        dealClient = new DealClientImpl(webClient);
-//        List<LoanOfferDto> result = dealClient.createOffers(loanStatementRequestDto);
-//        assertNotNull(result);
-//        assertEquals(loanOffers, result);
-//        assertEquals(loanOffers.size(), result.size());
-//    }
 
     @Test
     void createOffers() {
