@@ -36,6 +36,7 @@ public class DealController {
         return loanOfferDtoList;
     }
 
+    @Operation(summary = "updateStatement", description = "first update statement")
     @PostMapping("/offer/select")
     public void updateStatement(@Valid @RequestBody LoanOfferDto loanOfferDto) {
         log.info(loanOfferDto.toString());
@@ -43,6 +44,7 @@ public class DealController {
         log.info(statement.toString());
     }
 
+    @Operation(summary = "updateStatement", description = "second update statement and calculate credit")
     @PostMapping("/calculate/{statementId}")
     public void calculateCredit(@Valid @RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto, @PathVariable String statementId) {
         log.info(statementId);

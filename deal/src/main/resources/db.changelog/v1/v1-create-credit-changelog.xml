@@ -1,0 +1,31 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="v1-2" author="postgres">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="credit"/>
+            </not>
+        </preConditions>
+        <createTable tableName="credit">
+            <column name="amount" type="NUMERIC(38, 2)"/>
+            <column name="insurance_enabled" type="BOOLEAN"/>
+            <column name="monthly_payment" type="NUMERIC(38, 2)"/>
+            <column name="psk" type="NUMERIC(38, 2)"/>
+            <column name="rate" type="NUMERIC(38, 2)"/>
+            <column name="salary_client" type="BOOLEAN"/>
+            <column name="term" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credit_id_uuid" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="credit_status" type="VARCHAR(255)">
+                <constraints checkConstraint="CHECK (credit_status IN ('CALCULATED', 'ISSUED'))"/>
+            </column>
+            <column name="payment_schedule" type="JSONB"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
