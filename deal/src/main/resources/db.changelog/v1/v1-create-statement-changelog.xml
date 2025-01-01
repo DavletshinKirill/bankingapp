@@ -12,14 +12,14 @@
         <createTable tableName="statement">
             <column name="creation_date" type="TIMESTAMP(6)"/>
             <column name="sign_date" type="TIMESTAMP(6)"/>
+            <column name="statement_id_uuid" type="UUID">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_statement"/>
+            </column>
             <column name="client_id" type="UUID">
-                <constraints unique="true"/>
+                <constraints nullable="false" foreignKeyName="fk_client" references="client(client_id_uuid)"/>
             </column>
             <column name="credit_id" type="UUID">
-                <constraints unique="true"/>
-            </column>
-            <column name="statement_id_uuid" type="UUID">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints foreignKeyName="fk_credit" references="credit(credit_id_uuid)"/>
             </column>
             <column name="ses_code" type="VARCHAR(255)"/>
             <column name="status" type="VARCHAR(255)">

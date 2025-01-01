@@ -20,7 +20,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="credit_id_uuid" type="UUID">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_credit"/>
             </column>
             <column name="credit_status" type="VARCHAR(255)">
                 <constraints checkConstraint="CHECK (credit_status IN ('CALCULATED', 'ISSUED'))"/>

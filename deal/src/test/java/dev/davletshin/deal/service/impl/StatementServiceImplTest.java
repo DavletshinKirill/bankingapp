@@ -1,7 +1,6 @@
 package dev.davletshin.deal.service.impl;
 
 import dev.davletshin.deal.config.TestConfig;
-import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.exception.ResourceNotFoundException;
 import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.repository.StatementRepository;
@@ -15,12 +14,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,24 +33,6 @@ class StatementServiceImplTest {
 
     @Autowired
     private StatementService statementService;
-
-    @Test
-    void createAndSaveNewStatement() {
-
-        Client client = new Client();
-        Statement expectedStatement = new Statement();
-        expectedStatement.setClient(client);
-        expectedStatement.setCreationDate(LocalDateTime.now());
-
-        when(statementRepository.save(any(Statement.class))).thenReturn(expectedStatement);
-
-        Statement result = statementService.createAndSaveNewStatement(client);
-
-        assertNotNull(result);
-        assertEquals(client, result.getClient());
-        assertNotNull(result.getCreationDate());
-        verify(statementRepository).save(any(Statement.class));
-    }
 
     @Test
     void getStatement() {

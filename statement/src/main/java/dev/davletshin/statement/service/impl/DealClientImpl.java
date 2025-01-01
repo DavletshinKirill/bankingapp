@@ -1,5 +1,6 @@
 package dev.davletshin.statement.service.impl;
 
+import dev.davletshin.statement.domain.exception.ResourceNotFoundException;
 import dev.davletshin.statement.service.DealClient;
 import dev.davletshin.statement.web.dto.LoanOfferDto;
 import dev.davletshin.statement.web.dto.LoanStatementRequestDto;
@@ -28,7 +29,8 @@ public class DealClientImpl implements DealClient {
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<LoanOfferDto>>() {
                 })
-                .doOnError(error -> log.error(error.getMessage())).block();
+                .doOnError(error -> log.error(error.getMessage())
+                ).block();
     }
 
     @Override
@@ -38,6 +40,9 @@ public class DealClientImpl implements DealClient {
                 .bodyValue(loanOfferDto)
                 .retrieve()
                 .bodyToMono(void.class)
-                .doOnError(error -> log.error(error.getMessage())).block();
+                .doOnError(error -> {
+                    log.error(error.getMessage());
+                    throw new ResourceNotFoundException("Resource with provided uuid not found");
+                }).block();
     }
 }

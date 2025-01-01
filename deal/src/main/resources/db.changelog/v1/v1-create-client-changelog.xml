@@ -13,7 +13,7 @@
             <column name="birth_date" type="DATE"/>
             <column name="dependent_amount" type="INTEGER"/>
             <column name="client_id_uuid" type="UUID">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_client"/>
             </column>
             <column name="account_number" type="VARCHAR(255)"/>
             <column name="email" type="VARCHAR(255)"/>
