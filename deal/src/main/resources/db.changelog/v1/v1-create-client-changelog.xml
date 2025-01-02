@@ -3,7 +3,10 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="v1-1" author="postgres">
+
+    <property name="db.username" value="${POSTGRES_USERNAME}"/>
+
+    <changeSet id="v1-1" author="db.username">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="client"/>
