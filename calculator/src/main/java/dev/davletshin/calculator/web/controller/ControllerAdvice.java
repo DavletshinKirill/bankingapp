@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ControllerAdvice {
 
-
-
     @ExceptionHandler(RefuseException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ExceptionBody handleResourceNotFound(
@@ -68,7 +66,6 @@ public class ControllerAdvice {
     public ExceptionBody handleException(
             final Exception e
     ) {
-        e.printStackTrace();
         log.error(e.getMessage());
         return new ExceptionBody("Internal error.");
     }
