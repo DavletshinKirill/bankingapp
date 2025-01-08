@@ -108,10 +108,9 @@ class DealServiceImplTest {
         when(passportFactory.createNewPassportWithNumberAndSeries("1234", "567890")).thenReturn(passport);
         client.setPassport(passport);
         when(clientService.createClient(client)).thenReturn(client);
-        when(statementService.createAndSaveNewStatement(client)).thenReturn(statement);
+        when(statementService.saveStatement(statement)).thenReturn(statement);
 
         LoanOfferDto loanOfferDto = new LoanOfferDto();
-        loanOfferDto.setStatementId(statement.getId());
         when(sendRequestToCalculateService.postRequestToCalculateOffers(loanStatementRequestDto))
                 .thenReturn(Collections.singletonList(loanOfferDto));
 
@@ -119,10 +118,8 @@ class DealServiceImplTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(statement.getId(), result.get(0).getStatementId());
         verify(passportFactory).createNewPassportWithNumberAndSeries("1234", "567890");
         verify(clientService).createClient(client);
-        verify(statementService).createAndSaveNewStatement(client);
         verify(sendRequestToCalculateService).postRequestToCalculateOffers(loanStatementRequestDto);
     }
 

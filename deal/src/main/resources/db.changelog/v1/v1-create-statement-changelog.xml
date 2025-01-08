@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="db.username" value="${POSTGRES_USERNAME}"/>
+
+    <changeSet id="v1-3" author="db.username">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="statement"/>
+            </not>
+        </preConditions>
+        <createTable tableName="statement">
+            <column name="creation_date" type="TIMESTAMP(6)"/>
+            <column name="sign_date" type="TIMESTAMP(6)"/>
+            <column name="statement_id_uuid" type="UUID">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_statement"/>
+            </column>
+            <column name="client_id" type="UUID">
+                <constraints nullable="false" foreignKeyName="fk_client" references="client(client_id_uuid)"/>
+            </column>
+            <column name="credit_id" type="UUID">
+                <constraints foreignKeyName="fk_credit" references="credit(credit_id_uuid)"/>
+            </column>
+            <column name="ses_code" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)">
+                <constraints checkConstraint="CHECK (status IN
+                                          ('PREAPPROVAL', 'APPROVED', 'CC_DENIED', 'CC_APPROVED', 'PREPARE_DOCUMENTS',
+                                           'DOCUMENT_CREATED', 'DOCUMENT_SIGNED', 'CREDIT_ISSUED'))"/>
+            </column>
+            <column name="applied_offer" type="JSONB"/>
+            <column name="status_history" type="JSONB"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
