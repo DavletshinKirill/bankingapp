@@ -2,11 +2,12 @@ package dev.davletshin.statement.web.controller;
 
 import dev.davletshin.statement.domain.exception.ExceptionBody;
 import dev.davletshin.statement.domain.exception.RefuseException;
-import dev.davletshin.statement.domain.exception.ResourceNotFoundException;
+import dev.davletshin.statement.domain.exception.WebClientException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,11 +21,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AdviceController {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionBody handleResourceNotFoundException(ResourceNotFoundException e) {
+    @ExceptionHandler(WebClientException.class)
+    public ResponseEntity<Object> handleWebClientException(WebClientException e) {
         log.error(e.getMessage());
-        return new ExceptionBody(e.getMessage());
+        return ResponseEntity.status(e.getStatus()).body(e.getMessage());
     }
 
 

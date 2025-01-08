@@ -1,14 +1,16 @@
 package dev.davletshin.statement.service.impl;
 
-import dev.davletshin.statement.domain.exception.ResourceNotFoundException;
+import dev.davletshin.statement.domain.exception.WebClientException;
 import dev.davletshin.statement.service.DealClient;
 import dev.davletshin.statement.web.dto.LoanOfferDto;
 import dev.davletshin.statement.web.dto.LoanStatementRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -39,10 +41,10 @@ public class DealClientImpl implements DealClient {
                 .uri(SELECT_OFFER)
                 .bodyValue(loanOfferDto)
                 .retrieve()
+                .onStatus(
+                        HttpStatusCode::isError, clientResponse -> clientResponse.bodyToMono(Exception.class)
+                                .flatMap(ex -> Mono.error(new WebClientException(ex.getMessage(), clientResponse.statusCode()))))
                 .bodyToMono(void.class)
-                .doOnError(error -> {
-                    log.error(error.getMessage());
-                    throw new ResourceNotFoundException("Resource with provided uuid not found");
-                }).block();
+                .block();
     }
 }
