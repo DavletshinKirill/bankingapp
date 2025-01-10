@@ -34,6 +34,8 @@
         <junit-jupiter.version>5.11.3</junit-jupiter.version>
         <mockito-core.version>5.14.2</mockito-core.version>
         <liquibase.version>4.30.0</liquibase.version>
+        <kafka.version>3.3.1</kafka.version>
+        <reactor_kafka.version>1.3.22</reactor_kafka.version>
     </properties>
     <dependencies>
         <dependency>
@@ -115,8 +117,21 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>4.30.0</version>
+            <version>${liquibase.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor.kafka</groupId>
+            <artifactId>reactor-kafka</artifactId>
+            <version>${reactor_kafka.version}</version>
+        </dependency>
+
 
     </dependencies>
 

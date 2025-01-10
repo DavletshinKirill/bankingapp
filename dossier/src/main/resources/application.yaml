@@ -1,0 +1,17 @@
+server:
+  port: 8084
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  kafka:
+    bootstrap-servers: localhost:29093
+  mail:
+    host: ${SPRING_MAIL_HOST}
+    port: ${SPRING_MAIL_PORT}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+
+
+kafka:
+  topics: finish-registration, create-documents, send-documents, send_ses, credit-issued, statement-denied
