@@ -15,3 +15,5 @@ spring:
 
 kafka:
   topics: finish-registration, create-documents, send-documents, send_ses, credit-issued, statement-denied
+  group_id: 1
+  trusted_packages: '*'

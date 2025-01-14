@@ -16,15 +16,16 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
-    @Value("${spring.kafka.bootstrap-servers}")
+    @Value("${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapServers;
 
     @Bean
-    public SenderOptions<String, Object> kafkaProducerConfig() {
+    public SenderOptions<String, Object> senderOptions() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.ACKS_CONFIG, "all");
         return SenderOptions.create(props);
     }
 

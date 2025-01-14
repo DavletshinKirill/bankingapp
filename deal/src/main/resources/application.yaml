@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   config:
     import: optional:file:.env[.properties]
   datasource:
@@ -16,7 +18,11 @@ spring:
   liquibase:
     change-log: db.changelog/main-changelog.xml
   kafka:
-    bootstrap-servers: localhost:29092
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      acks: all
+
+
 
 server:
   port: 8082

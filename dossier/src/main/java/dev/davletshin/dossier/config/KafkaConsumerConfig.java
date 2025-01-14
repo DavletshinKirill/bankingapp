@@ -20,6 +20,11 @@ public class KafkaConsumerConfig {
     @Value("${kafka.topics}")
     private List<String> topics;
 
+    @Value("${kafka.group_id}")
+    private int groupId;
+
+    @Value("${kafka.trusted_packages}")
+    private String trustedPackages;
 
     @Bean
     public Map<String, Object> receiverProperties() {
@@ -27,7 +32,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(
                 ConsumerConfig.GROUP_ID_CONFIG,
-                1
+                groupId
         );
         props.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
@@ -39,7 +44,7 @@ public class KafkaConsumerConfig {
         );
         props.put(
                 "spring.json.trusted.packages",
-                "*"
+                trustedPackages
         );
         return props;
     }

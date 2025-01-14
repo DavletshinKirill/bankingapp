@@ -19,7 +19,6 @@ public class DossierController {
 
     @PostMapping("/{statementId}/send")
     public ResponseEntity<String> sendEmail(@PathVariable UUID statementId) {
-        dossierSender.send();
         return ResponseEntity.ok("Email was successfully sent");
     }
 
