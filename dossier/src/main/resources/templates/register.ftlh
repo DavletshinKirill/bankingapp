@@ -2,40 +2,26 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Thank you for registration ${name}</title>
-    <style>
-        #body {
-            display: flex;
-            flex-direction: column;
-            font-family: "Segoe UI", serif;
-            align-items: center;
-            background-color: #607FF2;
-            font-size: 20px;
-            height: 100%;
-        }
-
-        #div {
-            display: block;
-            flex-direction: column;
-            margin: 10%;
-            font-family: "Segoe UI", serif;
-            background-color: white;
-            padding: 3%;
-            border-radius: 20px;
-            color: black;
-        }
-
-        #a {
-            text-decoration: none;
-        }
-    </style>
 </head>
-<body>
-<div id="body">
-    <div id="div">
-        <h1 style="text-align: center">Registration</h1>
-        <p>Hello, ${name}!</p>
-    </div>
-</div>
+<body style="height: 100%; margin: 0; padding: 0; font-family: Roboto, sans-serif; background-image: url(https://thumbs.dreamstime.com/b/concept-bank-man-girl-took-out-loans-character-coins-credit-card-leaves-building-debtor-interest-money-exchange-233800673.jpg); background-size: contain; background-repeat: no-repeat; background-position: center;">
+<table width="100%" height="100%">
+    <tr>
+        <td align="center" valign="middle" style="background: rgba(0, 0, 0, 0.5);">
+            <div style="width: 400px; background-color: rgb(243, 245, 251); padding: 30px; border-radius: 20px; box-shadow: 0 0 10px rgba(5, 5, 5, 0.229);">
+                <div style="height: 60px; background-image: url(./e_mail_png.png); background-size: contain; background-repeat: no-repeat; background-position: center; margin-bottom: 20px;"></div>
+                <h1 style="font-size: 20px; text-align: center; padding-bottom: 30px;">Ваш аккаунт успешно
+                    зарегистрирован!</h1>
+                <p style="padding-bottom: 10px;">Здравствуйте, <span style="color: rgb(69, 200, 179);">${name}</span>!
+                </p>
+                <p style="padding-bottom: 10px;">Мы рады сообщить вам, что ваш аккаунт успешно зарегистрирован.</p>
+                <p style="padding-bottom: 10px;">Спасибо, что выбрали нашу платформу! Если у вас возникнут вопросы или
+                    потребуется помощь, не стесняйтесь обращаться к нашей службе поддержки. Желаем вам приятного
+                    использования!</p>
+                <p style="margin-top: 20px; text-align: center; padding-top: 20px; border-top: 2px dashed rgb(69, 200, 179);">
+                    С уважением, <span style="color: rgb(69, 200, 179);">bankingapp</span>.</p>
+            </div>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

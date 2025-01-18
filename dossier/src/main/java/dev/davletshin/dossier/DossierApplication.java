@@ -19,14 +19,8 @@ public class DossierApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        EmailMessageDTO emailMessageDTO = new EmailMessageDTO("kirichka27@gmail.com", UUID.randomUUID(), "Happy pesday", Theme.FINISH_REGISTRATION);
+        EmailMessageDTO emailMessageDTO = new EmailMessageDTO("kirichka27@gmail.com", UUID.randomUUID(), "Ерков Дмитрий Алексеевич", Theme.FINISH_REGISTRATION);
         mailService.sendEmail(emailMessageDTO);
-        EmailMessageDTO emailMessageDTO1 = new EmailMessageDTO("kirichka27@gmail.com", UUID.randomUUID(), "Happy pesday", Theme.SEND_DOCUMENTS);
-        mailService.sendEmail(emailMessageDTO1);
-        EmailMessageDTO emailMessageDTO2 = new EmailMessageDTO("kirichka27@gmail.com", UUID.randomUUID(), "Happy pesday", Theme.SEND_SES);
-        mailService.sendEmail(emailMessageDTO2);
-        EmailMessageDTO emailMessageDTO3 = new EmailMessageDTO("kirichka27@gmail.com", UUID.randomUUID(), "Happy pesday", Theme.CREDIT_ISSUED);
-        mailService.sendEmail(emailMessageDTO3);
     }
 
     public static void main(String[] args) {

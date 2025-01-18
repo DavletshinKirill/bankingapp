@@ -1,7 +1,7 @@
 package dev.davletshin.deal.service.impl;
 
-import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.exception.SesCodeNotConfirmed;
+import dev.davletshin.deal.domain.statement.ApplicationStatus;
 import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.service.factory.EmailMessageFactory;
 import dev.davletshin.deal.service.interfaces.BrokerSender;
@@ -26,31 +26,36 @@ public class DossierServiceImpl implements DossierService {
     @Override
     public void requestSendDocumentEmail(UUID statementId) {
         Statement statement = statementService.getStatement(statementId);
-        Client client = statement.getClient();
-        EmailMessageDTO emailMessageDTO = emailMessageFactory.createEmailMessage(client, statementId, Theme.SEND_DOCUMENTS, null);
+        EmailMessageDTO emailMessageDTO = emailMessageFactory.createEmailMessage(statement.getClient(), statementId,
+                Theme.SEND_DOCUMENTS, null);
         brokerSender.send(emailMessageDTO, Theme.SEND_DOCUMENTS);
     }
 
     @Override
     public void requestSignDocument(UUID statementId) {
         Statement statement = statementService.getStatement(statementId);
-        Client client = statement.getClient();
         UUID sesCode = UUID.randomUUID();
         statement.setSesCode(sesCode);
         statementService.saveStatement(statement);
-        EmailMessageDTO emailMessageDTO = emailMessageFactory.createEmailMessage(client, statementId, Theme.SEND_SES, sesCode);
+        EmailMessageDTO emailMessageDTO = emailMessageFactory.createEmailMessage(statement.getClient(), statementId,
+                Theme.SEND_SES, sesCode);
         brokerSender.send(emailMessageDTO, Theme.SEND_SES);
     }
 
     @Override
     public void signCodeDocument(UUID statementId, UUID sesCode) {
         Statement statement = statementService.getStatement(statementId);
-        Client client = statement.getClient();
         if (statement.getSesCode().equals(sesCode)) {
-            statement.setSignDate(LocalDateTime.now());
-            statementService.saveStatement(statement);
-            EmailMessageDTO emailMessageDTO = emailMessageFactory.createEmailMessage(client, statementId, Theme.CREDIT_ISSUED, null);
+            saveSignStatement(statement);
+            EmailMessageDTO emailMessageDTO = emailMessageFactory.createEmailMessage(statement.getClient(), statementId,
+                    Theme.CREDIT_ISSUED, null);
             brokerSender.send(emailMessageDTO, Theme.CREDIT_ISSUED);
         } else throw new SesCodeNotConfirmed("Ses Code is not matched");
+    }
+
+    private void saveSignStatement(Statement statement) {
+        statement.setSignDate(LocalDateTime.now());
+        statement.setStatus(ApplicationStatus.CREDIT_ISSUED);
+        statementService.saveStatement(statement);
     }
 }

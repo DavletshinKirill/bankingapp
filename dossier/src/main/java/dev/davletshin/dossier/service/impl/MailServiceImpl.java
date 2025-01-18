@@ -35,7 +35,7 @@ public class MailServiceImpl implements MailService {
     public void sendEmail(EmailMessageDTO emailMessage) throws MessagingException, TemplateException, IOException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
-                false,
+                true,
                 "UTF-8");
         helper.setSubject(emailMessage.getTheme().getEmailTitle());
         helper.setTo(emailMessage.getAddress());
@@ -50,7 +50,7 @@ public class MailServiceImpl implements MailService {
     ) throws IOException, TemplateException {
         StringWriter writer = new StringWriter();
         Map<String, Object> model = new HashMap<>();
-        model.put("name", emailMessage.getTheme().getBodyTitle());
+        model.put("name", emailMessage.getText());
         configuration.getTemplate(fileName)
                 .process(model, writer);
         return writer.getBuffer().toString();
