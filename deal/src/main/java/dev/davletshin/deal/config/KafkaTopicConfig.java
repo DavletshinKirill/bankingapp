@@ -1,6 +1,6 @@
 package dev.davletshin.deal.config;
 
-import dev.davletshin.deal.domain.Topic;
+import dev.davletshin.shared.dto.Theme;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.config.TopicConfig;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic finishRegistrationTopic() {
-        return TopicBuilder.name(Topic.FINISH_REGISTRATION.getTopicTitle())
+        return TopicBuilder.name(Theme.FINISH_REGISTRATION.getTopicTitle())
                 .partitions(5)
                 .replicas(1)
                 .config(
@@ -26,7 +26,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic createDocumentsTopic() {
-        return TopicBuilder.name(Topic.CREATE_DOCUMENTS.getTopicTitle())
+        return TopicBuilder.name(Theme.CREATE_DOCUMENTS.getTopicTitle())
                 .partitions(5)
                 .replicas(1)
                 .config(
@@ -38,7 +38,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic sendDocumentsTopic() {
-        return TopicBuilder.name(Topic.SEND_DOCUMENTS.getTopicTitle())
+        return TopicBuilder.name(Theme.SEND_DOCUMENTS.getTopicTitle())
                 .partitions(5)
                 .replicas(1)
                 .config(
@@ -50,7 +50,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic sendSesTopic() {
-        return TopicBuilder.name(Topic.SEND_SES.getTopicTitle())
+        return TopicBuilder.name(Theme.SEND_SES.getTopicTitle())
                 .partitions(5)
                 .replicas(1)
                 .config(
@@ -62,7 +62,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic creditIssuedTopic() {
-        return TopicBuilder.name(Topic.CREDIT_ISSUED.getTopicTitle())
+        return TopicBuilder.name(Theme.CREDIT_ISSUED.getTopicTitle())
                 .partitions(5)
                 .replicas(1)
                 .config(
@@ -74,7 +74,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic statementDeniedTopic() {
-        return TopicBuilder.name(Topic.STATEMENT_DENIED.getTopicTitle())
+        return TopicBuilder.name(Theme.STATEMENT_DENIED.getTopicTitle())
                 .partitions(5)
                 .replicas(1)
                 .config(

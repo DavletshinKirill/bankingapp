@@ -7,11 +7,12 @@ import dev.davletshin.deal.web.dto.LoanOfferDto;
 import dev.davletshin.deal.web.dto.LoanStatementRequestDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface DealService {
     List<LoanOfferDto> createClientAndStatement(LoanStatementRequestDto loanStatementRequestDto, Client client);
 
     Statement updateStatement(LoanOfferDto loanOfferDto);
 
-    Statement calculateCredit(String statementUUID, FinishRegistrationRequestDto finishRegistrationRequestDto);
+    Statement calculateCredit(UUID statementUUID, FinishRegistrationRequestDto finishRegistrationRequestDto);
 }

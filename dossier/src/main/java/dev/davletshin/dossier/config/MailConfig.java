@@ -19,11 +19,11 @@ public class MailConfig {
     @Bean
     public JavaMailSender mailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(mailSender.getHost());
-        mailSender.setPort(mailSender.getPort());
+        mailSender.setHost(mailProperties.getHost());
+        mailSender.setPort(mailProperties.getPort());
 
-        mailSender.setUsername(mailSender.getUsername());
-        mailSender.setPassword(mailSender.getPassword());
+        mailSender.setUsername(mailProperties.getUsername());
+        mailSender.setPassword(mailProperties.getPassword());
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

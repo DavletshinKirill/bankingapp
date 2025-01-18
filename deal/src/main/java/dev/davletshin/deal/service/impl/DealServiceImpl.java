@@ -8,6 +8,7 @@ import dev.davletshin.deal.domain.credit.CreditStatus;
 import dev.davletshin.deal.domain.statement.ApplicationStatus;
 import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.domain.statement.StatusHistory;
+import dev.davletshin.deal.service.factory.EmailMessageFactory;
 import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;
 import dev.davletshin.deal.service.factory.StatusHistoryFactory;
@@ -18,6 +19,8 @@ import dev.davletshin.deal.web.dto.LoanStatementRequestDto;
 import dev.davletshin.deal.web.dto.ScoringDataDto;
 import dev.davletshin.deal.web.mapper.CreditMapper;
 import dev.davletshin.deal.web.mapper.EmploymentMapper;
+import dev.davletshin.shared.dto.EmailMessageDTO;
+import dev.davletshin.shared.dto.Theme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -41,6 +44,8 @@ public class DealServiceImpl implements DealService {
     private final ScoringDataFactory scoringDataFactory;
     private final EmploymentMapper employmentMapper;
     private final CreditMapper creditMapper;
+    private final BrokerSender dossierSender;
+    private final EmailMessageFactory emailMessageFactory;
 
     @Override
     public List<LoanOfferDto> createClientAndStatement(LoanStatementRequestDto loanStatementRequestDto, Client client) {
@@ -79,11 +84,12 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public Statement calculateCredit(String statementUUID, FinishRegistrationRequestDto finishRegistrationRequestDto) {
-        Statement statement = statementService.getStatement(UUID.fromString(statementUUID));
+    public Statement calculateCredit(UUID statementUUID, FinishRegistrationRequestDto finishRegistrationRequestDto) {
+        Statement statement = statementService.getStatement(statementUUID);
         Client client = statement.getClient();
         ScoringDataDto scoringDataDto = scoringDataFactory.createScoringData(statement, client, finishRegistrationRequestDto);
-
+        EmailMessageDTO emailMessageDTO = emailMessageFactory.createEmailMessage(client, statementUUID, Theme.FINISH_REGISTRATION, null);
+        dossierSender.send(emailMessageDTO, Theme.FINISH_REGISTRATION);
         Passport passport = passportFactory.fillIssueBranchAndDate(
                 client.getPassport(),
                 finishRegistrationRequestDto.getPassportIssueBranch(),

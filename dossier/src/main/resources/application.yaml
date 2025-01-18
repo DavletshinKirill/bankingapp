@@ -5,15 +5,25 @@ spring:
   config:
     import: optional:file:.env[.properties]
   kafka:
-    bootstrap-servers: localhost:29093
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: json
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.deserializer.value.delegate: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.deserializer.value.default.type: dev.davletshin.shared.dto.EmailMessageDTO
   mail:
     host: ${SPRING_MAIL_HOST}
     port: ${SPRING_MAIL_PORT}
     username: ${SPRING_MAIL_USERNAME}
     password: ${SPRING_MAIL_PASSWORD}
 
-
 kafka:
   topics: finish-registration, create-documents, send-documents, send_ses, credit-issued, statement-denied
-  group_id: 1
-  trusted_packages: '*'
+  group-id: json
+
+email:
+  files:
+    name: register.ftlh

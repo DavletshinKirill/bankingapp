@@ -53,5 +53,5 @@ public class Statement {
     private Client client;
 
     @Column(name = "ses_code")
-    private String sesCode;
+    private UUID sesCode;
 }

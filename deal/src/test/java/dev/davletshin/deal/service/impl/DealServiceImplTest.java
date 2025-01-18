@@ -137,10 +137,11 @@ class DealServiceImplTest {
         verify(statementService).saveStatement(statement);
     }
 
+    //TODO перепиши тест, выпадает null pointer exception из-за новых сервисов
     @Test
     void calculateCredit() {
-        String statementUUID = UUID.randomUUID().toString();
-        when(statementService.getStatement(UUID.fromString(statementUUID))).thenReturn(statement);
+        UUID statementUUID = UUID.randomUUID();
+        when(statementService.getStatement(statementUUID)).thenReturn(statement);
         when(scoringDataFactory.createScoringData(statement, client, finishRegistrationRequestDto)).thenReturn(scoringDataDto);
         when(passportFactory.fillIssueBranchAndDate(any(), any(), any())).thenReturn(client.getPassport());
         Employment employment = new Employment();

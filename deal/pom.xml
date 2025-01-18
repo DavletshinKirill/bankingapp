@@ -132,7 +132,11 @@
             <version>${reactor_kafka.version}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>dev.davletshin</groupId>
+            <artifactId>shared</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

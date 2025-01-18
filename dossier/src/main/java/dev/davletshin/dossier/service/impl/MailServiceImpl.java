@@ -1,12 +1,14 @@
 package dev.davletshin.dossier.service.impl;
 
-import dev.davletshin.dossier.dto.EmailMessageDTO;
+
 import dev.davletshin.dossier.service.MailService;
+import dev.davletshin.shared.dto.EmailMessageDTO;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,15 @@ import java.util.Map;
 
 
 @Service
+@RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
-    @Autowired
-    private Configuration configuration;
+    @Value("${email.files.name}")
+    private String fileName;
+
+
+    private final JavaMailSender mailSender;
+    private final Configuration configuration;
 
 
     @Override
@@ -32,7 +37,7 @@ public class MailServiceImpl implements MailService {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
                 false,
                 "UTF-8");
-        helper.setSubject("Thank you for registration, " + emailMessage.getAddress());
+        helper.setSubject(emailMessage.getTheme().getEmailTitle());
         helper.setTo(emailMessage.getAddress());
         String emailContent = getRegistrationEmailContent(emailMessage);
         helper.setText(emailContent, true);
@@ -45,8 +50,8 @@ public class MailServiceImpl implements MailService {
     ) throws IOException, TemplateException {
         StringWriter writer = new StringWriter();
         Map<String, Object> model = new HashMap<>();
-        model.put("name", emailMessage.getAddress());
-        configuration.getTemplate("register.ftlh")
+        model.put("name", emailMessage.getTheme().getBodyTitle());
+        configuration.getTemplate(fileName)
                 .process(model, writer);
         return writer.getBuffer().toString();
     }

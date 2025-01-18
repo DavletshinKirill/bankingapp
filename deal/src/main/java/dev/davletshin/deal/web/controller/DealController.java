@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/deal")
@@ -46,8 +47,8 @@ public class DealController {
 
     @Operation(summary = "updateStatement", description = "second update statement and calculate credit")
     @PostMapping("/calculate/{statementId}")
-    public void calculateCredit(@Valid @RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto, @PathVariable String statementId) {
-        log.info(statementId);
+    public void calculateCredit(@Valid @RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto, @PathVariable UUID statementId) {
+        log.info(String.valueOf(statementId));
         log.info(finishRegistrationRequestDto.toString());
         Statement statement = dealService.calculateCredit(statementId, finishRegistrationRequestDto);
         log.info(statement.toString());
