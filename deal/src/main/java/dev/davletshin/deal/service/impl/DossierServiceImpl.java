@@ -34,9 +34,7 @@ public class DossierServiceImpl implements DossierService {
     @Override
     public void requestSignDocument(UUID statementId) {
         Statement statement = statementService.getStatement(statementId);
-        UUID sesCode = UUID.randomUUID();
-        statement.setSesCode(sesCode);
-        statementService.saveStatement(statement);
+        UUID sesCode = saveSesCode(statement);
         EmailMessageDTO emailMessageDTO = emailMessageFactory.createEmailMessage(statement.getClient(), statementId,
                 Theme.SEND_SES, sesCode);
         brokerSender.send(emailMessageDTO, Theme.SEND_SES);
@@ -54,8 +52,17 @@ public class DossierServiceImpl implements DossierService {
     }
 
     private void saveSignStatement(Statement statement) {
-        statement.setSignDate(LocalDateTime.now());
-        statement.setStatus(ApplicationStatus.CREDIT_ISSUED);
+        if (statement.getSignDate() == null) {
+            statement.setSignDate(LocalDateTime.now());
+            statement.setStatus(ApplicationStatus.CREDIT_ISSUED);
+            statementService.saveStatement(statement);
+        }
+    }
+
+    private UUID saveSesCode(Statement statement) {
+        UUID sesCode = UUID.randomUUID();
+        statement.setSesCode(sesCode);
         statementService.saveStatement(statement);
+        return sesCode;
     }
 }

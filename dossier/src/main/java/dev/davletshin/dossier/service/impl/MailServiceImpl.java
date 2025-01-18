@@ -8,7 +8,6 @@ import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -23,13 +22,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
-    @Value("${email.files.name}")
-    private String fileName;
-
-
     private final JavaMailSender mailSender;
     private final Configuration configuration;
-
 
     @Override
     public void sendEmail(EmailMessageDTO emailMessage) throws MessagingException, TemplateException, IOException {
@@ -51,7 +45,7 @@ public class MailServiceImpl implements MailService {
         StringWriter writer = new StringWriter();
         Map<String, Object> model = new HashMap<>();
         model.put("name", emailMessage.getText());
-        configuration.getTemplate(fileName)
+        configuration.getTemplate(emailMessage.getTheme().getTopicTitle() + ".ftlh")
                 .process(model, writer);
         return writer.getBuffer().toString();
     }

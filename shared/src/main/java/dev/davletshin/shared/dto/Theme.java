@@ -6,12 +6,12 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Theme {
-    FINISH_REGISTRATION("finish-registration", "Thanks for your registration"),
-    CREATE_DOCUMENTS("create-documents", "Document was created"),
-    SEND_DOCUMENTS("send-documents", "The request to send documents"),
-    SEND_SES("send_ses", "The document signing request"),
-    CREDIT_ISSUED("credit-issued", "The documents to sign"),
-    STATEMENT_DENIED("statement-denied", "Statement denied");
+    FINISH_REGISTRATION("finish-registration", "Благодарим за регистрацию"),
+    CREATE_DOCUMENTS("create-documents", "Создание документа"),
+    SEND_DOCUMENTS("send-documents", "Запрос на подписание документа"),
+    SEND_SES("send-ses", "Верификация пользователя"),
+    CREDIT_ISSUED("credit-issued", "Выдача кредита"),
+    STATEMENT_DENIED("statement-denied", "Отклонение запроса");
 
     private final String topicTitle;
     private final String emailTitle;

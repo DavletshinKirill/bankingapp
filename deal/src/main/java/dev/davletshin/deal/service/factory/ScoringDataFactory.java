@@ -21,7 +21,6 @@ public class ScoringDataFactory {
 
     public ScoringDataDto createScoringData(Statement statement, Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {
 
-
         BigDecimal amount = statement.getAppliedOffer().getRequestedAmount();
         int term = statement.getAppliedOffer().getTerm();
         boolean isSalaryClient = statement.getAppliedOffer().isSalaryClient();

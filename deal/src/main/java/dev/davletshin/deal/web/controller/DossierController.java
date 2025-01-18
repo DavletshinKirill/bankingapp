@@ -1,7 +1,10 @@
 package dev.davletshin.deal.web.controller;
 
 import dev.davletshin.deal.service.interfaces.DossierService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,25 +13,30 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/deal/document")
+@Tag(name = "Dossier Controller", description = "Dossier API")
+@Slf4j
 public class DossierController {
 
     private final DossierService dossierService;
 
+    @Operation(summary = "requestSendDocumentEmail", description = "Create 4 offers")
     @PostMapping("/{statementId}/send")
     public ResponseEntity<String> requestSendDocumentEmail(@PathVariable UUID statementId) {
         dossierService.requestSendDocumentEmail(statementId);
         return ResponseEntity.ok("Email was successfully sent");
     }
 
+    @Operation(summary = "requestSignDocument", description = "Create 4 offers")
     @PostMapping("/{statementId}/sign")
     public ResponseEntity<String> requestSignDocument(@PathVariable UUID statementId) {
         dossierService.requestSignDocument(statementId);
-        return ResponseEntity.ok("Email was successfully sent");
+        return ResponseEntity.ok("Email with ses code was successfully sent and ses code was successfully saved into the database");
     }
 
+    @Operation(summary = "signCodeDocument", description = "Create 4 offers")
     @PostMapping("/{statementId}/code")
     public ResponseEntity<String> signCodeDocument(@PathVariable UUID statementId, @RequestBody UUID sesCode) {
         dossierService.signCodeDocument(statementId, sesCode);
-        return ResponseEntity.ok("Email was successfully sent");
+        return ResponseEntity.ok("Email was successfully sent and note in the database was successfully updated");
     }
 }

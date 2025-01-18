@@ -20,7 +20,7 @@ public class KafkaDataReceiverImpl implements KafkaDataReceiver {
 
     @Override
     @SneakyThrows
-    @KafkaListener(topics = {"finish-registration", "send-documents", "send_ses", "credit-issued"},
+    @KafkaListener(topics = {"finish-registration", "send-documents", "send-ses", "credit-issued"},
             groupId = groupId, containerFactory = "kafkaListenerContainerFactory")
     public void fetch(EmailMessageDTO emailMessageDTO) {
         log.info("Received email message: {}", emailMessageDTO.toString());

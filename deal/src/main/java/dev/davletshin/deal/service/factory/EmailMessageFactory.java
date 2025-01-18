@@ -19,7 +19,7 @@ public class EmailMessageFactory {
         switch (theme) {
             case FINISH_REGISTRATION, SEND_DOCUMENTS, CREDIT_ISSUED -> body = client.getFirstName() + " " +
                     client.getLastName() + " " + client.getMiddleName();
-            case SEND_SES -> body = UUID.randomUUID().toString();
+            case SEND_SES -> body = ses_code.toString();
             default -> throw new IllegalStateException("Unexpected value: " + theme);
         }
         return body;

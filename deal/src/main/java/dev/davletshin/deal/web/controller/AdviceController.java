@@ -3,6 +3,7 @@ package dev.davletshin.deal.web.controller;
 import dev.davletshin.deal.domain.exception.ExceptionBody;
 import dev.davletshin.deal.domain.exception.RefuseException;
 import dev.davletshin.deal.domain.exception.ResourceNotFoundException;
+import dev.davletshin.deal.domain.exception.SesCodeNotConfirmed;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,13 @@ public class AdviceController {
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionBody handleResourceNotFoundException(ResourceNotFoundException e) {
+        log.error(e.getMessage());
+        return new ExceptionBody(e.getMessage());
+    }
+
+    @ExceptionHandler(SesCodeNotConfirmed.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ExceptionBody sesCodeNotConfirmedException(ResourceNotFoundException e) {
         log.error(e.getMessage());
         return new ExceptionBody(e.getMessage());
     }
