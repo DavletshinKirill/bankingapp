@@ -25,5 +25,6 @@ public class KafkaDataReceiverImpl implements KafkaDataReceiver {
     public void fetch(EmailMessageDTO emailMessageDTO) {
         log.info("Received email message: {}", emailMessageDTO.toString());
         mailService.sendEmail(emailMessageDTO);
+        log.info("Email was send to address: {}", emailMessageDTO.getAddress());
     }
 }

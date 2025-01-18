@@ -16,7 +16,7 @@
                             style="color: rgb(69, 200, 179);">${name}</span>!</p>
                 <p style="padding-bottom: 10px;">Спасибо, что выбрали нашу платформу! Если у вас возникнут вопросы или
                     потребуется помощь, не стесняйтесь обращаться к нашей службе поддержки. Желаем вам приятного
-                    использования!</p>
+                    использования</p>
                 <p style="margin-top: 20px; text-align: center; padding-top: 20px; border-top: 2px dashed rgb(69, 200, 179);">
                     С уважением, <span style="color: rgb(69, 200, 179);">bankingapp</span>.</p>
             </div>

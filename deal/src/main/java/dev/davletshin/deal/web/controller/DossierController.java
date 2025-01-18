@@ -22,21 +22,27 @@ public class DossierController {
     @Operation(summary = "requestSendDocumentEmail", description = "Create 4 offers")
     @PostMapping("/{statementId}/send")
     public ResponseEntity<String> requestSendDocumentEmail(@PathVariable UUID statementId) {
+        log.info("Request statementId: {}", statementId);
         dossierService.requestSendDocumentEmail(statementId);
+        log.info("Message to kafka was sent");
         return ResponseEntity.ok("Email was successfully sent");
     }
 
     @Operation(summary = "requestSignDocument", description = "Create 4 offers")
     @PostMapping("/{statementId}/sign")
     public ResponseEntity<String> requestSignDocument(@PathVariable UUID statementId) {
+        log.info("Request statementId: {}", statementId);
         dossierService.requestSignDocument(statementId);
+        log.info("Message to kafka was sent");
         return ResponseEntity.ok("Email with ses code was successfully sent and ses code was successfully saved into the database");
     }
 
     @Operation(summary = "signCodeDocument", description = "Create 4 offers")
     @PostMapping("/{statementId}/code")
     public ResponseEntity<String> signCodeDocument(@PathVariable UUID statementId, @RequestBody UUID sesCode) {
+        log.info("Request statementId: {}", statementId);
         dossierService.signCodeDocument(statementId, sesCode);
+        log.info("Message to kafka was sent");
         return ResponseEntity.ok("Email was successfully sent and note in the database was successfully updated");
     }
 }
