@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,5 +27,10 @@ public class StatementServiceImpl implements StatementService {
     @Override
     public Statement saveStatement(Statement statement) {
         return statementRepository.save(statement);
+    }
+
+    @Override
+    public List<Statement> getStatements() {
+        return statementRepository.findAll();
     }
 }

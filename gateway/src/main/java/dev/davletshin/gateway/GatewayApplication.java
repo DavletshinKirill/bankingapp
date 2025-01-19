@@ -1,13 +1,13 @@
-package dev.davletshin.dossier;
+package dev.davletshin.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DossierApplication {
+public class GatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DossierApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 
 }
