@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,16 +26,15 @@ import java.util.List;
 public class CalculatorController {
 
     private final CalculatorClient calculatorClient;
-    private static final String CALCULATE_OFFERS = "/calculator/offer";
+    private static final String CALCULATE_OFFERS = "/calculator/offers";
 
-    @Value("${http.urls.calculator}")
-    private String calculatorUrl;
+    private static final String CALCULATOR_URL = "http://localhost:8081";
 
     @Operation(summary = "getOffers", description = "Create 4 offers")
     @PostMapping("/offers")
     public List<LoanOfferDto> getOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
         log.info(loanStatementRequestDto.toString());
-        List<LoanOfferDto> offerList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto, calculatorUrl, CALCULATE_OFFERS);
+        List<LoanOfferDto> offerList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto, CALCULATOR_URL, CALCULATE_OFFERS);
         offerList.forEach(offer -> log.info(offer.toString()));
         return offerList;
     }
@@ -45,7 +43,7 @@ public class CalculatorController {
     @PostMapping("/calc")
     public CreditDto calculate(@Valid @RequestBody ScoringDataDto scoringDataDto) {
         log.info(scoringDataDto.toString());
-        CreditDto credit = calculatorClient.postRequestToCalculateCredit(scoringDataDto, calculatorUrl);
+        CreditDto credit = calculatorClient.postRequestToCalculateCredit(scoringDataDto, CALCULATOR_URL);
         log.info(credit.toString());
         return credit;
     }

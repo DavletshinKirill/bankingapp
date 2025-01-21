@@ -1,8 +1,9 @@
 package dev.davletshin.statement.web.controller;
 
-import dev.davletshin.statement.domain.exception.ExceptionBody;
-import dev.davletshin.statement.domain.exception.RefuseException;
-import dev.davletshin.statement.domain.exception.WebClientException;
+
+import dev.davletshin.calculator.domain.exception.ExceptionBody;
+import dev.davletshin.calculator.domain.exception.RefuseException;
+import dev.davletshin.calculator.domain.exception.WebClientException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

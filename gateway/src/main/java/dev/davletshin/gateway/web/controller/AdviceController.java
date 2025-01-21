@@ -1,13 +1,13 @@
-package dev.davletshin.deal.web.controller;
+package dev.davletshin.gateway.web.controller;
 
 import dev.davletshin.calculator.domain.exception.ExceptionBody;
 import dev.davletshin.calculator.domain.exception.RefuseException;
-import dev.davletshin.deal.domain.exception.ResourceNotFoundException;
-import dev.davletshin.deal.domain.exception.SesCodeNotConfirmed;
+import dev.davletshin.calculator.domain.exception.WebClientException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,19 +21,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AdviceController {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionBody handleResourceNotFoundException(ResourceNotFoundException e) {
+    @ExceptionHandler(WebClientException.class)
+    public ResponseEntity<Object> handleWebClientException(WebClientException e) {
         log.error(e.getMessage());
-        return new ExceptionBody(e.getMessage());
+        return ResponseEntity.status(e.getStatus()).body(e.getMessage());
     }
 
-    @ExceptionHandler(SesCodeNotConfirmed.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ExceptionBody sesCodeNotConfirmedException(ResourceNotFoundException e) {
-        log.error(e.getMessage());
-        return new ExceptionBody(e.getMessage());
-    }
 
     @ExceptionHandler(RefuseException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)

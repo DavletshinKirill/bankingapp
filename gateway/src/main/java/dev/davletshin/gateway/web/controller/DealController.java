@@ -50,21 +50,21 @@ public class DealController {
         statementClient.updateOffer(loanOfferDto, dealUrl, OFFER_SELECT);
     }
 
-    @Operation(summary = "getStatementById", description = "Get Statement By Id")
-    @GetMapping("/admin/statement/{statementId}")
-    public StatementDto getStatementById(@PathVariable UUID statementId) {
-        StatementDto statementDto = dealClient.getStatement(statementId);
-        log.info("Get Statement By Id: {}", statementDto.toString());
-        return statementDto;
-    }
+//    @Operation(summary = "getStatementById", description = "Get Statement By Id")
+//    @GetMapping("/admin/statement/{statementId}")
+//    public StatementDto getStatementById(@PathVariable UUID statementId) {
+//        StatementDto statementDto = dealClient.getStatement(statementId);
+//        log.info("Get Statement By Id: {}", statementDto.toString());
+//        return statementDto;
+//    }
 
-    @Operation(summary = "getAllStatements", description = "Get All Statements")
-    @GetMapping("/admin/statement")
-    public List<StatementDto> getAllStatements() {
-        List<StatementDto> statementDtoList = dealClient.getStatements();
-        log.info("Get All Statements: {}", statementDtoList.toString());
-        return statementDtoList;
-    }
+//    @Operation(summary = "getAllStatements", description = "Get All Statements")
+//    @GetMapping("/admin/statement")
+//    public List<StatementDto> getAllStatements() {
+//        List<StatementDto> statementDtoList = dealClient.getStatements();
+//        log.info("Get All Statements: {}", statementDtoList.toString());
+//        return statementDtoList;
+//    }
 
     @Operation(summary = "updateStatement", description = "second update statement and calculate credit")
     @PostMapping("/calculate/{statementId}")

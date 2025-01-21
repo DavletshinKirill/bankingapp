@@ -36,7 +36,7 @@ public class StatementController {
     @PostMapping
     List<LoanOfferDto> createOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
         log.info(loanStatementRequestDto.toString());
-        List<LoanOfferDto> loanOfferDtoList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto, statementUrl, "");
+        List<LoanOfferDto> loanOfferDtoList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto, statementUrl, "/statement");
         loanOfferDtoList.forEach(loanOfferDto -> log.info(loanOfferDto.toString()));
         return loanOfferDtoList;
     }
