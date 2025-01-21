@@ -68,7 +68,7 @@
 
         <dependency>
             <groupId>dev.davletshin</groupId>
-            <artifactId>calculator</artifactId>
+            <artifactId>deal</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

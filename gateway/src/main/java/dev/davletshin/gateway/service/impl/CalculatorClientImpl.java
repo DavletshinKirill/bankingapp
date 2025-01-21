@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class CalculatorClientImpl implements CalculatorClient {
-    private static final String ENDPOINT_OFFERS = "/calculator/offers";
     private static final String ENDPOINT_CALCULATOR = "/calculator/calc";
 
     @Value("${http.urls.calculator}")
@@ -27,9 +26,9 @@ public class CalculatorClientImpl implements CalculatorClient {
     private final WebClient webClient;
 
     @Override
-    public List<LoanOfferDto> postRequestToCalculateOffers(LoanStatementRequestDto loanStatementRequestDto) {
+    public List<LoanOfferDto> postRequestToCalculateOffers(LoanStatementRequestDto loanStatementRequestDto, String baseUrl, String finalUrl) {
         return webClient.post()
-                .uri(calculatorUrl + ENDPOINT_OFFERS)
+                .uri(baseUrl + finalUrl)
                 .bodyValue(loanStatementRequestDto)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<LoanOfferDto>>() {
@@ -38,9 +37,9 @@ public class CalculatorClientImpl implements CalculatorClient {
     }
 
     @Override
-    public CreditDto postRequestToCalculateCredit(ScoringDataDto scoringDataDto) {
+    public CreditDto postRequestToCalculateCredit(ScoringDataDto scoringDataDto, String baseUrl) {
         return webClient.post()
-                .uri(calculatorUrl + ENDPOINT_CALCULATOR)
+                .uri(baseUrl + ENDPOINT_CALCULATOR)
                 .bodyValue(scoringDataDto)
                 .retrieve()
                 .bodyToMono(CreditDto.class)

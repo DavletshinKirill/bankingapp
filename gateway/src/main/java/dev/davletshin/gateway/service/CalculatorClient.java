@@ -9,7 +9,7 @@ import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import java.util.List;
 
 public interface CalculatorClient {
-    List<LoanOfferDto> postRequestToCalculateOffers(LoanStatementRequestDto loanStatementRequestDto);
+    List<LoanOfferDto> postRequestToCalculateOffers(LoanStatementRequestDto loanStatementRequestDto, String baseUrl, String finalUrl);
 
-    CreditDto postRequestToCalculateCredit(ScoringDataDto scoringDataDto);
+    CreditDto postRequestToCalculateCredit(ScoringDataDto scoringDataDto, String baseUrl);
 }
