@@ -90,6 +90,12 @@
             <version>3.4.24</version> <!-- Check for the latest version -->
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>dev.davletshin</groupId>
+            <artifactId>calculator</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

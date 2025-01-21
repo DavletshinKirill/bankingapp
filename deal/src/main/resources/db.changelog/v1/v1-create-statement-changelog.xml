@@ -23,7 +23,7 @@
             <column name="credit_id" type="UUID">
                 <constraints foreignKeyName="fk_credit" references="credit(credit_id_uuid)"/>
             </column>
-            <column name="ses_code" type="VARCHAR(255)"/>
+            <column name="ses_code" type="UUID"/>
             <column name="status" type="VARCHAR(255)">
                 <constraints checkConstraint="CHECK (status IN
                                           ('PREAPPROVAL', 'APPROVED', 'CC_DENIED', 'CC_APPROVED', 'PREPARE_DOCUMENTS',

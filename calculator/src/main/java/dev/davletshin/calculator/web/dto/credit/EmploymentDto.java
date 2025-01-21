@@ -1,7 +1,7 @@
 package dev.davletshin.calculator.web.dto.credit;
 
+import dev.davletshin.calculator.domain.EmploymentPosition;
 import dev.davletshin.calculator.domain.EmploymentStatus;
-import dev.davletshin.calculator.domain.Position;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,7 +32,7 @@ public class EmploymentDto {
     @Schema(description = "Должность",
             example = "MIDDLE_MANAGER",
             allowableValues = {"MIDDLE_MANAGER", "TOP_MANAGER"})
-    private Position position;
+    private EmploymentPosition position;
 
     @Schema(description = "Стаж (месяцы)", example = "20")
     private int workExperienceTotal;

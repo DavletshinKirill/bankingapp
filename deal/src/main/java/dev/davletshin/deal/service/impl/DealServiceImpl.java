@@ -1,5 +1,11 @@
 package dev.davletshin.deal.service.impl;
 
+import dev.davletshin.calculator.web.dto.EmailMessageDTO;
+import dev.davletshin.calculator.web.dto.FinishRegistrationRequestDto;
+import dev.davletshin.calculator.web.dto.Theme;
+import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
+import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
+import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.client.Employment;
 import dev.davletshin.deal.domain.client.Passport;
@@ -8,14 +14,11 @@ import dev.davletshin.deal.domain.credit.CreditStatus;
 import dev.davletshin.deal.domain.statement.ApplicationStatus;
 import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.domain.statement.StatusHistory;
+import dev.davletshin.deal.service.factory.EmailMessageFactory;
 import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;
 import dev.davletshin.deal.service.factory.StatusHistoryFactory;
 import dev.davletshin.deal.service.interfaces.*;
-import dev.davletshin.deal.web.dto.FinishRegistrationRequestDto;
-import dev.davletshin.deal.web.dto.LoanOfferDto;
-import dev.davletshin.deal.web.dto.LoanStatementRequestDto;
-import dev.davletshin.deal.web.dto.ScoringDataDto;
 import dev.davletshin.deal.web.mapper.CreditMapper;
 import dev.davletshin.deal.web.mapper.EmploymentMapper;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +44,8 @@ public class DealServiceImpl implements DealService {
     private final ScoringDataFactory scoringDataFactory;
     private final EmploymentMapper employmentMapper;
     private final CreditMapper creditMapper;
+    private final BrokerSender dossierSender;
+    private final EmailMessageFactory emailMessageFactory;
 
     @Override
     public List<LoanOfferDto> createClientAndStatement(LoanStatementRequestDto loanStatementRequestDto, Client client) {
@@ -79,11 +84,12 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
-    public Statement calculateCredit(String statementUUID, FinishRegistrationRequestDto finishRegistrationRequestDto) {
-        Statement statement = statementService.getStatement(UUID.fromString(statementUUID));
+    public Statement calculateCredit(UUID statementUUID, FinishRegistrationRequestDto finishRegistrationRequestDto) {
+        Statement statement = statementService.getStatement(statementUUID);
         Client client = statement.getClient();
         ScoringDataDto scoringDataDto = scoringDataFactory.createScoringData(statement, client, finishRegistrationRequestDto);
-
+        EmailMessageDTO emailMessageDTO = emailMessageFactory.createEmailMessage(client, statementUUID, Theme.FINISH_REGISTRATION, null);
+        dossierSender.send(emailMessageDTO, Theme.FINISH_REGISTRATION);
         Passport passport = passportFactory.fillIssueBranchAndDate(
                 client.getPassport(),
                 finishRegistrationRequestDto.getPassportIssueBranch(),

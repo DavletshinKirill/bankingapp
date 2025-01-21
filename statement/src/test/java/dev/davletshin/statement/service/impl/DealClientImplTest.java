@@ -2,8 +2,8 @@ package dev.davletshin.statement.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.davletshin.statement.web.dto.LoanOfferDto;
-import dev.davletshin.statement.web.dto.LoanStatementRequestDto;
+import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
+import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

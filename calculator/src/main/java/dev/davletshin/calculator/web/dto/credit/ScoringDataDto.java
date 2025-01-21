@@ -58,8 +58,8 @@ public class ScoringDataDto extends LoanStatementRequestDto {
     private Boolean isSalaryClient;
 
     @Schema(description = "Семейной положение клиента",
-            example = "UNMARRIED",
-            allowableValues = {"UNMARRIED", "MARRIED", "DIVORCED"})
+            example = "SINGLE",
+            allowableValues = {"SINGLE", "MARRIED", "DIVORCED", "WIDOW_WIDOWER"})
     @NotNull(message = "Семейное положение клиента обязательно")
     private MaritalStatus maritalStatus;
 
@@ -80,5 +80,17 @@ public class ScoringDataDto extends LoanStatementRequestDto {
         this.isSalaryClient = isSalaryClient;
         this.maritalStatus = maritalStatus;
         this.employment = employment;
+    }
+
+    public void setLoanStatementRequestDto(LoanStatementRequestDto loanStatementRequestDto) {
+        this.amount = loanStatementRequestDto.getAmount();
+        this.term = loanStatementRequestDto.getTerm();
+        this.firstName = loanStatementRequestDto.getFirstName();
+        this.lastName = loanStatementRequestDto.getLastName();
+        this.middleName = loanStatementRequestDto.getMiddleName();
+        this.birthdate = loanStatementRequestDto.getBirthdate();
+        this.setEmail(loanStatementRequestDto.getEmail());
+        this.passportNumber = loanStatementRequestDto.getPassportNumber();
+        this.passportSeries = loanStatementRequestDto.getPassportSeries();
     }
 }

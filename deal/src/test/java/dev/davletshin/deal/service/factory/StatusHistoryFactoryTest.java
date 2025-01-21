@@ -33,6 +33,5 @@ class StatusHistoryFactoryTest {
         assertEquals(applicationStatus.toString(), statusHistory.getStatus());
         assertEquals(ChangeType.AUTOMATIC, statusHistory.getChangeType());
         assertEquals(LocalDateTime.class, statusHistory.getTime().getClass());
-        assertEquals(statusHistory.getTime(), LocalDateTime.now());
     }
 }

@@ -1,9 +1,9 @@
 package dev.davletshin.statement.service.impl;
 
+import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
+import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.statement.domain.exception.WebClientException;
 import dev.davletshin.statement.service.DealClient;
-import dev.davletshin.statement.web.dto.LoanOfferDto;
-import dev.davletshin.statement.web.dto.LoanStatementRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
