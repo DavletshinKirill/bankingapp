@@ -1,4 +1,4 @@
-package dev.davletshin.shared.dto;
+package dev.davletshin.calculator.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

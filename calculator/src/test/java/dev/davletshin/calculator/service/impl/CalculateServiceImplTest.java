@@ -85,7 +85,7 @@ class CalculateServiceImplTest {
         when(scoringDataDto.getBirthdate()).thenReturn(LocalDate.of(1990, 1, 1));
         when(scoringDataDto.getGender()).thenReturn(Gender.MALE);
         when(scoringDataDto.getMaritalStatus()).thenReturn(MaritalStatus.MARRIED);
-        when(employment.getPosition()).thenReturn(Position.MIDDLE_MANAGER);
+        when(employment.getPosition()).thenReturn(EmploymentPosition.MIDDLE_MANAGER);
         when(employment.getEmploymentStatus()).thenReturn(EmploymentStatus.BUSINESS_OWNER);
         when(employment.getWorkExperienceTotal()).thenReturn(20);
         when(employment.getWorkExperienceCurrent()).thenReturn(5);

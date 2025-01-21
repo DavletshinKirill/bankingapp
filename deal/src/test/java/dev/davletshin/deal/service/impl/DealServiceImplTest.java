@@ -1,5 +1,9 @@
 package dev.davletshin.deal.service.impl;
 
+import dev.davletshin.calculator.web.dto.credit.CreditDto;
+import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
+import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
+import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.client.Employment;
 import dev.davletshin.deal.domain.client.Passport;
@@ -13,7 +17,7 @@ import dev.davletshin.deal.service.interfaces.CalculatorClient;
 import dev.davletshin.deal.service.interfaces.ClientService;
 import dev.davletshin.deal.service.interfaces.CreditService;
 import dev.davletshin.deal.service.interfaces.StatementService;
-import dev.davletshin.deal.web.dto.*;
+import dev.davletshin.deal.web.dto.FinishRegistrationRequestDto;
 import dev.davletshin.deal.web.mapper.CreditMapper;
 import dev.davletshin.deal.web.mapper.EmploymentMapper;
 import org.junit.jupiter.api.BeforeEach;

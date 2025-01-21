@@ -1,9 +1,9 @@
 package dev.davletshin.dossier.service.impl;
 
 
+import dev.davletshin.calculator.web.dto.EmailMessageDTO;
 import dev.davletshin.dossier.service.KafkaDataReceiver;
 import dev.davletshin.dossier.service.MailService;
-import dev.davletshin.shared.dto.EmailMessageDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

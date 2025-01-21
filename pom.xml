@@ -19,7 +19,6 @@
         <module>deal</module>
 		<module>statement</module>
         <module>dossier</module>
-        <module>shared</module>
     </modules>
 	<build>
 		<plugins>

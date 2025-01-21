@@ -1,7 +1,8 @@
 package dev.davletshin.statement.service;
 
-import dev.davletshin.statement.web.dto.LoanOfferDto;
-import dev.davletshin.statement.web.dto.LoanStatementRequestDto;
+
+import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
+import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 
 import java.util.List;
 
