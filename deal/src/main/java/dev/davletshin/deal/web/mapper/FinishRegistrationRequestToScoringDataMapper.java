@@ -1,7 +1,7 @@
 package dev.davletshin.deal.web.mapper;
 
+import dev.davletshin.calculator.web.dto.FinishRegistrationRequestDto;
 import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
-import dev.davletshin.deal.web.dto.FinishRegistrationRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

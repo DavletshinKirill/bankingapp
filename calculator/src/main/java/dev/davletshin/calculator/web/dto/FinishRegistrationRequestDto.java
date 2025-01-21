@@ -1,4 +1,4 @@
-package dev.davletshin.deal.web.dto;
+package dev.davletshin.calculator.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.davletshin.calculator.domain.Gender;
