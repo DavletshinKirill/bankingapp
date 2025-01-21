@@ -1,12 +1,12 @@
 package dev.davletshin.deal.service.factory;
 
+import dev.davletshin.calculator.web.dto.FinishRegistrationRequestDto;
+import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
+import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
+import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.deal.config.TestConfig;
 import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.statement.Statement;
-import dev.davletshin.deal.web.dto.FinishRegistrationRequestDto;
-import dev.davletshin.deal.web.dto.LoanOfferDto;
-import dev.davletshin.deal.web.dto.LoanStatementRequestDto;
-import dev.davletshin.deal.web.dto.ScoringDataDto;
 import dev.davletshin.deal.web.mapper.ClientToLoanStatementRequestMapper;
 import dev.davletshin.deal.web.mapper.FinishRegistrationRequestToScoringDataMapper;
 import org.junit.jupiter.api.BeforeEach;

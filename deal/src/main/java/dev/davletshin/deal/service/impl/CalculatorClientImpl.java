@@ -1,10 +1,10 @@
 package dev.davletshin.deal.service.impl;
 
+import dev.davletshin.calculator.web.dto.credit.CreditDto;
+import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
+import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
+import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.deal.service.interfaces.CalculatorClient;
-import dev.davletshin.deal.web.dto.CreditDto;
-import dev.davletshin.deal.web.dto.LoanOfferDto;
-import dev.davletshin.deal.web.dto.LoanStatementRequestDto;
-import dev.davletshin.deal.web.dto.ScoringDataDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;

@@ -1,8 +1,8 @@
 package dev.davletshin.deal.service.factory;
 
+import dev.davletshin.calculator.web.dto.EmailMessageDTO;
+import dev.davletshin.calculator.web.dto.Theme;
 import dev.davletshin.deal.domain.client.Client;
-import dev.davletshin.shared.dto.EmailMessageDTO;
-import dev.davletshin.shared.dto.Theme;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

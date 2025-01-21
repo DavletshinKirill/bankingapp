@@ -1,6 +1,7 @@
 package dev.davletshin.deal.config;
 
-import dev.davletshin.shared.dto.Theme;
+
+import dev.davletshin.calculator.web.dto.Theme;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.config.TopicConfig;
 import org.springframework.context.annotation.Bean;

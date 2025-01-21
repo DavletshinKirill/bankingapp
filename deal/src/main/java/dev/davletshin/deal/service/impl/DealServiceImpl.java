@@ -1,5 +1,11 @@
 package dev.davletshin.deal.service.impl;
 
+import dev.davletshin.calculator.web.dto.EmailMessageDTO;
+import dev.davletshin.calculator.web.dto.FinishRegistrationRequestDto;
+import dev.davletshin.calculator.web.dto.Theme;
+import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
+import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
+import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.client.Employment;
 import dev.davletshin.deal.domain.client.Passport;
@@ -13,14 +19,8 @@ import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;
 import dev.davletshin.deal.service.factory.StatusHistoryFactory;
 import dev.davletshin.deal.service.interfaces.*;
-import dev.davletshin.deal.web.dto.FinishRegistrationRequestDto;
-import dev.davletshin.deal.web.dto.LoanOfferDto;
-import dev.davletshin.deal.web.dto.LoanStatementRequestDto;
-import dev.davletshin.deal.web.dto.ScoringDataDto;
 import dev.davletshin.deal.web.mapper.CreditMapper;
 import dev.davletshin.deal.web.mapper.EmploymentMapper;
-import dev.davletshin.shared.dto.EmailMessageDTO;
-import dev.davletshin.shared.dto.Theme;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

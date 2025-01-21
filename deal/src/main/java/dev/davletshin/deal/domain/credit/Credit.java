@@ -1,6 +1,6 @@
 package dev.davletshin.deal.domain.credit;
 
-import dev.davletshin.deal.web.dto.PaymentScheduleElementDto;
+import dev.davletshin.calculator.web.dto.credit.PaymentScheduleElementDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

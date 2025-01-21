@@ -1,5 +1,7 @@
 package dev.davletshin.deal.service.impl;
 
+import dev.davletshin.calculator.web.dto.EmailMessageDTO;
+import dev.davletshin.calculator.web.dto.Theme;
 import dev.davletshin.deal.domain.exception.SesCodeNotConfirmed;
 import dev.davletshin.deal.domain.statement.ApplicationStatus;
 import dev.davletshin.deal.domain.statement.Statement;
@@ -7,8 +9,6 @@ import dev.davletshin.deal.service.factory.EmailMessageFactory;
 import dev.davletshin.deal.service.interfaces.BrokerSender;
 import dev.davletshin.deal.service.interfaces.DossierService;
 import dev.davletshin.deal.service.interfaces.StatementService;
-import dev.davletshin.shared.dto.EmailMessageDTO;
-import dev.davletshin.shared.dto.Theme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
