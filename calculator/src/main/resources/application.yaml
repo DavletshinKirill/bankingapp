@@ -8,3 +8,29 @@ server:
 credit:
   info:
     defaultRate: 13
+
+management:
+  metrics:
+    tags:
+      application: calculator
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+    loggers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    ROOT: INFO
+    dev.davletshin.calculator: INFO
+    org.springframework: INFO
+
+

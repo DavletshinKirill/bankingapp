@@ -44,3 +44,7 @@ build/
 *.properties
 *.env
 /.src/
+/prometheus/
+/config/prometheus.yml/
+/config/
+calculator.Dockerfile
