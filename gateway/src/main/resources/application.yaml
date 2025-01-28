@@ -3,6 +3,19 @@ server:
 
 http:
   urls:
-    calculator: "http://localhost:8081"
-    deal: "http://localhost:8082"
-    statement: "http://localhost:8083"
+    calculator: ${CALCULATOR_HOST}
+    deal: ${DEAL_HOST}
+    statement: ${STATEMENT_HOST}
+  endpoints:
+    calculator:
+      calculatorOffers: "/calculator/offers"
+      calculatorCalc: "/calculator/calc"
+    statement:
+      statement: "/statement"
+      statementOffer: "/statement/offer"
+    deal:
+      dealStatement: " /deal/statement"
+      dealOfferSelect: " /deal/offer/select"
+      dealCalculate: " /deal/calculate"
+      dealDocument: " /deal/document"
+      dealAdminStatement: "/deal/admin/statement"

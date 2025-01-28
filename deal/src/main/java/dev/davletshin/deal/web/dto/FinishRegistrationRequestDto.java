@@ -1,9 +1,8 @@
-package dev.davletshin.calculator.web.dto;
+package dev.davletshin.deal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import dev.davletshin.calculator.domain.Gender;
-import dev.davletshin.calculator.domain.MaritalStatus;
-import dev.davletshin.calculator.web.dto.credit.EmploymentDto;
+import dev.davletshin.deal.domain.enums.Gender;
+import dev.davletshin.deal.domain.enums.MaritalStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

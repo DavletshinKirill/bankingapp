@@ -1,7 +1,8 @@
 package dev.davletshin.deal.web.controller;
 
-import dev.davletshin.calculator.domain.exception.ExceptionBody;
-import dev.davletshin.calculator.domain.exception.RefuseException;
+
+import dev.davletshin.deal.domain.exception.ExceptionBody;
+import dev.davletshin.deal.domain.exception.RefuseException;
 import dev.davletshin.deal.domain.exception.ResourceNotFoundException;
 import dev.davletshin.deal.domain.exception.SesCodeNotConfirmed;
 import jakarta.validation.ConstraintViolation;

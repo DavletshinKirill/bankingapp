@@ -1,5 +1,6 @@
-package dev.davletshin.calculator.web.dto;
+package dev.davletshin.deal.web.dto;
 
+import dev.davletshin.deal.domain.enums.Theme;
 import lombok.Getter;
 import lombok.Setter;
 

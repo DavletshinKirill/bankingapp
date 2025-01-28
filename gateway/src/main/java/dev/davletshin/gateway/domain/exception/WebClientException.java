@@ -1,4 +1,4 @@
-package dev.davletshin.calculator.domain.exception;
+package dev.davletshin.gateway.domain.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatusCode;

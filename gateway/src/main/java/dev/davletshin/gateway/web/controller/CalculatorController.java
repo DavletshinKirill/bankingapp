@@ -26,9 +26,6 @@ import java.util.List;
 public class CalculatorController {
 
     private final CalculatorClient calculatorClient;
-    private static final String CALCULATE_OFFERS = "/calculator/offers";
-
-    private static final String CALCULATOR_URL = "http://localhost:8081";
 
     @Operation(summary = "getOffers", description = "Create 4 offers")
     @PostMapping("/offers")

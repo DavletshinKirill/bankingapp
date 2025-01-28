@@ -24,19 +24,13 @@ import java.util.List;
 @Slf4j
 public class StatementController {
 
-    private final static String STATEMENT_OFFER = "/statement/offer";
-
-    private final CalculatorClient calculatorClient;
     private final StatementClient statementClient;
-
-    @Value("${http.urls.statement}")
-    private String statementUrl;
 
     @Operation(summary = "createClientAndStatement", description = "Create 4 offers")
     @PostMapping
     List<LoanOfferDto> createOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
         log.info(loanStatementRequestDto.toString());
-        List<LoanOfferDto> loanOfferDtoList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto, statementUrl, "/statement");
+        List<LoanOfferDto> loanOfferDtoList = statementClient.createOffers(loanStatementRequestDto);
         loanOfferDtoList.forEach(loanOfferDto -> log.info(loanOfferDto.toString()));
         return loanOfferDtoList;
     }
@@ -45,6 +39,6 @@ public class StatementController {
     @PostMapping("/offer")
     void selectOffer(@Valid @RequestBody LoanOfferDto loanOfferDto) {
         log.info(loanOfferDto.toString());
-        statementClient.updateOffer(loanOfferDto, statementUrl, STATEMENT_OFFER);
+        statementClient.selectOffer(loanOfferDto);
     }
 }

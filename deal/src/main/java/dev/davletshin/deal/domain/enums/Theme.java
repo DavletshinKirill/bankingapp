@@ -1,4 +1,4 @@
-package dev.davletshin.calculator.web.dto;
+package dev.davletshin.deal.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,5 @@
 package dev.davletshin.deal.web.dto;
 
-import dev.davletshin.calculator.web.dto.credit.CreditDto;
-import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
 import dev.davletshin.deal.domain.credit.Credit;
 import dev.davletshin.deal.domain.enums.ApplicationStatus;
 import dev.davletshin.deal.domain.statement.StatusHistory;

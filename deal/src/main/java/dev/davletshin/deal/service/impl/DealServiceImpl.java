@@ -1,17 +1,12 @@
 package dev.davletshin.deal.service.impl;
 
-import dev.davletshin.calculator.web.dto.EmailMessageDTO;
-import dev.davletshin.calculator.web.dto.FinishRegistrationRequestDto;
-import dev.davletshin.calculator.web.dto.Theme;
-import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
-import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
-import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.client.Employment;
 import dev.davletshin.deal.domain.client.Passport;
 import dev.davletshin.deal.domain.credit.Credit;
 import dev.davletshin.deal.domain.enums.CreditStatus;
 import dev.davletshin.deal.domain.enums.ApplicationStatus;
+import dev.davletshin.deal.domain.enums.Theme;
 import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.domain.statement.StatusHistory;
 import dev.davletshin.deal.service.factory.EmailMessageFactory;
@@ -19,6 +14,7 @@ import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;
 import dev.davletshin.deal.service.factory.StatusHistoryFactory;
 import dev.davletshin.deal.service.interfaces.*;
+import dev.davletshin.deal.web.dto.*;
 import dev.davletshin.deal.web.mapper.CreditMapper;
 import dev.davletshin.deal.web.mapper.EmploymentMapper;
 import lombok.RequiredArgsConstructor;

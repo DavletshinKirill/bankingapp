@@ -3,7 +3,6 @@ package dev.davletshin.statement.web.controller;
 
 import dev.davletshin.statement.exception.ExceptionBody;
 import dev.davletshin.statement.exception.RefuseException;
-import dev.davletshin.statement.exception.WebClientException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
