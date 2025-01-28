@@ -4,7 +4,7 @@ spring:
   config:
     import: optional:file:.env[.properties]
   datasource:
-    url: jdbc:postgresql://localhost:5432/${POSTGRES_DATABASE}
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/${POSTGRES_DATABASE}
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -30,7 +30,7 @@ server:
 
 http:
   base:
-    url: "http://localhost:8081"
+    url: ${CALCULATOR_HOST}
   endpoints:
     offers: "/calculator/offers"
     calculator: "/calculator/calc"

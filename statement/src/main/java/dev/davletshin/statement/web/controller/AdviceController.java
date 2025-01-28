@@ -1,9 +1,9 @@
 package dev.davletshin.statement.web.controller;
 
 
-import dev.davletshin.calculator.domain.exception.ExceptionBody;
-import dev.davletshin.calculator.domain.exception.RefuseException;
-import dev.davletshin.calculator.domain.exception.WebClientException;
+import dev.davletshin.statement.exception.ExceptionBody;
+import dev.davletshin.statement.exception.RefuseException;
+import dev.davletshin.statement.exception.WebClientException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import feign.FeignException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,10 +23,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AdviceController {
 
-    @ExceptionHandler(WebClientException.class)
-    public ResponseEntity<Object> handleWebClientException(WebClientException e) {
-        log.error(e.getMessage());
-        return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+    @ExceptionHandler(FeignException.NotFound.class)
+    public ResponseEntity<String> handleFeignNotFoundException(FeignException.NotFound ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Offer with the specified statementId not found");
     }
 
 

@@ -7,4 +7,7 @@ server:
 
 http:
   base:
-    url: "http://localhost:8082"
+    url: ${DEAL_HOST}
+  endpoints:
+    createOffers: "/deal/statement"
+    selectOffer: "/deal/offer/select"
