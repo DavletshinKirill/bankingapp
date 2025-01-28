@@ -1,4 +1,4 @@
-package dev.davletshin.deal.domain.credit;
+package dev.davletshin.deal.domain.enums;
 
 public enum CreditStatus {
     CALCULATED,

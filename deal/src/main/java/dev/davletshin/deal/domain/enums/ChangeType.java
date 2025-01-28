@@ -1,4 +1,4 @@
-package dev.davletshin.deal.domain.statement;
+package dev.davletshin.deal.domain.enums;
 
 public enum ChangeType {
     AUTOMATIC,

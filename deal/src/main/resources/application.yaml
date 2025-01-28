@@ -31,3 +31,6 @@ server:
 http:
   base:
     url: "http://localhost:8081"
+  endpoints:
+    offers: "/calculator/offers"
+    calculator: "/calculator/calc"

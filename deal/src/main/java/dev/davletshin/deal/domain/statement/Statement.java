@@ -3,6 +3,7 @@ package dev.davletshin.deal.domain.statement;
 import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
 import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.credit.Credit;
+import dev.davletshin.deal.domain.enums.ApplicationStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

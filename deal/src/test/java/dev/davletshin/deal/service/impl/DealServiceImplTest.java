@@ -9,7 +9,7 @@ import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.client.Employment;
 import dev.davletshin.deal.domain.client.Passport;
 import dev.davletshin.deal.domain.credit.Credit;
-import dev.davletshin.deal.domain.statement.ApplicationStatus;
+import dev.davletshin.deal.domain.enums.ApplicationStatus;
 import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;

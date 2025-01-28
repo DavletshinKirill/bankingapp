@@ -1,6 +1,8 @@
-package dev.davletshin.deal.domain.statement;
+package dev.davletshin.deal.domain.enums;
 
+import lombok.Getter;
 
+@Getter
 public enum ApplicationStatus {
     PREAPPROVAL,
     APPROVED,
