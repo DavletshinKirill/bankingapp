@@ -1,9 +1,9 @@
 package dev.davletshin.gateway.web.controller;
 
-import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
-import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.gateway.service.CalculatorClient;
 import dev.davletshin.gateway.service.StatementClient;
+import dev.davletshin.gateway.web.dto.LoanOfferDto;
+import dev.davletshin.gateway.web.dto.LoanStatementRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

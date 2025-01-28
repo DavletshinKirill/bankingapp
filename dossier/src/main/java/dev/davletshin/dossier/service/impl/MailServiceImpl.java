@@ -1,7 +1,7 @@
 package dev.davletshin.dossier.service.impl;
 
 
-import dev.davletshin.calculator.web.dto.EmailMessageDTO;
+import dev.davletshin.dossier.dto.EmailMessageDTO;
 import dev.davletshin.dossier.service.MailService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
@@ -37,14 +37,14 @@ public class MailServiceImpl implements MailService {
                 "UTF-8");
         helper.setSubject(emailMessage.getTheme().getEmailTitle());
         helper.setTo(emailMessage.getAddress());
-        String emailContent = getRegistrationEmailContent(emailMessage);
+        String emailContent = getEmailContent(emailMessage);
         helper.setText(emailContent, true);
         mailSender.send(mimeMessage);
         log.info("Email sent to {}", emailMessage.getAddress());
     }
 
 
-    private String getRegistrationEmailContent(
+    private String getEmailContent(
             final EmailMessageDTO emailMessage
     ) throws IOException, TemplateException {
         StringWriter writer = new StringWriter();

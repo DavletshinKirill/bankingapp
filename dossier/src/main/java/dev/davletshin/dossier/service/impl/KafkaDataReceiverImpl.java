@@ -1,13 +1,14 @@
 package dev.davletshin.dossier.service.impl;
 
 
-import dev.davletshin.calculator.web.dto.EmailMessageDTO;
+import dev.davletshin.dossier.dto.EmailMessageDTO;
 import dev.davletshin.dossier.service.KafkaDataReceiver;
 import dev.davletshin.dossier.service.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,8 +22,8 @@ public class KafkaDataReceiverImpl implements KafkaDataReceiver {
     @Override
     @SneakyThrows
     @KafkaListener(topics = {"finish-registration", "send-documents", "send-ses", "credit-issued"},
-            groupId = groupId, containerFactory = "kafkaListenerContainerFactory")
-    public void fetch(EmailMessageDTO emailMessageDTO) {
+            groupId = groupId)
+    public void fetch(@Payload EmailMessageDTO emailMessageDTO) {
         log.info("Received email message: {}", emailMessageDTO.toString());
         mailService.sendEmail(emailMessageDTO);
     }

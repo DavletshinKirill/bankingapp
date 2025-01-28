@@ -1,7 +1,7 @@
 package dev.davletshin.dossier.service;
 
 
-import dev.davletshin.calculator.web.dto.EmailMessageDTO;
+import dev.davletshin.dossier.dto.EmailMessageDTO;
 import freemarker.template.TemplateException;
 import jakarta.mail.MessagingException;
 

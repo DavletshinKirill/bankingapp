@@ -1,10 +1,8 @@
-package dev.davletshin.deal.web.dto;
+package dev.davletshin.gateway.web.dto;
 
-import dev.davletshin.calculator.web.dto.credit.CreditDto;
-import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
-import dev.davletshin.deal.domain.credit.Credit;
-import dev.davletshin.deal.domain.enums.ApplicationStatus;
-import dev.davletshin.deal.domain.statement.StatusHistory;
+
+
+import dev.davletshin.gateway.domain.enums.ApplicationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

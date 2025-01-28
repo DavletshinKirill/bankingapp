@@ -1,11 +1,11 @@
 package dev.davletshin.gateway.web.controller;
 
 
-import dev.davletshin.calculator.web.dto.credit.CreditDto;
-import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
-import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
-import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.gateway.service.CalculatorClient;
+import dev.davletshin.gateway.web.dto.CreditDto;
+import dev.davletshin.gateway.web.dto.LoanOfferDto;
+import dev.davletshin.gateway.web.dto.LoanStatementRequestDto;
+import dev.davletshin.gateway.web.dto.ScoringDataDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -34,7 +34,7 @@ public class CalculatorController {
     @PostMapping("/offers")
     public List<LoanOfferDto> getOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
         log.info(loanStatementRequestDto.toString());
-        List<LoanOfferDto> offerList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto, CALCULATOR_URL, CALCULATE_OFFERS);
+        List<LoanOfferDto> offerList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto);
         offerList.forEach(offer -> log.info(offer.toString()));
         return offerList;
     }
@@ -43,7 +43,7 @@ public class CalculatorController {
     @PostMapping("/calc")
     public CreditDto calculate(@Valid @RequestBody ScoringDataDto scoringDataDto) {
         log.info(scoringDataDto.toString());
-        CreditDto credit = calculatorClient.postRequestToCalculateCredit(scoringDataDto, CALCULATOR_URL);
+        CreditDto credit = calculatorClient.postRequestToCalculateCredit(scoringDataDto);
         log.info(credit.toString());
         return credit;
     }

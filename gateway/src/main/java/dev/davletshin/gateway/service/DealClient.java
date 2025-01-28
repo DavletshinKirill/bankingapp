@@ -1,7 +1,8 @@
 package dev.davletshin.gateway.service;
 
 
-import dev.davletshin.calculator.web.dto.FinishRegistrationRequestDto;
+
+import dev.davletshin.gateway.web.dto.FinishRegistrationRequestDto;
 
 import java.util.UUID;
 

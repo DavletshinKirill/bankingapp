@@ -1,11 +1,12 @@
 package dev.davletshin.gateway.web.controller;
 
-import dev.davletshin.calculator.web.dto.FinishRegistrationRequestDto;
-import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
-import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.gateway.service.CalculatorClient;
 import dev.davletshin.gateway.service.DealClient;
 import dev.davletshin.gateway.service.StatementClient;
+import dev.davletshin.gateway.web.dto.FinishRegistrationRequestDto;
+import dev.davletshin.gateway.web.dto.LoanOfferDto;
+import dev.davletshin.gateway.web.dto.LoanStatementRequestDto;
+import dev.davletshin.gateway.web.dto.StatementDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -38,7 +39,7 @@ public class DealController {
     @PostMapping("/statement")
     List<LoanOfferDto> createOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
         log.info(loanStatementRequestDto.toString());
-        List<LoanOfferDto> loanOfferDtoList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto, dealUrl, DEAL_STATEMENT);
+        List<LoanOfferDto> loanOfferDtoList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto);
         loanOfferDtoList.forEach(loanOfferDto -> log.info(loanOfferDto.toString()));
         return loanOfferDtoList;
     }
@@ -47,24 +48,24 @@ public class DealController {
     @PostMapping("/offer/select")
     void selectOffer(@Valid @RequestBody LoanOfferDto loanOfferDto) {
         log.info(loanOfferDto.toString());
-        statementClient.updateOffer(loanOfferDto, dealUrl, OFFER_SELECT);
+        statementClient.updateOffer(loanOfferDto);
     }
 
-//    @Operation(summary = "getStatementById", description = "Get Statement By Id")
-//    @GetMapping("/admin/statement/{statementId}")
-//    public StatementDto getStatementById(@PathVariable UUID statementId) {
-//        StatementDto statementDto = dealClient.getStatement(statementId);
-//        log.info("Get Statement By Id: {}", statementDto.toString());
-//        return statementDto;
-//    }
+    @Operation(summary = "getStatementById", description = "Get Statement By Id")
+    @GetMapping("/admin/statement/{statementId}")
+    public StatementDto getStatementById(@PathVariable UUID statementId) {
+        StatementDto statementDto = dealClient.getStatement(statementId);
+        log.info("Get Statement By Id: {}", statementDto.toString());
+        return statementDto;
+    }
 
-//    @Operation(summary = "getAllStatements", description = "Get All Statements")
-//    @GetMapping("/admin/statement")
-//    public List<StatementDto> getAllStatements() {
-//        List<StatementDto> statementDtoList = dealClient.getStatements();
-//        log.info("Get All Statements: {}", statementDtoList.toString());
-//        return statementDtoList;
-//    }
+    @Operation(summary = "getAllStatements", description = "Get All Statements")
+    @GetMapping("/admin/statement")
+    public List<StatementDto> getAllStatements() {
+        List<StatementDto> statementDtoList = dealClient.getStatements();
+        log.info("Get All Statements: {}", statementDtoList.toString());
+        return statementDtoList;
+    }
 
     @Operation(summary = "updateStatement", description = "second update statement and calculate credit")
     @PostMapping("/calculate/{statementId}")

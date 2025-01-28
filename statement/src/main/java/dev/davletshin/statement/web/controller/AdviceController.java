@@ -24,8 +24,9 @@ import java.util.stream.Collectors;
 public class AdviceController {
 
     @ExceptionHandler(FeignException.NotFound.class)
-    public ResponseEntity<String> handleFeignNotFoundException(FeignException.NotFound ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Offer with the specified statementId not found");
+    public ResponseEntity<String> handleFeignNotFoundException(FeignException.NotFound e) {
+        log.error(e.getMessage());
+        return ResponseEntity.status(e.status()).body(e.getMessage());
     }
 
 

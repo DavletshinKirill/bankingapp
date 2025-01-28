@@ -76,11 +76,6 @@
             <version>${freemaker.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>dev.davletshin</groupId>
-            <artifactId>calculator</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
