@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +30,12 @@ public class DealController {
 
     @Operation(summary = "createClientAndStatement", description = "Create 4 offers")
     @PostMapping("/statement")
-    public List<LoanOfferDto> createClientAndStatement(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
+    public ResponseEntity<List<LoanOfferDto>> createClientAndStatement(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
         log.info(loanStatementRequestDto.toString());
         Client client = loanStatementRequestToClientMapper.toEntity(loanStatementRequestDto);
         List<LoanOfferDto> loanOfferDtoList = dealService.createClientAndStatement(loanStatementRequestDto, client);
         loanOfferDtoList.forEach(loanOfferDto -> log.info(loanOfferDto.toString()));
-        return loanOfferDtoList;
+        return ResponseEntity.ok(loanOfferDtoList);
     }
 
     @Operation(summary = "updateStatement", description = "first update statement")

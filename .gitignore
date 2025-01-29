@@ -47,4 +47,3 @@ build/
 /prometheus/
 /config/prometheus.yml/
 /config/
-calculator.Dockerfile

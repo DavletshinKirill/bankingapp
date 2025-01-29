@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class KafkaDataReceiverImpl implements KafkaDataReceiver {
 
-    private static final String groupId = "${kafka.group-id}";
+    private static final String kafkaGroupId = "${kafka.group-id}";
     private final MailService mailService;
 
     @Override
     @SneakyThrows
     @KafkaListener(topics = {"finish-registration", "send-documents", "send-ses", "credit-issued"},
-            groupId = groupId)
+            groupId = kafkaGroupId)
     public void fetch(@Payload EmailMessageDTO emailMessageDTO) {
         log.info("Received email message: {}", emailMessageDTO.toString());
         mailService.sendEmail(emailMessageDTO);

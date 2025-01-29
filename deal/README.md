@@ -1,6 +1,6 @@
 # Deal Service
 
-#### Calculator Service осуществляет расчёт возможных условий кредита, выбор одного из предложений, завершение регистрации + полный подсчёт кредита.
+#### Deal Service осуществляет расчёт возможных условий кредита, выбор одного из предложений, завершение регистрации + полный подсчёт кредита.
 
 ## Содержание
 
@@ -32,6 +32,30 @@
 - В заявке обновляется статус, история статусов.
 - Заявка сохраняется.
 
+### Добавлено API в МС-deal
+
+- POST: /deal/document/{statementId}/send - запрос на отправку документов.
+- POST: /deal/document/{statementId}/sign - запрос на подписание документов
+- POST: /deal/document/{statementId}/code - подписание документов
+- Первая отправка письма на почту клиенту должна происходить в самом конце существующей API POST: /deal/offer
+
+### Реализовано взаимодействие через Kafka между МС-deal и МС-dossier
+
+1. Kafka и Zookeeper следует поднять через docker-compose
+2. МС-deal выступает в роли издателя (producer), МС-dossier в роли подписчика (consumer)
+3. Завести в кафке 6 топиков, соответствующие темам, по которым необходимо направить письмо на почту Клиенту:
+- finish-registration
+- create-documents
+- send-documents
+- send-ses
+- credit-issued
+- statement-denied
+
+### Добавлено админское API
+
+- GET: /deal/admin/statement/{statementId} - получить заявку по id
+- GET: /deal/admin/statement - получить все заявки
+
 ## Требования
 
 - Java 17 или выше
@@ -39,4 +63,5 @@
 - Spring Boot
 - Springdoc для документации API
 - Junit, Mockito для тестов
-- СУБД Postgres 
+- СУБД Postgres
+- Kafka и Zookeeper для обмена сообщениями

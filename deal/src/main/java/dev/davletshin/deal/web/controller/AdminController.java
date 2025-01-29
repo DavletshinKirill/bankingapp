@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,20 +26,20 @@ public class AdminController {
 
     @Operation(summary = "getStatementById", description = "Get Statement By Id")
     @GetMapping("/statement/{statementId}")
-    public StatementDto getStatementById(@PathVariable UUID statementId) {
+    public ResponseEntity<StatementDto> getStatementById(@PathVariable UUID statementId) {
         log.info("Get Statement By Id: {}", statementId);
         StatementDto statementDto = statementService.getStatementById(statementId);
         log.info("Get Statement By Id: {}", statementDto.toString());
-        return statementDto;
+        return ResponseEntity.ok(statementDto);
     }
 
     @Operation(summary = "getAllStatements", description = "Get All Statements")
     @GetMapping("/statement")
-    public List<StatementDto> getAllStatements() {
+    public ResponseEntity<List<StatementDto>> getAllStatements() {
         log.info("Get All Statements");
         List<StatementDto> statementDtoList = statementService.getStatements();
         log.info("Get All Statements: {}", statementDtoList.toString());
-        return statementDtoList;
+        return ResponseEntity.ok(statementDtoList);
     }
 
     @Operation(summary = "updateStatementStatus", description = "Update Statement status")

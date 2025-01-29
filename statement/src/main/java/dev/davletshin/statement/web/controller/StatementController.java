@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,16 +28,16 @@ public class StatementController {
 
     @Operation(summary = "createClientAndStatement", description = "Create 4 offers")
     @PostMapping
-    List<LoanOfferDto> createOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
+    public ResponseEntity<List<LoanOfferDto>> createOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
         log.info(loanStatementRequestDto.toString());
         List<LoanOfferDto> loanOfferDtoList = dealClient.createOffers(loanStatementRequestDto);
         loanOfferDtoList.forEach(loanOfferDto -> log.info(loanOfferDto.toString()));
-        return loanOfferDtoList;
+        return ResponseEntity.ok(loanOfferDtoList);
     }
 
     @Operation(summary = "selectOffer", description = "First update statement")
     @PostMapping("/offer")
-    void selectOffer(@Valid @RequestBody LoanOfferDto loanOfferDto) {
+    public void selectOffer(@Valid @RequestBody LoanOfferDto loanOfferDto) {
         log.info(loanOfferDto.toString());
         dealClient.updateOffer(loanOfferDto);
         log.info(LOAN_RESULT);

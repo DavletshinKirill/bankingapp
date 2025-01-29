@@ -5,7 +5,7 @@ spring:
   config:
     import: optional:file:.env[.properties]
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_HOST:localhost}:9092
     consumer:
       group-id: json
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -24,3 +24,27 @@ spring:
 kafka:
   topics: finish-registration, create-documents, send-documents, send_ses, credit-issued, statement-denied
   group-id: json
+
+management:
+  metrics:
+    tags:
+      application: dossier
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+    loggers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    ROOT: INFO
+    dev.davletshin.dossier: INFO
+    org.springframework: INFO

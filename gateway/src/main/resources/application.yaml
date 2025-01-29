@@ -3,9 +3,9 @@ server:
 
 http:
   urls:
-    calculator: ${CALCULATOR_HOST}
-    deal: ${DEAL_HOST}
-    statement: ${STATEMENT_HOST}
+    calculator: ${CALCULATOR_HOST:http://localhost:8081}
+    deal: ${DEAL_HOST:http://localhost:8082}
+    statement: ${STATEMENT_HOST:http://localhost:8083}
   endpoints:
     calculator:
       calculatorOffers: "/calculator/offers"
@@ -19,3 +19,28 @@ http:
       dealCalculate: " /deal/calculate"
       dealDocument: " /deal/document"
       dealAdminStatement: "/deal/admin/statement"
+
+
+management:
+  metrics:
+    tags:
+      application: gateway
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+    loggers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    ROOT: INFO
+    dev.davletshin.gateway: INFO
+    org.springframework: INFO
