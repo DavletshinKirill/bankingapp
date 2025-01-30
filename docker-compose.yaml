@@ -50,7 +50,7 @@ services:
     environment:
       KAFKA_BROKER_ID: ${KAFKA_BROKER_ID}
       KAFKA_ZOOKEEPER_CONNECT: ${KAFKA_ZOOKEEPER_CONNECT}
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR}
@@ -78,3 +78,71 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     networks:
       - app
+
+  calculator:
+    build:
+      dockerfile: calculator.Dockerfile
+    ports:
+      - "8081:8081"
+    networks:
+      - app
+    env_file:
+      - .env
+    depends_on:
+      - prometheus
+      - grafana
+
+  deal:
+    build:
+      dockerfile: deal.Dockerfile
+    ports:
+      - "8082:8082"
+    networks:
+      - app
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - kafka
+      - calculator
+
+  statement:
+    build:
+      dockerfile: statement.Dockerfile
+    ports:
+      - "8083:8083"
+    networks:
+      - app
+    env_file:
+      - .env
+    depends_on:
+      - deal
+
+  dossier:
+    build:
+      dockerfile: dossier.Dockerfile
+    ports:
+      - "8084:8084"
+    networks:
+      - app
+    env_file:
+      - .env
+    depends_on:
+      - deal
+      - kafka
+
+  gateway:
+    build:
+      dockerfile: gateway.Dockerfile
+    ports:
+      - "8085:8085"
+    networks:
+      - app
+    env_file:
+      - .env
+    depends_on:
+      - deal
+      - calculator
+      - statement
+
+

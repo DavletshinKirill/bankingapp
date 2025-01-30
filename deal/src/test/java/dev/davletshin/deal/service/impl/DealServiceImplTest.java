@@ -11,10 +11,7 @@ import dev.davletshin.deal.service.factory.EmailMessageFactory;
 import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;
 import dev.davletshin.deal.service.factory.StatusHistoryFactory;
-import dev.davletshin.deal.service.interfaces.CalculatorClient;
-import dev.davletshin.deal.service.interfaces.ClientService;
-import dev.davletshin.deal.service.interfaces.CreditService;
-import dev.davletshin.deal.service.interfaces.StatementService;
+import dev.davletshin.deal.service.interfaces.*;
 import dev.davletshin.deal.web.dto.*;
 import dev.davletshin.deal.web.mapper.CreditMapper;
 import dev.davletshin.deal.web.mapper.EmploymentMapper;
@@ -68,6 +65,9 @@ class DealServiceImplTest {
 
     @Mock
     private EmailMessageFactory emailMessageFactory;
+
+    @Mock
+    private BrokerSender brokerSender;
 
     @InjectMocks
     private DealServiceImpl dealService;
