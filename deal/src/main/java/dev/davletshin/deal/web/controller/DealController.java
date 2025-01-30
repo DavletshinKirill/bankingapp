@@ -36,6 +36,7 @@ public class DealController {
         List<LoanOfferDto> loanOfferDtoList = dealService.createClientAndStatement(loanStatementRequestDto, client);
         loanOfferDtoList.forEach(loanOfferDto -> log.info(loanOfferDto.toString()));
         return ResponseEntity.ok(loanOfferDtoList);
+
     }
 
     @Operation(summary = "updateStatement", description = "first update statement")

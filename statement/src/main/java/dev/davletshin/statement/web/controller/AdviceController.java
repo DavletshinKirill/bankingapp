@@ -31,16 +31,16 @@ public class AdviceController {
 
     @ExceptionHandler(RefuseException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ExceptionBody handleResourceNotFound(
+    public ResponseEntity<ExceptionBody> handleResourceNotFound(
             final RefuseException e
     ) {
         log.error(e.getMessage());
-        return new ExceptionBody(e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionBody(e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionBody handleMethodArgumentNotValid(
+    public ResponseEntity<ExceptionBody> handleMethodArgumentNotValid(
             final MethodArgumentNotValidException e
     ) {
         ExceptionBody exceptionBody = new ExceptionBody("Validation failed.");
@@ -53,12 +53,12 @@ public class AdviceController {
                                 existingMessage + " " + newMessage)
                 ));
         log.error(exceptionBody.getMessage());
-        return exceptionBody;
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionBody);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionBody handleConstraintViolation(
+    public ResponseEntity<ExceptionBody> handleConstraintViolation(
             final ConstraintViolationException e
     ) {
         ExceptionBody exceptionBody = new ExceptionBody("Validation failed.");
@@ -68,15 +68,15 @@ public class AdviceController {
                         ConstraintViolation::getMessage
                 )));
         log.error(exceptionBody.getMessage());
-        return exceptionBody;
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionBody);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionBody handleException(
+    public ResponseEntity<ExceptionBody> handleException(
             final Exception e
     ) {
         log.error(e.getMessage());
-        return new ExceptionBody("Internal error.");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionBody("Internal error."));
     }
 }

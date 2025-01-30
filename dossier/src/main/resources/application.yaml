@@ -48,3 +48,8 @@ logging:
     ROOT: INFO
     dev.davletshin.dossier: INFO
     org.springframework: INFO
+
+http:
+  urls:
+    deal: ${DEAL_HOST:http://localhost:8082}
+    endpoint: "/deal/admin/statement"

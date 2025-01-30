@@ -14,10 +14,10 @@ http:
       statement: "/statement"
       statementOffer: "/statement/offer"
     deal:
-      dealStatement: " /deal/statement"
-      dealOfferSelect: " /deal/offer/select"
-      dealCalculate: " /deal/calculate"
-      dealDocument: " /deal/document"
+      dealStatement: "/deal/statement"
+      dealOfferSelect: "/deal/offer/select"
+      dealCalculate: "/deal/calculate"
+      dealDocument: "/deal/document"
       dealAdminStatement: "/deal/admin/statement"
 
 

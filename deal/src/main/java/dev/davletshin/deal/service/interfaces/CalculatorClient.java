@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "calculatorClient", url = "${http.urls.calculator}")
+@FeignClient(name = "calculatorClient", url = "${http.base.url}")
 public interface CalculatorClient {
 
     @PostMapping("${http.endpoints.offers}")
