@@ -13,8 +13,8 @@ import java.util.List;
 
 @Service
 public class CalculateDifferentialLoanServiceImpl implements CalculateDifferentialLoanService {
-    private final static int MONTHS_IN_YEAR = 12;
-    private final static int AMOUNT_PERCENTS = 100;
+    private static final int MONTHS_IN_YEAR = 12;
+    private static final int AMOUNT_PERCENTS = 100;
 
     @Override
     public CreditCalculatorsFields calculateCredit(int term, BigDecimal rate, BigDecimal amount, boolean isCountMonthlyPayment) {
