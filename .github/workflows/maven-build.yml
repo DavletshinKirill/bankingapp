@@ -1,7 +1,6 @@
 name: maven-build
 on:
   push:
-  pull_request:
 
 jobs:
   maven:
@@ -36,7 +35,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven and generate coverage report
-        run: ./mvnw clean install -DskipTests=false org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report
+        run: mvn clean install -DskipTests=false org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
