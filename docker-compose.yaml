@@ -3,10 +3,6 @@ version: '3'
 volumes:
   db-data:
     driver: local
-  kafka-data:
-    driver: local
-  zookeeper-data:
-    driver: local
   grafana-data:
     driver: local
   prometheus-data:
@@ -80,8 +76,7 @@ services:
       - app
 
   calculator:
-    build:
-      dockerfile: calculator.Dockerfile
+    image: kirilldavletshin/calculator:latest
     ports:
       - "8081:8081"
     networks:
@@ -107,8 +102,7 @@ services:
       - calculator
 
   statement:
-    build:
-      dockerfile: statement.Dockerfile
+    image: kirilldavletshin/statement:latest
     ports:
       - "8083:8083"
     networks:
@@ -132,8 +126,7 @@ services:
       - kafka
 
   gateway:
-    build:
-      dockerfile: gateway.Dockerfile
+    image: kirilldavletshin/gateway:latest
     ports:
       - "8085:8085"
     networks:

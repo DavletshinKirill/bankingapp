@@ -5,7 +5,7 @@ spring:
   config:
     import: optional:file:.env[.properties]
   kafka:
-    bootstrap-servers: ${KAFKA_HOST:localhost}
+    bootstrap-servers: ${KAFKA_HOST}
     consumer:
       group-id: json
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -50,5 +50,5 @@ logging:
 
 http:
   urls:
-    deal: ${DEAL_HOST:http://localhost:8082}
+    deal: ${DEAL_HOST}
     endpoint: "/deal/admin/statement"
