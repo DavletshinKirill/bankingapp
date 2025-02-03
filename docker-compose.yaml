@@ -88,8 +88,7 @@ services:
       - grafana
 
   deal:
-    build:
-      dockerfile: deal.Dockerfile
+    image: kirilldavletshin/deal:latest
     ports:
       - "8082:8082"
     networks:
@@ -113,8 +112,7 @@ services:
       - deal
 
   dossier:
-    build:
-      dockerfile: dossier.Dockerfile
+    image: kirilldavletshin/dossier:latest
     ports:
       - "8084:8084"
     networks:

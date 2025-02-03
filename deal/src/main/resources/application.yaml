@@ -19,9 +19,9 @@ spring:
     change-log: db.changelog/main-changelog.xml
   kafka:
     producer:
-      bootstrap-servers: ${KAFKA_HOST}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    bootstrap-servers: ${KAFKA_HOST}
 
 server:
   port: 8082
