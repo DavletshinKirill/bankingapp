@@ -159,8 +159,7 @@
 				<configuration>
 					<reportFormat>plain</reportFormat>
 					<includes>
-						<include>**/*Test*.java</include>
-						<include>**/*IT*.java</include>
+						<include>dev.davletshin.calculator.service.impl</include>
 					</includes>
 				</configuration>
 			</plugin>
