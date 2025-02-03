@@ -33,20 +33,20 @@ jobs:
       - name: Build and analyze for calculator
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./calculator/pom.xml
+        run: mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./calculator/pom.xml
       - name: Build and analyze for deal
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./deal/pom.xml
+        run: mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./deal/pom.xml
       - name: Build and analyze for dossier
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./dossier/pom.xml
+        run: mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./dossier/pom.xml
       - name: Build and analyze for gateway
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./gateway/pom.xml
+        run: mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./gateway/pom.xml
       - name: Build and analyze for statement
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./statement/pom.xml
+        run: mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=DavletshinKirill_bankingapp -f ./statement/pom.xml
