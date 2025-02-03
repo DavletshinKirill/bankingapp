@@ -161,6 +161,19 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal> <!-- Добавляет агент Jacoco для сбора данных о покрытии -->
+                            <goal>report</goal> <!-- Генерирует отчет о покрытии -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
