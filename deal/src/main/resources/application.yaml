@@ -4,9 +4,9 @@ spring:
   config:
     import: optional:file:.env[.properties]
   datasource:
-    url: jdbc:postgresql://localhost:5432/${POSTGRES_DATABASE}
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/${POSTGRES_DATABASE:deal}
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -19,15 +19,40 @@ spring:
     change-log: db.changelog/main-changelog.xml
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
-
+    bootstrap-servers: ${KAFKA_HOST}
 
 server:
   port: 8082
 
 http:
   base:
-    url: "http://localhost:8081"
+    url: ${CALCULATOR_HOST}
+  endpoints:
+    offers: "/calculator/offers"
+    calculator: "/calculator/calc"
+
+management:
+  metrics:
+    tags:
+      application: deal
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+    loggers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    ROOT: INFO
+    dev.davletshin.deal: INFO
+    org.springframework: INFO

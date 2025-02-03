@@ -1,17 +1,12 @@
 package dev.davletshin.deal.service.impl;
 
-import dev.davletshin.calculator.web.dto.EmailMessageDTO;
-import dev.davletshin.calculator.web.dto.FinishRegistrationRequestDto;
-import dev.davletshin.calculator.web.dto.Theme;
-import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
-import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
-import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.client.Employment;
 import dev.davletshin.deal.domain.client.Passport;
 import dev.davletshin.deal.domain.credit.Credit;
-import dev.davletshin.deal.domain.credit.CreditStatus;
-import dev.davletshin.deal.domain.statement.ApplicationStatus;
+import dev.davletshin.deal.domain.enums.CreditStatus;
+import dev.davletshin.deal.domain.enums.ApplicationStatus;
+import dev.davletshin.deal.domain.enums.Theme;
 import dev.davletshin.deal.domain.statement.Statement;
 import dev.davletshin.deal.domain.statement.StatusHistory;
 import dev.davletshin.deal.service.factory.EmailMessageFactory;
@@ -19,11 +14,13 @@ import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;
 import dev.davletshin.deal.service.factory.StatusHistoryFactory;
 import dev.davletshin.deal.service.interfaces.*;
+import dev.davletshin.deal.web.dto.*;
 import dev.davletshin.deal.web.mapper.CreditMapper;
 import dev.davletshin.deal.web.mapper.EmploymentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,7 +35,7 @@ public class DealServiceImpl implements DealService {
     private final ClientService clientService;
     private final StatementService statementService;
     private final CreditService creditService;
-    private final CalculatorClient sendRequestToCalculateService;
+    private final CalculatorClient calculatorClient;
     private final PassportFactory passportFactory;
     private final StatusHistoryFactory statusHistoryFactory;
     private final ScoringDataFactory scoringDataFactory;
@@ -48,6 +45,7 @@ public class DealServiceImpl implements DealService {
     private final EmailMessageFactory emailMessageFactory;
 
     @Override
+    @Transactional
     public List<LoanOfferDto> createClientAndStatement(LoanStatementRequestDto loanStatementRequestDto, Client client) {
         Passport passport = passportFactory.createNewPassportWithNumberAndSeries(
                 loanStatementRequestDto.getPassportSeries(),
@@ -62,12 +60,13 @@ public class DealServiceImpl implements DealService {
 
         statementService.saveStatement(statement);
 
-        List<LoanOfferDto> loanOfferDtoList = sendRequestToCalculateService.postRequestToCalculateOffers(loanStatementRequestDto);
+        List<LoanOfferDto> loanOfferDtoList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto);
         loanOfferDtoList.forEach(loanOfferDto -> loanOfferDto.setStatementId(statement.getId()));
         return loanOfferDtoList;
     }
 
     @Override
+    @Transactional
     public Statement updateStatement(LoanOfferDto loanOfferDto) {
         Statement statement = statementService.getStatement(loanOfferDto.getStatementId());
         if (statement.getStatus() == null) statement.setStatus(ApplicationStatus.PREAPPROVAL);
@@ -84,6 +83,7 @@ public class DealServiceImpl implements DealService {
     }
 
     @Override
+    @Transactional
     public Statement calculateCredit(UUID statementUUID, FinishRegistrationRequestDto finishRegistrationRequestDto) {
         Statement statement = statementService.getStatement(statementUUID);
         Client client = statement.getClient();
@@ -102,7 +102,7 @@ public class DealServiceImpl implements DealService {
         client.setPassport(passport);
         client.setEmployment(employment);
 
-        Credit credit = creditMapper.toEntity(sendRequestToCalculateService.postRequestToCalculateCredit(scoringDataDto));
+        Credit credit = creditMapper.toEntity(calculatorClient.postRequestToCalculateCredit(scoringDataDto));
         credit.setCreditStatus(CreditStatus.CALCULATED);
         Credit savedCredit = creditService.createCredit(credit);
         Client savedClient = clientService.createClient(fillClient(client, finishRegistrationRequestDto));

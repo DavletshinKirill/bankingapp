@@ -1,16 +1,17 @@
 package dev.davletshin.gateway.web.controller;
 
 
-import dev.davletshin.calculator.web.dto.credit.CreditDto;
-import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
-import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
-import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.gateway.service.CalculatorClient;
+import dev.davletshin.gateway.web.dto.CreditDto;
+import dev.davletshin.gateway.web.dto.LoanOfferDto;
+import dev.davletshin.gateway.web.dto.LoanStatementRequestDto;
+import dev.davletshin.gateway.web.dto.ScoringDataDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,25 +27,22 @@ import java.util.List;
 public class CalculatorController {
 
     private final CalculatorClient calculatorClient;
-    private static final String CALCULATE_OFFERS = "/calculator/offers";
-
-    private static final String CALCULATOR_URL = "http://localhost:8081";
 
     @Operation(summary = "getOffers", description = "Create 4 offers")
     @PostMapping("/offers")
-    public List<LoanOfferDto> getOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
+    public ResponseEntity<List<LoanOfferDto>> getOffers(@Valid @RequestBody LoanStatementRequestDto loanStatementRequestDto) {
         log.info(loanStatementRequestDto.toString());
-        List<LoanOfferDto> offerList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto, CALCULATOR_URL, CALCULATE_OFFERS);
+        List<LoanOfferDto> offerList = calculatorClient.postRequestToCalculateOffers(loanStatementRequestDto);
         offerList.forEach(offer -> log.info(offer.toString()));
-        return offerList;
+        return ResponseEntity.ok(offerList);
     }
 
     @Operation(summary = "calculate", description = "Count difference credit")
     @PostMapping("/calc")
-    public CreditDto calculate(@Valid @RequestBody ScoringDataDto scoringDataDto) {
+    public ResponseEntity<CreditDto> calculate(@Valid @RequestBody ScoringDataDto scoringDataDto) {
         log.info(scoringDataDto.toString());
-        CreditDto credit = calculatorClient.postRequestToCalculateCredit(scoringDataDto, CALCULATOR_URL);
+        CreditDto credit = calculatorClient.postRequestToCalculateCredit(scoringDataDto);
         log.info(credit.toString());
-        return credit;
+        return ResponseEntity.ok(credit);
     }
 }

@@ -1,23 +1,18 @@
 package dev.davletshin.deal.service.impl;
 
-import dev.davletshin.calculator.web.dto.FinishRegistrationRequestDto;
-import dev.davletshin.calculator.web.dto.credit.CreditDto;
-import dev.davletshin.calculator.web.dto.credit.ScoringDataDto;
-import dev.davletshin.calculator.web.dto.offer.LoanOfferDto;
-import dev.davletshin.calculator.web.dto.offer.LoanStatementRequestDto;
 import dev.davletshin.deal.domain.client.Client;
 import dev.davletshin.deal.domain.client.Employment;
 import dev.davletshin.deal.domain.client.Passport;
 import dev.davletshin.deal.domain.credit.Credit;
-import dev.davletshin.deal.domain.statement.ApplicationStatus;
+import dev.davletshin.deal.domain.enums.ApplicationStatus;
+import dev.davletshin.deal.domain.enums.Theme;
 import dev.davletshin.deal.domain.statement.Statement;
+import dev.davletshin.deal.service.factory.EmailMessageFactory;
 import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;
 import dev.davletshin.deal.service.factory.StatusHistoryFactory;
-import dev.davletshin.deal.service.interfaces.CalculatorClient;
-import dev.davletshin.deal.service.interfaces.ClientService;
-import dev.davletshin.deal.service.interfaces.CreditService;
-import dev.davletshin.deal.service.interfaces.StatementService;
+import dev.davletshin.deal.service.interfaces.*;
+import dev.davletshin.deal.web.dto.*;
 import dev.davletshin.deal.web.mapper.CreditMapper;
 import dev.davletshin.deal.web.mapper.EmploymentMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,6 +62,12 @@ class DealServiceImplTest {
 
     @Mock
     private ScoringDataFactory scoringDataFactory;
+
+    @Mock
+    private EmailMessageFactory emailMessageFactory;
+
+    @Mock
+    private BrokerSender brokerSender;
 
     @InjectMocks
     private DealServiceImpl dealService;
@@ -141,7 +142,6 @@ class DealServiceImplTest {
         verify(statementService).saveStatement(statement);
     }
 
-    //TODO перепиши тест, выпадает null pointer exception из-за новых сервисов
     @Test
     void calculateCredit() {
         UUID statementUUID = UUID.randomUUID();
@@ -154,7 +154,7 @@ class DealServiceImplTest {
         when(creditMapper.toEntity(any())).thenReturn(credit);
         when(creditService.createCredit(credit)).thenReturn(credit);
         when(clientService.createClient(any())).thenReturn(client);
-
+        when(emailMessageFactory.createEmailMessage(client, statementUUID, Theme.CREATE_DOCUMENTS, null)).thenReturn(new EmailMessageDTO());
         dealService.calculateCredit(statementUUID, finishRegistrationRequestDto);
 
         assertEquals(credit, statement.getCredit());

@@ -5,15 +5,16 @@ spring:
   config:
     import: optional:file:.env[.properties]
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_HOST}
     consumer:
       group-id: json
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
-        spring.deserializer.value.delegate: org.springframework.kafka.support.serializer.JsonDeserializer
-        spring.deserializer.value.default.type: dev.davletshin.shared.dto.EmailMessageDTO
+        spring.json.value.default.type: dev.davletshin.dossier.dto.EmailMessageDTO
+        spring.json.use.type.headers: false
+      auto-offset-reset: earliest
   mail:
     host: ${SPRING_MAIL_HOST}
     port: ${SPRING_MAIL_PORT}
@@ -21,5 +22,33 @@ spring:
     password: ${SPRING_MAIL_PASSWORD}
 
 kafka:
-  topics: finish-registration, create-documents, send-documents, send_ses, credit-issued, statement-denied
   group-id: json
+
+management:
+  metrics:
+    tags:
+      application: dossier
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+    loggers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    ROOT: INFO
+    dev.davletshin.dossier: INFO
+    org.springframework: INFO
+
+http:
+  urls:
+    deal: ${DEAL_HOST}
+    endpoint: "/deal/admin/statement"

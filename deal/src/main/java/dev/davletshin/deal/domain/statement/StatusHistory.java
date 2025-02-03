@@ -1,5 +1,6 @@
 package dev.davletshin.deal.domain.statement;
 
+import dev.davletshin.deal.domain.enums.ChangeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -3,6 +3,7 @@ package dev.davletshin.deal.config;
 import dev.davletshin.deal.repository.ClientRepository;
 import dev.davletshin.deal.repository.CreditRepository;
 import dev.davletshin.deal.repository.StatementRepository;
+import dev.davletshin.deal.service.factory.EmailMessageFactory;
 import dev.davletshin.deal.service.factory.PassportFactory;
 import dev.davletshin.deal.service.factory.ScoringDataFactory;
 import dev.davletshin.deal.service.factory.StatusHistoryFactory;
@@ -12,10 +13,7 @@ import dev.davletshin.deal.service.impl.StatementServiceImpl;
 import dev.davletshin.deal.service.interfaces.ClientService;
 import dev.davletshin.deal.service.interfaces.CreditService;
 import dev.davletshin.deal.service.interfaces.StatementService;
-import dev.davletshin.deal.web.mapper.ClientToLoanStatementRequestMapper;
-import dev.davletshin.deal.web.mapper.CreditMapper;
-import dev.davletshin.deal.web.mapper.EmploymentMapper;
-import dev.davletshin.deal.web.mapper.FinishRegistrationRequestToScoringDataMapper;
+import dev.davletshin.deal.web.mapper.*;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +31,12 @@ public class TestConfig {
     @Primary
     public StatusHistoryFactory statusHistoryFactory() {
         return new StatusHistoryFactory();
+    }
+
+    @Bean
+    @Primary
+    public EmailMessageFactory emailMessageFactory() {
+        return new EmailMessageFactory();
     }
 
     @Bean
@@ -67,8 +71,14 @@ public class TestConfig {
 
     @Bean
     @Primary
+    public StatementMapper statementMapper() {
+        return Mockito.mock(StatementMapper.class);
+    }
+
+    @Bean
+    @Primary
     public StatementService statementService() {
-        return new StatementServiceImpl(statementRepository());
+        return new StatementServiceImpl(statementRepository(), statementMapper());
     }
 
     @Bean

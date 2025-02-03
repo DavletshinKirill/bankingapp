@@ -1,8 +1,8 @@
 package dev.davletshin.deal.domain.client;
 
 
-import dev.davletshin.calculator.domain.EmploymentPosition;
-import dev.davletshin.calculator.domain.EmploymentStatus;
+import dev.davletshin.deal.domain.enums.EmploymentPosition;
+import dev.davletshin.deal.domain.enums.EmploymentStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

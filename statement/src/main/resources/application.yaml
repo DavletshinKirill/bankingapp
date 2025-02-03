@@ -7,4 +7,32 @@ server:
 
 http:
   base:
-    url: "http://localhost:8082"
+    url: ${DEAL_HOST:http://localhost:8082}
+  endpoints:
+    createOffers: "/deal/statement"
+    selectOffer: "/deal/offer/select"
+
+
+management:
+  metrics:
+    tags:
+      application: statement
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+    loggers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    ROOT: INFO
+    dev.davletshin.statement: INFO
+    org.springframework: INFO

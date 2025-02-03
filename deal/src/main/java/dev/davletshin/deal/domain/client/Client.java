@@ -1,8 +1,8 @@
 package dev.davletshin.deal.domain.client;
 
 
-import dev.davletshin.calculator.domain.Gender;
-import dev.davletshin.calculator.domain.MaritalStatus;
+import dev.davletshin.deal.domain.enums.Gender;
+import dev.davletshin.deal.domain.enums.MaritalStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

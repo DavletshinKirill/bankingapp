@@ -1,9 +1,8 @@
 package dev.davletshin.statement.web.controller;
 
 
-import dev.davletshin.calculator.domain.exception.ExceptionBody;
-import dev.davletshin.calculator.domain.exception.RefuseException;
-import dev.davletshin.calculator.domain.exception.WebClientException;
+import dev.davletshin.statement.exception.ExceptionBody;
+import dev.davletshin.statement.exception.RefuseException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import feign.FeignException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,25 +22,25 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AdviceController {
 
-    @ExceptionHandler(WebClientException.class)
-    public ResponseEntity<Object> handleWebClientException(WebClientException e) {
+    @ExceptionHandler(FeignException.NotFound.class)
+    public ResponseEntity<String> handleFeignNotFoundException(FeignException.NotFound e) {
         log.error(e.getMessage());
-        return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+        return ResponseEntity.status(e.status()).body(e.getMessage());
     }
 
 
     @ExceptionHandler(RefuseException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ExceptionBody handleResourceNotFound(
+    public ResponseEntity<ExceptionBody> handleResourceNotFound(
             final RefuseException e
     ) {
         log.error(e.getMessage());
-        return new ExceptionBody(e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionBody(e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionBody handleMethodArgumentNotValid(
+    public ResponseEntity<ExceptionBody> handleMethodArgumentNotValid(
             final MethodArgumentNotValidException e
     ) {
         ExceptionBody exceptionBody = new ExceptionBody("Validation failed.");
@@ -53,12 +53,12 @@ public class AdviceController {
                                 existingMessage + " " + newMessage)
                 ));
         log.error(exceptionBody.getMessage());
-        return exceptionBody;
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionBody);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionBody handleConstraintViolation(
+    public ResponseEntity<ExceptionBody> handleConstraintViolation(
             final ConstraintViolationException e
     ) {
         ExceptionBody exceptionBody = new ExceptionBody("Validation failed.");
@@ -68,15 +68,15 @@ public class AdviceController {
                         ConstraintViolation::getMessage
                 )));
         log.error(exceptionBody.getMessage());
-        return exceptionBody;
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionBody);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionBody handleException(
+    public ResponseEntity<ExceptionBody> handleException(
             final Exception e
     ) {
         log.error(e.getMessage());
-        return new ExceptionBody("Internal error.");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionBody("Internal error."));
     }
 }

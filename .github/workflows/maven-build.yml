@@ -1,7 +1,6 @@
 name: maven-build
 on:
-  pull_request:
-    branches: [ "dev" ]
+  push:
 
 jobs:
   maven:

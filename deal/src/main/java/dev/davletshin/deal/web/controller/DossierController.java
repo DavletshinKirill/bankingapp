@@ -18,27 +18,27 @@ public class DossierController {
 
     private final DossierService dossierService;
 
-    @Operation(summary = "requestSendDocumentEmail", description = "Create 4 offers")
+    @Operation(summary = "requestSendDocumentEmail", description = "Send document by statementId")
     @PostMapping("/{statementId}/send")
     public void requestSendDocumentEmail(@PathVariable UUID statementId) {
-        log.info("Request statementId: {}", statementId);
+        log.info("Request to send document by statementId: {}", statementId);
         dossierService.requestSendDocumentEmail(statementId);
-        log.info("Message to kafka was sent");
+        log.info("Request to send document by statementId: {} was succeed", statementId);
     }
 
-    @Operation(summary = "requestSignDocument", description = "Create 4 offers")
+    @Operation(summary = "requestSignDocument", description = "Sign document by statementId")
     @PostMapping("/{statementId}/sign")
     public void requestSignDocument(@PathVariable UUID statementId) {
-        log.info("Request statementId: {}", statementId);
+        log.info("Request to sign document by statementId: {}", statementId);
         dossierService.requestSignDocument(statementId);
-        log.info("Message to kafka was sent");
+        log.info("Request to sign document by statementId: {} was succeed", statementId);
     }
 
-    @Operation(summary = "signCodeDocument", description = "Create 4 offers")
+    @Operation(summary = "signCodeDocument", description = "Check sesCode by statementId")
     @PostMapping("/{statementId}/code")
     public void signCodeDocument(@PathVariable UUID statementId, @RequestBody UUID sesCode) {
-        log.info("Request statementId: {}", statementId);
+        log.info("Request to check sesCode document by statementId: {} and sesCode: {}", statementId, sesCode);
         dossierService.signCodeDocument(statementId, sesCode);
-        log.info("Message to kafka was sent");
+        log.info("Request to check sesCode document by statementId: {} and sesCode: {} was succeed", statementId, sesCode);
     }
 }
