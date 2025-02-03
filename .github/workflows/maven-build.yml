@@ -19,36 +19,18 @@ jobs:
             maven-
       - run: |
           mvn clean install
-  build:
-    runs-on: ubuntu-latest
+  test:
+    needs: maven
+    runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v1
+      - name: set up JDK 11
+        uses: actions/setup-java@v1
         with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build with Maven and generate coverage report
-        run: mvn clean install -DskipTests=false org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+          java-version: 1.11
+      - name: Maven Verify
+        run: mvn -B clean verify
+      - name: Test Coverage
+        uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: target/site/jacoco/jacoco.xml
-
-      - name: Cache SonarCloud scanner
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar-scanner-cache
-          restore-keys: ${{ runner.os }}-sonar-scanner-cache
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
